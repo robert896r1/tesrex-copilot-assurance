@@ -1,0 +1,82 @@
+{
+  "schema_version": "0.1.0",
+  "last_reviewed": "2026-04-30",
+  "evidence_contract": "docs/evidence_contract.md",
+  "policy": "Least-privilege target for MVP collectors. Prefer read-only scopes. Write scopes are not default and require separately approved bounded validation.",
+  "collectors": {
+    "graph.organization": {
+      "control_ids": ["LIC-001", "PACK-002"],
+      "source": "Microsoft Graph GET /organization",
+      "minimum_permissions": ["Organization.Read.All"],
+      "fallback_permissions": ["Directory.Read.All"],
+      "tenant_mutation": false,
+      "content_access": false
+    },
+    "graph.subscribed_skus": {
+      "control_ids": ["LIC-001", "LIC-002", "SAM-001"],
+      "source": "Microsoft Graph GET /subscribedSkus",
+      "minimum_permissions": ["LicenseAssignment.Read.All"],
+      "fallback_permissions": ["Organization.Read.All", "Directory.Read.All"],
+      "tenant_mutation": false,
+      "content_access": false
+    },
+    "graph.sensitivity_labels": {
+      "control_ids": ["LABEL-001"],
+      "source": "Microsoft Graph GET /security/dataSecurityAndGovernance/sensitivityLabels",
+      "minimum_permissions": ["SensitivityLabel.Read"],
+      "fallback_permissions": ["SensitivityLabels.Read.All"],
+      "tenant_mutation": false,
+      "content_access": false
+    },
+    "graph.audit_token_scope": {
+      "control_ids": ["AUD-001", "PACK-002"],
+      "source": "Redacted Graph token role/scope inspection",
+      "minimum_permissions": ["AuditLogsQuery.Read.All"],
+      "fallback_permissions": ["AuditLogsQuery-Exchange.Read.All", "AuditLogsQuery-SharePoint.Read.All", "AuditLogsQuery-OneDrive.Read.All", "AuditLogsQuery-Entra.Read.All"],
+      "tenant_mutation": false,
+      "content_access": false
+    },
+    "graph.ediscovery_cases": {
+      "control_ids": ["EDISC-002"],
+      "source": "Microsoft Graph GET /security/cases/ediscoveryCases",
+      "minimum_permissions": ["eDiscovery.Read.All"],
+      "fallback_permissions": [],
+      "tenant_mutation": false,
+      "content_access": false,
+      "additional_prerequisites": ["Purview app-only service principal", "eDiscovery role group membership", "eDiscovery case-admin assignment"]
+    },
+    "purview.dlp_policy_inventory": {
+      "control_ids": ["DLP-001", "DLP-002"],
+      "source": "Security & Compliance PowerShell Get-DlpCompliancePolicy/Get-DlpComplianceRule",
+      "minimum_permissions": ["Purview role allowing DLP policy/rule read"],
+      "fallback_permissions": ["customer-provided Purview export"],
+      "tenant_mutation": false,
+      "content_access": false
+    },
+    "purview.retention_policy_inventory": {
+      "control_ids": ["EDISC-001"],
+      "source": "Security & Compliance PowerShell Get-RetentionCompliancePolicy/Get-RetentionComplianceRule or manual export",
+      "minimum_permissions": ["Purview role allowing retention policy read"],
+      "fallback_permissions": ["customer-provided Purview retention evidence"],
+      "tenant_mutation": false,
+      "content_access": false
+    },
+    "sharepoint.sam_capability": {
+      "control_ids": ["SAM-001"],
+      "source": "SharePoint Online PowerShell module/read capability plus entitlement evidence",
+      "minimum_permissions": ["SharePoint Administrator or equivalent read access"],
+      "fallback_permissions": ["customer-provided SAM/DAG evidence"],
+      "tenant_mutation": false,
+      "content_access": false
+    },
+    "ediscovery.bounded_validation": {
+      "control_ids": ["EDISC-002"],
+      "source": "Explicitly approved bounded validation only",
+      "minimum_permissions": ["eDiscovery.ReadWrite.All", "Purview eDiscovery Manager/Admin"],
+      "fallback_permissions": ["customer-provided Purview export/readiness evidence"],
+      "tenant_mutation": true,
+      "content_access": "depends_on_scope",
+      "default_collector": false
+    }
+  }
+}

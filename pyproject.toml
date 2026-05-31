@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tesrex-copilot-assurance"
+version = "0.1.0"
+description = "Read-only Microsoft 365 Copilot governance evidence-pack starter kit."
+requires-python = ">=3.12"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]

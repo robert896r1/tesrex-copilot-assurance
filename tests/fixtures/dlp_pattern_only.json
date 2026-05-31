@@ -1,0 +1,14 @@
+{
+  "policies": [
+    {
+      "name": "Possible AI policy",
+      "workload": "Applications",
+      "locations": [
+        {
+          "name": "Future AI Copilot Experience"
+        }
+      ]
+    }
+  ],
+  "rules": []
+}

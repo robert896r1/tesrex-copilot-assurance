@@ -1,0 +1,31 @@
+name: check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Repository boundary and sample guards
+        run: |
+          python3 scripts/check_repository_boundary.py
+          python3 scripts/check_no_committed_evidence.py
+          python3 scripts/verify_sample_assets.py
+          PYTHONPATH=src python3 scripts/check_read_only_contract.py
+      - name: Validate JSON config
+        run: |
+          python3 -m json.tool config/microsoft_capability_map.json >/dev/null
+          python3 -m json.tool config/dlp_copilot_location_map.json >/dev/null
+      - name: Compile and test
+        run: |
+          PYTHONPATH=src python3 -m compileall -q src tests
+          PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_*.py'
+      - name: Whitespace check
+        run: git diff --check

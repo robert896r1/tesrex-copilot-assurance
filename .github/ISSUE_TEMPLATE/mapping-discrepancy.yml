@@ -1,0 +1,47 @@
+name: Microsoft mapping discrepancy
+description: Report a possible mismatch between TCA mappings and Microsoft documentation or observed behavior.
+title: "Mapping discrepancy: <control or surface>"
+labels: ["mapping", "needs-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for evidence-backed Microsoft control/API/UI mapping discrepancies. Do not include tenant secrets, bearer tokens, private customer evidence, or screenshots containing sensitive data.
+  - type: input
+    id: affected_area
+    attributes:
+      label: Affected TCA area
+      description: Control ID, script, config file, or report section.
+      placeholder: e.g. DLP-001, config/microsoft_capability_map.json, report status wording
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: What changed or appears wrong?
+      description: Describe the mismatch between TCA and Microsoft documentation or observed behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Source evidence
+      description: Provide Microsoft documentation URLs, release notes, or sanitized reproducible observations. Source-less mapping changes are not accepted.
+    validations:
+      required: true
+  - type: textarea
+    id: expected_change
+    attributes:
+      label: Suggested TCA update
+      description: Explain what you think should change and why it does not create false assurance.
+    validations:
+      required: false
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety confirmation
+      options:
+        - label: I have not included real tenant secrets, bearer tokens, or private customer evidence.
+          required: true
+        - label: I understand this report is an input for review, not automatic proof that mappings should change.
+          required: true

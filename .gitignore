@@ -1,0 +1,15 @@
+node_modules/
+dist/
+build/
+.env
+.env.*
+!.env.example
+.azcfg/
+artifacts/*
+!artifacts/.gitkeep
+.DS_Store
+*.log
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.playwright-cli/

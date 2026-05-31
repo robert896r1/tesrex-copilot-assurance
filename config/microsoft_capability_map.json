@@ -1,0 +1,350 @@
+{
+  "schema_version": "0.1.0",
+  "last_reviewed": "2026-04-30",
+  "review_policy": "Conservative mapping for read-only evidence collection. Do not infer NOT_LICENSED unless tenant subscription/service-plan evidence proves absence for the specific capability and no source ambiguity remains.",
+  "evidence_contract": "docs/evidence_contract.md",
+  "source_refs": {
+    "graph_subscribed_skus_resource": "https://learn.microsoft.com/en-us/graph/api/resources/subscribedsku?view=graph-rest-1.0",
+    "graph_list_subscribed_skus": "https://learn.microsoft.com/en-us/graph/api/subscribedsku-list?view=graph-rest-1.0",
+    "microsoft_license_service_plan_reference": "https://learn.microsoft.com/en-us/entra/identity/users/licensing-service-plan-reference",
+    "m365_copilot_licensing": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-licensing",
+    "m365_copilot_service_plans": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-service-plans",
+    "sharepoint_advanced_management": "https://learn.microsoft.com/en-us/SharePoint/advanced-management",
+    "sharepoint_advanced_management_licensing": "https://learn.microsoft.com/en-us/sharepoint/sharepoint-advanced-management-licensing",
+    "purview_audit_overview": "https://learn.microsoft.com/en-us/purview/audit-solutions-overview",
+    "purview_ai_m365_copilot": "https://learn.microsoft.com/en-us/purview/ai-m365-copilot",
+    "sensitivity_labels_graph": "https://learn.microsoft.com/en-us/graph/api/tenantdatasecurityandgovernance-list-sensitivitylabels?view=graph-rest-1.0",
+    "copilot_retention": "https://learn.microsoft.com/en-us/purview/retention-policies-copilot",
+    "purview_ediscovery": "https://learn.microsoft.com/en-us/purview/edisc",
+    "purview_ediscovery_app_only_setup": "https://learn.microsoft.com/en-us/graph/security-ediscovery-appauthsetup",
+    "purview_ediscovery_api_guide": "https://learn.microsoft.com/en-us/purview/edisc-ref-api-guide",
+    "purview_ediscovery_create_search": "https://learn.microsoft.com/en-us/graph/api/security-ediscoverycase-post-searches?view=graph-rest-1.0",
+    "purview_ediscovery_estimate_search": "https://learn.microsoft.com/en-us/graph/api/security-ediscoverysearch-estimatestatistics?view=graph-rest-1.0",
+    "purview_ediscovery_delete_search": "https://learn.microsoft.com/en-us/graph/api/security-ediscoverycase-delete-searches?view=graph-rest-1.0"
+  },
+  "input_artifacts": {
+    "tenant_sku_inventory": {
+      "source": "Microsoft Graph /subscribedSkus",
+      "required_fields": [
+        "skuId",
+        "skuPartNumber",
+        "capabilityStatus",
+        "prepaidUnits",
+        "consumedUnits",
+        "servicePlans.servicePlanId",
+        "servicePlans.servicePlanName",
+        "servicePlans.provisioningStatus"
+      ]
+    }
+  },
+  "global_classification_rules": [
+    {
+      "id": "NO_GUESS_NOT_LICENSED",
+      "rule": "Only emit NOT_LICENSED when subscribedSkus/servicePlans or another retained entitlement artifact proves the required capability is absent. If the SKU mapping is incomplete or ambiguous, emit UNKNOWN with limitation license_limited."
+    },
+    {
+      "id": "ACCESS_BEATS_UNKNOWN",
+      "rule": "If Graph, PowerShell, or UI collection returns 401, 403, RBAC denial, missing consent, or explicit access-denied, emit NOT_ACCESSIBLE rather than UNKNOWN."
+    },
+    {
+      "id": "SERVICE_PLAN_ENABLED_ONLY",
+      "rule": "A service plan proves capability only when the parent SKU capabilityStatus is Enabled and the service plan provisioningStatus is not Disabled/Suspended/Deleted."
+    },
+    {
+      "id": "USER_ASSIGNMENT_IS_SEPARATE",
+      "rule": "Tenant subscribed SKU evidence proves tenant availability, not whether a specific user is assigned or enabled for the service. User assignment checks require a separate user-license artifact."
+    },
+    {
+      "id": "MAPPING_FRESHNESS_CHECK",
+      "rule": "Collectors must compare mapping last_reviewed against the assessment date. If older than mapping_completeness.review_staleness_days_warn, emit WARN/UNKNOWN with limitation stale_mapping rather than overclaiming PASS/FAIL/NOT_LICENSED."
+    },
+    {
+      "id": "NO_NOT_LICENSED_WHEN_MAPPING_INCOMPLETE",
+      "rule": "If mapping_completeness.claims_complete_coverage is false for the relevant capability, absence of a known SKU/service plan is not sufficient for NOT_LICENSED. Emit UNKNOWN with limitation license_limited unless another source proves absence."
+    },
+    {
+      "id": "FALLBACK_MATCHES_BLOCK_NOT_LICENSED",
+      "rule": "A conservative fallback match is never PASS evidence. It blocks NOT_LICENSED and should produce WARN or UNKNOWN with limitation stale_mapping/manual_review_required until reviewed."
+    }
+  ],
+  "known_service_plans": {
+    "COPILOT_STUDIO_IN_COPILOT_FOR_M365": {
+      "servicePlanId": "fe6c28b3-d468-44ea-bbd0-a10a5167435c",
+      "displayName": "Copilot Studio in Copilot for M365",
+      "source_ref": "microsoft_license_service_plan_reference"
+    },
+    "GRAPH_CONNECTORS_COPILOT": {
+      "servicePlanId": "82d30987-df9b-4486-b146-198b21d164c7",
+      "displayName": "Graph Connectors in Microsoft 365 Copilot",
+      "source_ref": "microsoft_license_service_plan_reference"
+    },
+    "M365_COPILOT_INTELLIGENT_SEARCH": {
+      "servicePlanId": "931e4a88-a67f-48b5-814f-16a5f1e6028d",
+      "displayName": "Intelligent Search",
+      "source_ref": "microsoft_license_service_plan_reference"
+    },
+    "M365_COPILOT_SHAREPOINT": {
+      "servicePlanId": "0aedf20c-091d-420b-aadf-30c042609612",
+      "displayName": "Microsoft 365 Copilot for SharePoint",
+      "source_ref": "microsoft_license_service_plan_reference"
+    },
+    "M365_COPILOT_TEAMS": {
+      "servicePlanId": "b95945de-b3bd-46db-8437-f2beb6ea2347",
+      "displayName": "Microsoft 365 Copilot in Microsoft Teams",
+      "source_ref": "microsoft_license_service_plan_reference"
+    },
+    "M365_COPILOT_APPS": {
+      "servicePlanId": "a62f8878-de10-42f3-b68f-6149a25ceb97",
+      "displayName": "Microsoft 365 Copilot in Productivity Apps",
+      "source_ref": "microsoft_license_service_plan_reference"
+    },
+    "M365_COPILOT_BUSINESS_CHAT": {
+      "servicePlanId": "3f30311c-6b1e-48a4-ab79-725b469da960",
+      "displayName": "Microsoft Copilot with Graph-grounded chat",
+      "source_ref": "microsoft_license_service_plan_reference"
+    },
+    "M365_COPILOT_CONNECTORS": {
+      "servicePlanId": "89f1c4c8-0878-40f7-804d-869c9128ab5d",
+      "displayName": "Power Platform Connectors in Microsoft 365 Copilot",
+      "source_ref": "microsoft_license_service_plan_reference"
+    }
+  },
+  "known_skus": {
+    "Microsoft_365_Copilot_EDU": {
+      "skuId": "ad9c22b3-52d7-4e7e-973c-88121ea96436",
+      "displayName": "Microsoft 365 Copilot (Education Faculty)",
+      "source_ref": "microsoft_license_service_plan_reference"
+    },
+    "Microsoft_Copilot_for_Sales": {
+      "skuId": "15f2e9fc-b782-4f73-bf51-81d8b7fff6f4",
+      "displayName": "Microsoft 365 Copilot for Sales",
+      "source_ref": "microsoft_license_service_plan_reference",
+      "note": "Do not treat this SKU alone as full Microsoft 365 Copilot tenant readiness; use service-plan evidence for specific capabilities."
+    }
+  },
+  "capabilities": {
+    "LIC-001.tenant_sku_inventory_readable": {
+      "control_ids": [
+        "LIC-001"
+      ],
+      "positive_evidence": {
+        "source": "Microsoft Graph /subscribedSkus returns 200 OK with one or more subscribedSku objects or an empty collection for a tenant with no commercial subscriptions."
+      },
+      "not_accessible_evidence": [
+        "401",
+        "403",
+        "Authorization_RequestDenied",
+        "insufficient privileges",
+        "missing consent"
+      ],
+      "unknown_evidence": [
+        "malformed response",
+        "transient Graph failure",
+        "timeout without auth failure"
+      ]
+    },
+    "LIC-002.microsoft_365_copilot_service_plan_family_present": {
+      "control_ids": [
+        "LIC-002"
+      ],
+      "match": {
+        "any_servicePlanId": [
+          "fe6c28b3-d468-44ea-bbd0-a10a5167435c",
+          "82d30987-df9b-4486-b146-198b21d164c7",
+          "931e4a88-a67f-48b5-814f-16a5f1e6028d",
+          "0aedf20c-091d-420b-aadf-30c042609612",
+          "b95945de-b3bd-46db-8437-f2beb6ea2347",
+          "a62f8878-de10-42f3-b68f-6149a25ceb97",
+          "3f30311c-6b1e-48a4-ab79-725b469da960",
+          "89f1c4c8-0878-40f7-804d-869c9128ab5d"
+        ],
+        "any_servicePlanName": [
+          "COPILOT_STUDIO_IN_COPILOT_FOR_M365",
+          "GRAPH_CONNECTORS_COPILOT",
+          "M365_COPILOT_INTELLIGENT_SEARCH",
+          "M365_COPILOT_SHAREPOINT",
+          "M365_COPILOT_TEAMS",
+          "M365_COPILOT_APPS",
+          "M365_COPILOT_BUSINESS_CHAT",
+          "M365_COPILOT_CONNECTORS"
+        ]
+      },
+      "classification": {
+        "PASS": "At least one known Microsoft 365 Copilot family service plan is present and enabled. This proves Copilot-family entitlement evidence, not full governance readiness.",
+        "UNKNOWN": "No known service plan is present but mapping may be incomplete or tenant uses a SKU not represented in this map.",
+        "NOT_LICENSED": "Only allowed when the tenant SKU inventory is complete/readable, the relevant mapping explicitly claims complete coverage as of last_reviewed, no exact or fallback match is found, and customer baseline requires the capability. Otherwise use UNKNOWN with limitation license_limited."
+      },
+      "fallback_match_strategy": {
+        "enabled": true,
+        "purpose": "Prevent false NOT_LICENSED when Microsoft introduces or renames Copilot SKUs/service plans before this map is updated.",
+        "classification_if_fallback_only": "WARN",
+        "limitations": [
+          "stale_mapping",
+          "manual_review_required"
+        ],
+        "match_any_skuPartNumber_regex": [
+          "(?i)copilot",
+          "(?i)m365.*copilot",
+          "(?i)microsoft.*365.*copilot"
+        ],
+        "match_any_servicePlanName_regex": [
+          "(?i)copilot",
+          "(?i)m365.*copilot"
+        ],
+        "collector_rule": "Fallback matches must be surfaced as possible entitlement evidence, must retain raw sku/servicePlan data, and must not produce PASS or NOT_LICENSED without operator review."
+      }
+    },
+    "LIC-002.microsoft_365_copilot_work_graph_chat_present": {
+      "control_ids": [
+        "LIC-002"
+      ],
+      "match": {
+        "servicePlanId": "3f30311c-6b1e-48a4-ab79-725b469da960",
+        "servicePlanName": "M365_COPILOT_BUSINESS_CHAT"
+      },
+      "source_refs": [
+        "microsoft_license_service_plan_reference",
+        "m365_copilot_service_plans",
+        "m365_copilot_licensing"
+      ],
+      "classification": {
+        "PASS": "Graph-grounded work chat service plan is present and enabled.",
+        "UNKNOWN": "Service plan not detected but mapping or user assignment may be incomplete.",
+        "NOT_LICENSED": "Allowed only if full tenant inventory proves absence, this capability is in customer baseline, the mapping explicitly claims complete coverage for this exact capability, and no fallback Copilot-family entitlement evidence is present."
+      },
+      "fallback_behavior": "If broader Copilot-family entitlement is detected but exact Work Graph chat service plan is not, classify UNKNOWN with limitation license_limited rather than NOT_LICENSED."
+    },
+    "LABEL-001.sensitivity_label_taxonomy_readable": {
+      "control_ids": [
+        "LABEL-001"
+      ],
+      "positive_evidence": {
+        "source": "Microsoft Graph GET /security/dataSecurityAndGovernance/sensitivityLabels returns 200 OK."
+      },
+      "required_permissions": [
+        "SensitivityLabel.Read",
+        "SensitivityLabels.Read.All"
+      ],
+      "classification": {
+        "PASS": "Labels are returned and at least one enabled label exists.",
+        "WARN": "Labels are returned but no enabled label or minimal taxonomy is present.",
+        "NOT_ACCESSIBLE": "Permission, role, or consent denial.",
+        "UNKNOWN": "API result cannot be interpreted."
+      }
+    },
+    "DLP-001.dlp_for_copilot_inventory_possible": {
+      "control_ids": [
+        "DLP-001",
+        "DLP-002"
+      ],
+      "positive_evidence": {
+        "source": "Security & Compliance PowerShell Get-DlpCompliancePolicy/Get-DlpComplianceRule returns readable policy and rule objects."
+      },
+      "source_refs": [
+        "purview_ai_m365_copilot"
+      ],
+      "classification": {
+        "PASS": "Policy inventory is readable; Copilot-specific targeting is classified by config/dlp_copilot_location_map.json.",
+        "NOT_ACCESSIBLE": "PowerShell connection or cmdlet returns explicit role/access/permission denial.",
+        "UNKNOWN": "PowerShell output is unavailable, malformed, or not sufficient to classify Copilot policy location."
+      }
+    },
+    "SAM-001.sharepoint_advanced_management_for_copilot_dependency_present": {
+      "control_ids": [
+        "SAM-001"
+      ],
+      "positive_evidence": {
+        "source": "Microsoft documentation states SAM features needed for Copilot deployment are available when the organization has a Copilot license and at least one assigned Copilot user; standalone SAM licensing can also apply."
+      },
+      "match_for_copilot_included_sam": {
+        "requires_any_servicePlanId_from": [
+          "fe6c28b3-d468-44ea-bbd0-a10a5167435c",
+          "82d30987-df9b-4486-b146-198b21d164c7",
+          "931e4a88-a67f-48b5-814f-16a5f1e6028d",
+          "0aedf20c-091d-420b-aadf-30c042609612",
+          "b95945de-b3bd-46db-8437-f2beb6ea2347",
+          "a62f8878-de10-42f3-b68f-6149a25ceb97",
+          "3f30311c-6b1e-48a4-ab79-725b469da960",
+          "89f1c4c8-0878-40f7-804d-869c9128ab5d"
+        ],
+        "requires_role_check": "SharePoint Administrator or equivalent must still be proven separately."
+      },
+      "standalone_sam_sku_mapping": {
+        "status": "UNVERIFIED_IN_THIS_MAP",
+        "reason": "Official docs confirm standalone SAM licensing exists, but this map does not yet include a verified Graph skuPartNumber/servicePlanId for SharePoint Advanced Management Plan 1.",
+        "candidate_display_names_for_manual_review": [
+          "SharePoint Advanced Management",
+          "SharePoint Advanced Management Plan 1",
+          "Microsoft SharePoint Advanced Management"
+        ],
+        "collector_rule": "If no Copilot-family entitlement is found and standalone SAM mapping remains unverified, emit UNKNOWN with limitation license_limited; do not emit NOT_LICENSED from this map alone."
+      },
+      "classification": {
+        "PASS": "Copilot-family entitlement is present and SharePoint/SAM read check succeeds.",
+        "WARN": "Entitlement appears present but report freshness/long-running constraints apply.",
+        "UNKNOWN": "Standalone SAM may be licensed but cannot be identified from this map, role/capability read check has not run, or mapping freshness/completeness is insufficient.",
+        "NOT_ACCESSIBLE": "SharePoint admin or PowerShell access denied.",
+        "NOT_LICENSED": "Only if readable entitlement evidence proves neither Copilot-included SAM nor a verified standalone SAM entitlement is present. Because standalone SAM mapping is not verified in this file, absence of Copilot-family plans alone must not produce NOT_LICENSED."
+      }
+    },
+    "AUD-001.purview_audit_search_access": {
+      "control_ids": [
+        "AUD-001",
+        "AUD-002",
+        "AUD-003"
+      ],
+      "positive_evidence": {
+        "source": "Microsoft Graph Purview Audit Search API query can be created and read."
+      },
+      "classification": {
+        "PASS": "Audit query runs to completion for the requested scope.",
+        "WARN": "Audit query works but retention, latency, bandwidth, or scope limits affect assurance.",
+        "NOT_ACCESSIBLE": "AuditLogsQuery permission, role, or consent denial.",
+        "UNKNOWN": "No conclusive result due timeout/transient service behavior."
+      }
+    },
+    "EDISC-001.explicit_copilot_retention_stance": {
+      "control_ids": [
+        "EDISC-001"
+      ],
+      "positive_evidence": {
+        "source": "Retention policy/export/manual artifact proves explicit Copilot/AI app retention stance."
+      },
+      "classification": {
+        "PASS": "Explicit stance is evidenced and matches customer baseline.",
+        "WARN": "No explicit Copilot/AI retention policy is evidenced, or evidence is manual/partial.",
+        "FAIL": "Only if customer baseline requires explicit policy and readable evidence proves absence or misconfiguration.",
+        "UNKNOWN": "Retention stance cannot be read.",
+        "NOT_ACCESSIBLE": "Purview retention policy read denied.",
+        "NOT_LICENSED": "Required retention capability is proven absent."
+      }
+    },
+    "EDISC-002.ediscovery_readiness": {
+      "control_ids": [
+        "EDISC-002"
+      ],
+      "positive_evidence": {
+        "source": "Purview eDiscovery capability evidence, Graph eDiscovery permission, Purview app-only service-principal/RBAC evidence, or permitted positive search plus export-validating/customer-provided Purview artifact. A no-source search/estimate artifact is an API reachability signal only. A mailbox-location zero-result validation remains WARN/partial evidence."
+      },
+      "classification": {
+        "PASS": "Capability plus either permitted positive search with separate export-validating evidence, or customer-provided Purview export/readiness artifact.",
+        "WARN": "Capability exists but no mailbox/content-bound test/export was run; no-source API validation alone remains WARN/manual-review evidence; mailbox-location zero-result validation remains WARN/partial evidence; positive search count without export-validating evidence remains WARN/partial evidence.",
+        "FAIL": "Only if baseline requires eDiscovery readiness and readable evidence proves it is unavailable or misconfigured.",
+        "UNKNOWN": "Capability state cannot be read.",
+        "NOT_ACCESSIBLE": "eDiscovery access denied, including missing/unverified Purview app-only service-principal/RBAC prerequisite even when Graph eDiscovery.Read.All is present.",
+        "NOT_LICENSED": "Required eDiscovery capability is proven absent."
+      }
+    }
+  },
+  "mapping_completeness": {
+    "claims_complete_coverage": false,
+    "review_staleness_days_warn": 90,
+    "collector_requirement": "Collectors must record schema_version and last_reviewed. If last_reviewed is older than review_staleness_days_warn, classify affected checks as WARN or UNKNOWN with limitation stale_mapping unless independently verified during the run.",
+    "not_licensed_requires": [
+      "Tenant SKU inventory is readable and complete for the assessment run.",
+      "The relevant capability mapping explicitly claims complete coverage for the required capability as of last_reviewed.",
+      "No exact match or conservative fallback match is found.",
+      "No access, API, role, or tenant-policy limitation prevents reading entitlement evidence."
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "value": [
+    {
+      "skuId": "00000000-0000-0000-0000-000000000001",
+      "skuPartNumber": "M365_COPILOT_TEST",
+      "capabilityStatus": "Enabled",
+      "prepaidUnits": {"enabled": 10, "suspended": 0, "warning": 0},
+      "consumedUnits": 1,
+      "servicePlans": [
+        {
+          "servicePlanId": "3f30311c-6b1e-48a4-ab79-725b469da960",
+          "servicePlanName": "M365_COPILOT_BUSINESS_CHAT",
+          "provisioningStatus": "Success"
+        }
+      ]
+    }
+  ]
+}

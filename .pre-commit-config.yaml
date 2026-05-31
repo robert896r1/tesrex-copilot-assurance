@@ -1,0 +1,23 @@
+repos:
+  - repo: local
+    hooks:
+      - id: tca-no-committed-evidence
+        name: TCA committed evidence/artifact guard
+        entry: python3 scripts/check_no_committed_evidence.py
+        language: system
+        pass_filenames: false
+      - id: tca-sample-asset-guard
+        name: TCA synthetic sample asset guard
+        entry: python3 scripts/verify_sample_assets.py
+        language: system
+        pass_filenames: false
+      - id: tca-repository-boundary
+        name: TCA repository boundary guard
+        entry: python3 scripts/check_repository_boundary.py
+        language: system
+        pass_filenames: false
+      - id: tca-read-only-contract
+        name: TCA read-only Microsoft tenant contract guard
+        entry: env PYTHONPATH=src python3 scripts/check_read_only_contract.py
+        language: system
+        pass_filenames: false

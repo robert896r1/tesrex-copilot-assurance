@@ -1,0 +1,12 @@
+{
+  "policies": [
+    {
+      "name": "Exchange only DLP",
+      "workload": "Exchange",
+      "locations": [
+        {"name": "Exchange email"}
+      ]
+    }
+  ],
+  "rules": []
+}

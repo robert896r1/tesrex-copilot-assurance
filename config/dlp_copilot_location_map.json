@@ -1,0 +1,155 @@
+{
+  "schema_version": "0.1.0",
+  "last_reviewed": "2026-04-29",
+  "review_policy": "Conservative mapping for recognizing Microsoft 365 Copilot and Copilot Chat DLP policy targeting from Security & Compliance PowerShell evidence. Unknown names or structures must not be treated as FAIL.",
+  "evidence_contract": "docs/evidence_contract.md",
+  "source_refs": {
+    "dlp_copilot_overview": "https://learn.microsoft.com/en-us/purview/dlp-microsoft365-copilot-location-learn-about",
+    "new_dlp_compliance_policy": "https://learn.microsoft.com/en-us/powershell/module/exchange/new-dlpcompliancepolicy?view=exchange-ps",
+    "get_dlp_compliance_policy": "https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-dlpcompliancepolicy?view=exchange-ps",
+    "get_dlp_compliance_rule": "https://learn.microsoft.com/en-us/powershell/module/exchangepowershell/get-dlpcompliancerule?view=exchange-ps"
+  },
+  "known_locations": [
+    {
+      "canonical_id": "m365_copilot_and_copilot_chat",
+      "workload": "Applications",
+      "location_guid": "470f2276-e011-4e9d-a6ec-20768be3a4b0",
+      "display_names": [
+        "Microsoft 365 Copilot",
+        "Microsoft 365 Copilot and Copilot Chat",
+        "Microsoft 365 Copilot and Microsoft 365 Copilot Chat",
+        "M365 Copilot",
+        "Copilot"
+      ],
+      "enforcement_planes": [
+        "CopilotExperiences"
+      ],
+      "source_ref": "new_dlp_compliance_policy",
+      "notes": [
+        "Microsoft's New-DlpCompliancePolicy example identifies this GUID as the Microsoft 365 Copilot location and uses Workload=Applications.",
+        "Display names are matching aids only; the GUID and workload are stronger evidence than display text."
+      ]
+    }
+  ],
+  "known_rule_conditions": [
+    {
+      "canonical_id": "content_contains_sensitivity_labels",
+      "ui_label": "Content contains > Sensitivity labels",
+      "purpose": "Prevent Copilot from processing labeled file/email content.",
+      "supported_policy_actions": [
+        "Prevent Copilot from processing content"
+      ],
+      "source_ref": "dlp_copilot_overview"
+    },
+    {
+      "canonical_id": "prompt_contains_sensitive_information_types",
+      "ui_label": "Content contains > Sensitive information types",
+      "purpose": "Restrict Copilot prompt processing when typed prompt text contains selected sensitive information types.",
+      "supported_policy_actions": [
+        "Prevent Copilot from processing content > Processing prompts"
+      ],
+      "source_ref": "dlp_copilot_overview"
+    },
+    {
+      "canonical_id": "prompt_contains_sensitive_information_types_block_web_search",
+      "ui_label": "Content contains > Sensitive information types",
+      "purpose": "Block external web search grounding when typed prompt text contains selected sensitive information types.",
+      "supported_policy_actions": [
+        "Prevent Copilot from processing content > Performing Web Searches"
+      ],
+      "source_ref": "dlp_copilot_overview"
+    }
+  ],
+  "known_powershell_action_markers": [
+    {
+      "canonical_id": "exclude_content_processing_block",
+      "marker_paths": [
+        "RestrictAccess[].setting",
+        "AdvancedRule.Action",
+        "RuleMetadata.RestrictAccess"
+      ],
+      "known_values": [
+        "ExcludeContentProcessing"
+      ],
+      "known_block_values": [
+        "Block"
+      ],
+      "source_ref": "new_dlp_compliance_policy",
+      "notes": [
+        "This marker appears in Microsoft's PowerShell example for blocking Copilot content processing. Actual Get-DlpComplianceRule output must be retained and parsed conservatively."
+      ]
+    }
+  ],
+  "recognition_rules": [
+    {
+      "id": "LOCATION_GUID_STRONG_MATCH",
+      "classification": "copilot_location_detected",
+      "match_all": {
+        "workload": "Applications",
+        "location_guid": "470f2276-e011-4e9d-a6ec-20768be3a4b0"
+      },
+      "evidence_strength": "high"
+    },
+    {
+      "id": "ENFORCEMENT_PLANE_MATCH",
+      "classification": "copilot_enforcement_plane_detected",
+      "match_any_enforcement_plane": [
+        "CopilotExperiences"
+      ],
+      "evidence_strength": "medium",
+      "requires_manual_review_if_no_location_guid": true
+    },
+    {
+      "id": "DISPLAY_NAME_ONLY_MATCH",
+      "classification": "possible_copilot_location",
+      "match_any_display_name": [
+        "Microsoft 365 Copilot",
+        "Microsoft 365 Copilot and Copilot Chat",
+        "Microsoft 365 Copilot and Microsoft 365 Copilot Chat",
+        "M365 Copilot",
+        "Copilot"
+      ],
+      "evidence_strength": "low",
+      "requires_manual_review": true
+    },
+    {
+      "id": "APPLICATIONS_COPILOT_PATTERN_REVIEW",
+      "classification": "possible_copilot_location_requires_review",
+      "evidence_strength": "medium",
+      "match_all": {
+        "workload": "Applications"
+      },
+      "match_any_location_or_action_pattern": [
+        "(?i)copilot",
+        "(?i)CopilotExperiences",
+        "(?i)AI"
+      ],
+      "requires_manual_review": true,
+      "notes": [
+        "Used to avoid silently missing changed Microsoft Copilot location metadata. This rule must not produce PASS by itself."
+      ]
+    }
+  ],
+  "status_rules": {
+    "PASS": "At least one policy/rule pair is readable, targets the known Copilot location GUID or equivalent high-strength marker, and contains expected baseline condition/action coverage.",
+    "WARN": "Copilot policy evidence exists but uses preview scenarios, partial rule coverage, display-name-only/pattern-only matching, manual evidence, unverified distribution, stale mapping, or propagation-delay caveats.",
+    "FAIL": "Only when DLP policy inventory is fully readable, expected policy/rule schema is validated, customer baseline requires Copilot DLP, and no high-strength or manual-review Copilot-targeted policy/rule evidence is present.",
+    "UNKNOWN": "Policy/rule evidence is unreadable, unrecognized, or structurally insufficient without an access/license cause.",
+    "NOT_ACCESSIBLE": "Security & Compliance PowerShell, Purview, or policy read operation returns access/RBAC/consent denial.",
+    "NOT_LICENSED": "Readable entitlement evidence proves required DLP for Copilot capability is absent."
+  },
+  "parser_safety_rules": [
+    "Prefer GUID/workload matches over display-name matches.",
+    "Do not classify unrecognized policy locations as FAIL; use UNKNOWN with limitation not_configured_for_assessment or api_unsupported as appropriate.",
+    "Retain the raw policy and rule output before normalization.",
+    "Record the mapping schema_version and last_reviewed date in every DLP control-check evidence item.",
+    "Treat preview DLP subfeatures as WARN unless customer baseline accepts preview controls as sufficient.",
+    "If policy output targets workload Applications and contains CopilotExperiences, Copilot, or AI-related action/location markers without the known GUID, classify WARN/manual_review_required rather than ignoring it or emitting FAIL.",
+    "Collectors must schema-validate Get-DlpCompliancePolicy/Get-DlpComplianceRule output before interpreting absence. Missing or changed Location/Workload/Rule metadata must produce UNKNOWN with limitation api_unsupported or manual_only, not FAIL."
+  ],
+  "mapping_completeness": {
+    "claims_complete_guid_coverage": false,
+    "review_staleness_days_warn": 90,
+    "collector_requirement": "Collectors must record schema_version and last_reviewed. If stale, classify affected DLP checks as WARN/UNKNOWN with limitation stale_mapping unless the run independently verifies the location metadata."
+  }
+}

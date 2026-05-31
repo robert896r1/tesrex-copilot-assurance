@@ -1,0 +1,22 @@
+name: Microsoft UI/API change
+description: Report a Microsoft ecosystem change that affects the starter kit
+title: "Microsoft change: "
+labels: [microsoft-change]
+body:
+  - type: textarea
+    id: change
+    attributes:
+      label: What changed?
+      description: Describe the Microsoft UI/API/docs change and where it appears.
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact on this starter kit
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Public source link(s)

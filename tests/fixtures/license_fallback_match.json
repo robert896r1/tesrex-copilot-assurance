@@ -1,0 +1,16 @@
+{
+  "value": [
+    {
+      "skuId": "00000000-0000-0000-0000-000000000002",
+      "skuPartNumber": "FUTURE_COPILOT_SKU",
+      "capabilityStatus": "Enabled",
+      "servicePlans": [
+        {
+          "servicePlanId": "99999999-9999-9999-9999-999999999999",
+          "servicePlanName": "FUTURE_COPILOT_PLAN",
+          "provisioningStatus": "Success"
+        }
+      ]
+    }
+  ]
+}

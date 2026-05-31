@@ -1,0 +1,1467 @@
+{
+  "artifact_path": null,
+  "assessment_run": {
+    "assessment_run_id": "run-20260530T000000Z",
+    "completed_at_utc": "2026-05-30T00:00:00Z",
+    "initiated_by": "TCA demo mode",
+    "limitations": [
+      "first_slice",
+      "configuration_capability_focus",
+      "demo_evidence_present"
+    ],
+    "scope_summary": "Starter-kit capability/configuration evidence pack from read-only probes and optional manual evidence.",
+    "started_at_utc": "20260530T000000Z",
+    "status": "COMPLETED",
+    "tenant_id": "TCA-DEMO-SYNTHETIC",
+    "tool_version": "0.1.0"
+  },
+  "content_hash": null,
+  "control_checks": [
+    {
+      "assessed_scope": "tenant / starter-kit first-slice scope",
+      "assessment_run_id": "run-20260530T000000Z",
+      "control_check_id": "LIC-001",
+      "control_family": "LIC",
+      "control_objective": "Assess LIC-001 for starter-kit Copilot governance evidence pack.",
+      "evidence_completeness": "full",
+      "evidence_items_used": [
+        "ev-graph-subscribed_skus"
+      ],
+      "expected_state": "Control evidence is present and sufficient for the assessed scope.",
+      "follow_up_required": [],
+      "limitations": [],
+      "mapping_versions_used": [],
+      "observed_state": "See cited evidence and status reason.",
+      "procedure": "Generated from live read-only probe summary and optional manual evidence.",
+      "required_evidence_types": [
+        "raw_api_response",
+        "normalized_observation",
+        "manual_artifact"
+      ],
+      "status": "PASS",
+      "status_cause": "verified",
+      "status_reason": "Microsoft Graph subscribedSkUs inventory was read successfully."
+    },
+    {
+      "assessed_scope": "tenant",
+      "assessment_run_id": "run-20260530T000000Z",
+      "control_check_id": "LIC-002.copilot_family",
+      "control_family": "LIC",
+      "control_objective": "Classify Microsoft capability entitlement from tenant SKU inventory.",
+      "evidence_completeness": "partial",
+      "evidence_items_used": [
+        "ev-graph-subscribed_skus"
+      ],
+      "expected_state": "Required entitlement evidence is present or absence is explicitly proven.",
+      "follow_up_required": [
+        "Refresh capability map or provide manual/license-admin evidence."
+      ],
+      "limitations": [
+        "license_limited"
+      ],
+      "mapping_versions_used": [
+        {
+          "artifact_path": "config/microsoft_capability_map.json",
+          "last_reviewed": "2026-04-30",
+          "schema_version": "0.1.0",
+          "stale": false
+        }
+      ],
+      "observed_state": "{'sku_count': 0}",
+      "procedure": "Evaluate Microsoft Graph subscribedSkus evidence against the versioned capability map.",
+      "required_evidence_types": [
+        "license_snapshot",
+        "raw_api_response"
+      ],
+      "status": "UNKNOWN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "No exact entitlement match found, but the mapping does not claim complete coverage or is stale; license absence is not proven."
+    },
+    {
+      "assessed_scope": "tenant",
+      "assessment_run_id": "run-20260530T000000Z",
+      "control_check_id": "LIC-002.work_graph_chat",
+      "control_family": "LIC",
+      "control_objective": "Classify Microsoft capability entitlement from tenant SKU inventory.",
+      "evidence_completeness": "partial",
+      "evidence_items_used": [
+        "ev-graph-subscribed_skus"
+      ],
+      "expected_state": "Required entitlement evidence is present or absence is explicitly proven.",
+      "follow_up_required": [
+        "Refresh capability map or provide manual/license-admin evidence."
+      ],
+      "limitations": [
+        "license_limited"
+      ],
+      "mapping_versions_used": [
+        {
+          "artifact_path": "config/microsoft_capability_map.json",
+          "last_reviewed": "2026-04-30",
+          "schema_version": "0.1.0",
+          "stale": false
+        }
+      ],
+      "observed_state": "{'sku_count': 0}",
+      "procedure": "Evaluate Microsoft Graph subscribedSkus evidence against the versioned capability map.",
+      "required_evidence_types": [
+        "license_snapshot",
+        "raw_api_response"
+      ],
+      "status": "UNKNOWN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "No exact entitlement match found, but the mapping does not claim complete coverage or is stale; license absence is not proven."
+    },
+    {
+      "assessed_scope": "tenant / starter-kit first-slice scope",
+      "assessment_run_id": "run-20260530T000000Z",
+      "control_check_id": "AUD-001",
+      "control_family": "AUD",
+      "control_objective": "Assess AUD-001 for starter-kit Copilot governance evidence pack.",
+      "evidence_completeness": "partial",
+      "evidence_items_used": [
+        "ev-graph-token_scopes"
+      ],
+      "expected_state": "Control evidence is present and sufficient for the assessed scope.",
+      "follow_up_required": [
+        "Review limitations for AUD-001 and rerun after evidence gap is resolved."
+      ],
+      "limitations": [
+        "not_configured_for_assessment"
+      ],
+      "mapping_versions_used": [],
+      "observed_state": "See cited evidence and status reason.",
+      "procedure": "Generated from live read-only probe summary and optional manual evidence.",
+      "required_evidence_types": [
+        "raw_api_response",
+        "normalized_observation",
+        "manual_artifact"
+      ],
+      "status": "WARN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "Audit query scope is present in the token, but no audit query was created in the default read-only probe; full audit search access is not proven."
+    },
+    {
+      "assessed_scope": "tenant / starter-kit first-slice scope",
+      "assessment_run_id": "run-20260530T000000Z",
+      "control_check_id": "AUD-002",
+      "control_family": "AUD",
+      "control_objective": "Assess AUD-002 for starter-kit Copilot governance evidence pack.",
+      "evidence_completeness": "partial",
+      "evidence_items_used": [
+        "ev-demo-copilot-chat-transcripts"
+      ],
+      "expected_state": "Control evidence is present and sufficient for the assessed scope.",
+      "follow_up_required": [
+        "Provide manual/customer evidence for AUD-002 or approve the relevant read-only collector."
+      ],
+      "limitations": [
+        "manual_only",
+        "not_configured_for_assessment",
+        "manual_evidence_linked",
+        "demo_evidence"
+      ],
+      "mapping_versions_used": [],
+      "observed_state": "See cited evidence and status reason.",
+      "procedure": "Generated from live read-only probe summary and optional manual evidence.",
+      "required_evidence_types": [
+        "raw_api_response",
+        "normalized_observation",
+        "manual_artifact"
+      ],
+      "status": "UNKNOWN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "CopilotInteraction audit record observability requires an explicitly approved audit query and independent usage context; neither is part of the default read-only probe."
+    },
+    {
+      "assessed_scope": "tenant / starter-kit first-slice scope",
+      "assessment_run_id": "run-20260530T000000Z",
+      "control_check_id": "AUD-003",
+      "control_family": "AUD",
+      "control_objective": "Assess AUD-003 for starter-kit Copilot governance evidence pack.",
+      "evidence_completeness": "partial",
+      "evidence_items_used": [
+        "ev-demo-retention-policy-evidence"
+      ],
+      "expected_state": "Control evidence is present and sufficient for the assessed scope.",
+      "follow_up_required": [
+        "Provide manual/customer evidence for AUD-003 or approve the relevant read-only collector."
+      ],
+      "limitations": [
+        "manual_only",
+        "manual_evidence_linked",
+        "demo_evidence"
+      ],
+      "mapping_versions_used": [],
+      "observed_state": "See cited evidence and status reason.",
+      "procedure": "Generated from live read-only probe summary and optional manual evidence.",
+      "required_evidence_types": [
+        "raw_api_response",
+        "normalized_observation",
+        "manual_artifact"
+      ],
+      "status": "UNKNOWN",
+      "status_cause": "manual_evidence_required",
+      "status_reason": "Audit retention capability is not proven by token-scope inspection alone; provide Purview audit configuration evidence or approved historical query evidence."
+    },
+    {
+      "assessed_scope": "tenant / starter-kit first-slice scope",
+      "assessment_run_id": "run-20260530T000000Z",
+      "control_check_id": "LABEL-001",
+      "control_family": "LABEL",
+      "control_objective": "Assess LABEL-001 for starter-kit Copilot governance evidence pack.",
+      "evidence_completeness": "partial",
+      "evidence_items_used": [
+        "ev-graph-sensitivity_labels"
+      ],
+      "expected_state": "Control evidence is present and sufficient for the assessed scope.",
+      "follow_up_required": [
+        "Review limitations for LABEL-001 and rerun after evidence gap is resolved."
+      ],
+      "limitations": [
+        "partial_scope"
+      ],
+      "mapping_versions_used": [],
+      "observed_state": "See cited evidence and status reason.",
+      "procedure": "Generated from live read-only probe summary and optional manual evidence.",
+      "required_evidence_types": [
+        "raw_api_response",
+        "normalized_observation",
+        "manual_artifact"
+      ],
+      "status": "WARN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "Sensitivity-label endpoint is reachable but the $top=1 probe returned zero labels; taxonomy coverage is not proven."
+    },
+    {
+      "assessed_scope": "tenant / starter-kit first-slice scope",
+      "assessment_run_id": "run-20260530T000000Z",
+      "control_check_id": "DLP-001",
+      "control_family": "DLP",
+      "control_objective": "Assess DLP-001 for starter-kit Copilot governance evidence pack.",
+      "evidence_completeness": "partial",
+      "evidence_items_used": [
+        "ev-powershell-exchange_online_management",
+        "ev-demo-dlp-policy-export"
+      ],
+      "expected_state": "Control evidence is present and sufficient for the assessed scope.",
+      "follow_up_required": [
+        "Provide manual/customer evidence for DLP-001 or approve the relevant read-only collector."
+      ],
+      "limitations": [
+        "manual_only",
+        "not_configured_for_assessment",
+        "manual_evidence_linked",
+        "demo_evidence"
+      ],
+      "mapping_versions_used": [
+        {
+          "artifact_path": "config/dlp_copilot_location_map.json",
+          "last_reviewed": "2026-04-29",
+          "schema_version": "0.1.0",
+          "stale": false
+        }
+      ],
+      "observed_state": "See cited evidence and status reason.",
+      "procedure": "Generated from live read-only probe summary and optional manual evidence.",
+      "required_evidence_types": [
+        "raw_api_response",
+        "normalized_observation",
+        "manual_artifact"
+      ],
+      "status": "UNKNOWN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "ExchangeOnlineManagement module is locally available, but tenant DLP policy/rule inventory was not read in this default run. Provide Purview export or run an approved read-only DLP inventory collector."
+    },
+    {
+      "assessed_scope": "tenant / starter-kit first-slice scope",
+      "assessment_run_id": "run-20260530T000000Z",
+      "control_check_id": "DLP-002",
+      "control_family": "DLP",
+      "control_objective": "Assess DLP-002 for starter-kit Copilot governance evidence pack.",
+      "evidence_completeness": "partial",
+      "evidence_items_used": [
+        "ev-powershell-exchange_online_management",
+        "ev-demo-dlp-policy-export"
+      ],
+      "expected_state": "Control evidence is present and sufficient for the assessed scope.",
+      "follow_up_required": [
+        "Provide manual/customer evidence for DLP-002 or approve the relevant read-only collector."
+      ],
+      "limitations": [
+        "manual_only",
+        "not_configured_for_assessment",
+        "manual_evidence_linked",
+        "demo_evidence"
+      ],
+      "mapping_versions_used": [
+        {
+          "artifact_path": "config/dlp_copilot_location_map.json",
+          "last_reviewed": "2026-04-29",
+          "schema_version": "0.1.0",
+          "stale": false
+        }
+      ],
+      "observed_state": "See cited evidence and status reason.",
+      "procedure": "Generated from live read-only probe summary and optional manual evidence.",
+      "required_evidence_types": [
+        "raw_api_response",
+        "normalized_observation",
+        "manual_artifact"
+      ],
+      "status": "UNKNOWN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "ExchangeOnlineManagement module is locally available, but tenant DLP policy/rule inventory was not read in this default run. Provide Purview export or run an approved read-only DLP inventory collector."
+    },
+    {
+      "assessed_scope": "tenant / starter-kit first-slice scope",
+      "assessment_run_id": "run-20260530T000000Z",
+      "control_check_id": "SAM-001",
+      "control_family": "SAM",
+      "control_objective": "Assess SAM-001 for starter-kit Copilot governance evidence pack.",
+      "evidence_completeness": "partial",
+      "evidence_items_used": [
+        "ev-powershell-sharepoint_online",
+        "ev-demo-sam-oversharing-report"
+      ],
+      "expected_state": "Control evidence is present and sufficient for the assessed scope.",
+      "follow_up_required": [
+        "Provide manual/customer evidence for SAM-001 or approve the relevant read-only collector."
+      ],
+      "limitations": [
+        "manual_only",
+        "partial_scope",
+        "manual_evidence_linked",
+        "demo_evidence"
+      ],
+      "mapping_versions_used": [
+        {
+          "artifact_path": "config/microsoft_capability_map.json",
+          "last_reviewed": "2026-04-30",
+          "schema_version": "0.1.0",
+          "stale": false
+        }
+      ],
+      "observed_state": "See cited evidence and status reason.",
+      "procedure": "Generated from live read-only probe summary and optional manual evidence.",
+      "required_evidence_types": [
+        "raw_api_response",
+        "normalized_observation",
+        "manual_artifact"
+      ],
+      "status": "WARN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "SharePoint Online PowerShell module is locally available, but SAM/DAG tenant read capability and report freshness were not validated."
+    },
+    {
+      "assessed_scope": "tenant / starter-kit first-slice scope",
+      "assessment_run_id": "run-20260530T000000Z",
+      "control_check_id": "EDISC-001",
+      "control_family": "EDISC",
+      "control_objective": "Assess EDISC-001 for starter-kit Copilot governance evidence pack.",
+      "evidence_completeness": "partial",
+      "evidence_items_used": [
+        "ev-demo-retention-policy-evidence"
+      ],
+      "expected_state": "Control evidence is present and sufficient for the assessed scope.",
+      "follow_up_required": [
+        "Provide manual/customer evidence for EDISC-001 or approve the relevant read-only collector."
+      ],
+      "limitations": [
+        "manual_only",
+        "manual_evidence_linked",
+        "demo_evidence"
+      ],
+      "mapping_versions_used": [],
+      "observed_state": "See cited evidence and status reason.",
+      "procedure": "Generated from live read-only probe summary and optional manual evidence.",
+      "required_evidence_types": [
+        "raw_api_response",
+        "normalized_observation",
+        "manual_artifact"
+      ],
+      "status": "UNKNOWN",
+      "status_cause": "manual_evidence_required",
+      "status_reason": "Explicit Copilot/AI retention stance requires retention policy evidence or customer-provided manual artifact; no retention policy read was run in the default probe."
+    },
+    {
+      "assessed_scope": "tenant / starter-kit first-slice scope",
+      "assessment_run_id": "run-20260530T000000Z",
+      "control_check_id": "EDISC-002",
+      "control_family": "EDISC",
+      "control_objective": "Assess EDISC-002 for starter-kit Copilot governance evidence pack.",
+      "evidence_completeness": "partial",
+      "evidence_items_used": [
+        "ev-graph-ediscovery_cases",
+        "ev-demo-ediscovery-readiness-fixture"
+      ],
+      "expected_state": "Control evidence is present and sufficient for the assessed scope.",
+      "follow_up_required": [
+        "Review limitations for EDISC-002 and rerun after evidence gap is resolved."
+      ],
+      "limitations": [
+        "partial_scope",
+        "no_export_validation",
+        "manual_evidence_linked",
+        "manual_only",
+        "demo_evidence"
+      ],
+      "mapping_versions_used": [],
+      "observed_state": "See cited evidence and status reason.",
+      "procedure": "Generated from live read-only probe summary and optional manual evidence.",
+      "required_evidence_types": [
+        "raw_api_response",
+        "normalized_observation",
+        "manual_artifact"
+      ],
+      "status": "WARN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "eDiscovery case endpoint is visible, but no positive/export-validating readiness evidence is present in the default run."
+    },
+    {
+      "assessed_scope": "tenant / starter-kit first-slice scope",
+      "assessment_run_id": "run-20260530T000000Z",
+      "control_check_id": "PACK-001",
+      "control_family": "PACK",
+      "control_objective": "Assess PACK-001 for starter-kit Copilot governance evidence pack.",
+      "evidence_completeness": "full",
+      "evidence_items_used": [],
+      "expected_state": "Control evidence is present and sufficient for the assessed scope.",
+      "follow_up_required": [],
+      "limitations": [],
+      "mapping_versions_used": [],
+      "observed_state": "See cited evidence and status reason.",
+      "procedure": "Generated from live read-only probe summary and optional manual evidence.",
+      "required_evidence_types": [
+        "raw_api_response",
+        "normalized_observation",
+        "manual_artifact"
+      ],
+      "status": "PASS",
+      "status_cause": "verified",
+      "status_reason": "All starter-kit controls are represented before pack generation."
+    },
+    {
+      "assessed_scope": "tenant / starter-kit first-slice scope",
+      "assessment_run_id": "run-20260530T000000Z",
+      "control_check_id": "PACK-002",
+      "control_family": "PACK",
+      "control_objective": "Assess PACK-002 for starter-kit Copilot governance evidence pack.",
+      "evidence_completeness": "full",
+      "evidence_items_used": [],
+      "expected_state": "Control evidence is present and sufficient for the assessed scope.",
+      "follow_up_required": [],
+      "limitations": [],
+      "mapping_versions_used": [],
+      "observed_state": "source_summary=samples/copilot-assurance/generated-source/live_probe/20260530T000000Z/summary.json",
+      "procedure": "Generated from live read-only probe summary and optional manual evidence.",
+      "required_evidence_types": [
+        "raw_api_response",
+        "normalized_observation",
+        "manual_artifact"
+      ],
+      "status": "PASS",
+      "status_cause": "verified",
+      "status_reason": "Evidence inventory has raw artifact paths/hashes or explicit raw-retention limitations."
+    }
+  ],
+  "evidence_items": [
+    {
+      "assessment_run_id": "run-20260530T000000Z",
+      "collected_at_utc": "20260530T000000Z",
+      "collection_method": "live read-only probe",
+      "collector_identity": "TCA demo mode",
+      "content_hash": "34d1b63d588244e08713e76deca1adc7f282d3e683fc06b1e7b9c79b07063f3b",
+      "evidence_id": "ev-az_account",
+      "evidence_type": "raw_api_response",
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "synthetic_fixture"
+      ],
+      "mapping_versions_used": [],
+      "normalized_facts": {
+        "probe_status": "OK",
+        "status_reason": "SYNTHETIC DEMO: no Azure account or tenant context was read.",
+        "summary": {
+          "context": "synthetic local demo"
+        }
+      },
+      "permission_context": "assessment identity / local tool context",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260530T000000Z/raw/az_account.json",
+      "relevance_rating": "medium",
+      "reliability_rating": "medium",
+      "source_endpoint_or_ui_path": "TCA local synthetic demo context",
+      "source_object_identifiers": {
+        "control_ids": [
+          "PACK-002"
+        ],
+        "probe_id": "az_account"
+      },
+      "source_system": "Azure CLI",
+      "tenant_id": "TCA-DEMO-SYNTHETIC"
+    },
+    {
+      "assessment_run_id": "run-20260530T000000Z",
+      "collected_at_utc": "20260530T000000Z",
+      "collection_method": "live read-only probe",
+      "collector_identity": "TCA demo mode",
+      "content_hash": "dfa498925b153826c6dbc39c906e8e2d086f7b6717d33d1e69c5658e5daac1bb",
+      "evidence_id": "ev-az_cloud",
+      "evidence_type": "raw_api_response",
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "synthetic_fixture"
+      ],
+      "mapping_versions_used": [],
+      "normalized_facts": {
+        "probe_status": "OK",
+        "status_reason": "SYNTHETIC DEMO: no Azure cloud context was read.",
+        "summary": {
+          "context": "synthetic local demo"
+        }
+      },
+      "permission_context": "assessment identity / local tool context",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260530T000000Z/raw/az_cloud.json",
+      "relevance_rating": "medium",
+      "reliability_rating": "medium",
+      "source_endpoint_or_ui_path": "TCA local synthetic demo context",
+      "source_object_identifiers": {
+        "control_ids": [
+          "PACK-002"
+        ],
+        "probe_id": "az_cloud"
+      },
+      "source_system": "Azure CLI",
+      "tenant_id": "TCA-DEMO-SYNTHETIC"
+    },
+    {
+      "assessment_run_id": "run-20260530T000000Z",
+      "collected_at_utc": "20260530T000000Z",
+      "collection_method": "live read-only probe",
+      "collector_identity": "TCA demo mode",
+      "content_hash": "865baf356f6de27d39b9389e1c5e6e632d7a9bdc9749876a837e3d080befa30b",
+      "evidence_id": "ev-graph-organization",
+      "evidence_type": "raw_api_response",
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "synthetic_fixture"
+      ],
+      "mapping_versions_used": [],
+      "normalized_facts": {
+        "probe_status": "OK",
+        "status_reason": "SYNTHETIC DEMO: representative organization payload only; no Graph tenant call was made.",
+        "summary": {
+          "count_returned": 1,
+          "payload_shape": "collection"
+        }
+      },
+      "permission_context": "assessment identity / local tool context",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260530T000000Z/raw/graph_organization.json",
+      "relevance_rating": "medium",
+      "reliability_rating": "medium",
+      "source_endpoint_or_ui_path": "TCA local synthetic demo fixture",
+      "source_object_identifiers": {
+        "control_ids": [
+          "PACK-002"
+        ],
+        "probe_id": "graph.organization"
+      },
+      "source_system": "Microsoft Graph",
+      "tenant_id": "TCA-DEMO-SYNTHETIC"
+    },
+    {
+      "assessment_run_id": "run-20260530T000000Z",
+      "collected_at_utc": "20260530T000000Z",
+      "collection_method": "live read-only probe",
+      "collector_identity": "TCA demo mode",
+      "content_hash": "0f214086a7f13ceb0682b985ee95269d166afac7fc3ffee1890c40a55840cc4a",
+      "evidence_id": "ev-graph-subscribed_skus",
+      "evidence_type": "license_snapshot",
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "synthetic_fixture"
+      ],
+      "mapping_versions_used": [],
+      "normalized_facts": {
+        "probe_status": "OK",
+        "status_reason": "SYNTHETIC DEMO: representative subscribedSkus payload only; no Graph tenant call was made.",
+        "summary": {
+          "count_returned": 0,
+          "payload_shape": "collection"
+        }
+      },
+      "permission_context": "assessment identity / local tool context",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260530T000000Z/raw/graph_subscribed_skus.json",
+      "relevance_rating": "medium",
+      "reliability_rating": "medium",
+      "source_endpoint_or_ui_path": "TCA local synthetic demo fixture",
+      "source_object_identifiers": {
+        "control_ids": [
+          "LIC-001",
+          "LIC-002"
+        ],
+        "probe_id": "graph.subscribed_skus"
+      },
+      "source_system": "Microsoft Graph",
+      "tenant_id": "TCA-DEMO-SYNTHETIC"
+    },
+    {
+      "assessment_run_id": "run-20260530T000000Z",
+      "collected_at_utc": "20260530T000000Z",
+      "collection_method": "live read-only probe",
+      "collector_identity": "TCA demo mode",
+      "content_hash": "0f214086a7f13ceb0682b985ee95269d166afac7fc3ffee1890c40a55840cc4a",
+      "evidence_id": "ev-graph-sensitivity_labels",
+      "evidence_type": "raw_api_response",
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "synthetic_fixture"
+      ],
+      "mapping_versions_used": [],
+      "normalized_facts": {
+        "probe_status": "OK",
+        "status_reason": "SYNTHETIC DEMO: label endpoint shape is represented, but no real label taxonomy was read.",
+        "summary": {
+          "count_returned": 0,
+          "payload_shape": "collection"
+        }
+      },
+      "permission_context": "assessment identity / local tool context",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260530T000000Z/raw/graph_sensitivity_labels.json",
+      "relevance_rating": "medium",
+      "reliability_rating": "medium",
+      "source_endpoint_or_ui_path": "TCA local synthetic demo fixture",
+      "source_object_identifiers": {
+        "control_ids": [
+          "LABEL-001"
+        ],
+        "probe_id": "graph.sensitivity_labels"
+      },
+      "source_system": "Microsoft Graph",
+      "tenant_id": "TCA-DEMO-SYNTHETIC"
+    },
+    {
+      "assessment_run_id": "run-20260530T000000Z",
+      "collected_at_utc": "20260530T000000Z",
+      "collection_method": "live read-only probe",
+      "collector_identity": "TCA demo mode",
+      "content_hash": "73ac54da7eac95c787ace30e457949c4d6b25a8f4f4a9decd08afce91fbf8b18",
+      "evidence_id": "ev-graph-token_scopes",
+      "evidence_type": "normalized_observation",
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "raw_secret_not_retained",
+        "synthetic_fixture"
+      ],
+      "mapping_versions_used": [],
+      "normalized_facts": {
+        "probe_status": "OK",
+        "status_reason": "SYNTHETIC DEMO: representative token-scope evidence only; no token was requested or retained.",
+        "summary": {
+          "audit_query_scopes_present": [
+            "AuditLogsQuery.Read.All"
+          ],
+          "raw_access_token_retained": false
+        }
+      },
+      "permission_context": "assessment identity / local tool context",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260530T000000Z/raw/graph_token_scopes.json",
+      "relevance_rating": "medium",
+      "reliability_rating": "medium",
+      "source_endpoint_or_ui_path": "TCA local synthetic demo fixture",
+      "source_object_identifiers": {
+        "control_ids": [
+          "AUD-001"
+        ],
+        "probe_id": "graph.token_scopes"
+      },
+      "source_system": "Microsoft Graph",
+      "tenant_id": "TCA-DEMO-SYNTHETIC"
+    },
+    {
+      "assessment_run_id": "run-20260530T000000Z",
+      "collected_at_utc": "20260530T000000Z",
+      "collection_method": "live read-only probe",
+      "collector_identity": "TCA demo mode",
+      "content_hash": "0f214086a7f13ceb0682b985ee95269d166afac7fc3ffee1890c40a55840cc4a",
+      "evidence_id": "ev-graph-ediscovery_cases",
+      "evidence_type": "raw_api_response",
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "synthetic_fixture"
+      ],
+      "mapping_versions_used": [],
+      "normalized_facts": {
+        "probe_status": "OK",
+        "status_reason": "SYNTHETIC DEMO: eDiscovery case-list shape is represented, but no Purview or Graph tenant call was made.",
+        "summary": {
+          "count_returned": 0,
+          "payload_shape": "collection"
+        }
+      },
+      "permission_context": "assessment identity / local tool context",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260530T000000Z/raw/graph_ediscovery_cases.json",
+      "relevance_rating": "medium",
+      "reliability_rating": "medium",
+      "source_endpoint_or_ui_path": "TCA local synthetic demo fixture",
+      "source_object_identifiers": {
+        "control_ids": [
+          "EDISC-002"
+        ],
+        "probe_id": "graph.ediscovery_cases"
+      },
+      "source_system": "Microsoft Graph",
+      "tenant_id": "TCA-DEMO-SYNTHETIC"
+    },
+    {
+      "assessment_run_id": "run-20260530T000000Z",
+      "collected_at_utc": "20260530T000000Z",
+      "collection_method": "live read-only probe",
+      "collector_identity": "TCA demo mode",
+      "content_hash": "22084f3d5e6b023f039e153c1d9406c2196ed8331371ca04611b487e09d4adab",
+      "evidence_id": "ev-powershell-exchange_online_management",
+      "evidence_type": "normalized_observation",
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "synthetic_fixture"
+      ],
+      "mapping_versions_used": [],
+      "normalized_facts": {
+        "probe_status": "OK",
+        "status_reason": "SYNTHETIC DEMO: module availability is represented for UI review only; local PowerShell was not probed.",
+        "summary": {
+          "available": true,
+          "module": "ExchangeOnlineManagement"
+        }
+      },
+      "permission_context": "assessment identity / local tool context",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260530T000000Z/raw/powershell_exchange_online_management.json",
+      "relevance_rating": "medium",
+      "reliability_rating": "medium",
+      "source_endpoint_or_ui_path": "TCA local synthetic demo fixture",
+      "source_object_identifiers": {
+        "control_ids": [
+          "DLP-001",
+          "DLP-002"
+        ],
+        "probe_id": "powershell.exchange_online_management"
+      },
+      "source_system": "Local PowerShell module check",
+      "tenant_id": "TCA-DEMO-SYNTHETIC"
+    },
+    {
+      "assessment_run_id": "run-20260530T000000Z",
+      "collected_at_utc": "20260530T000000Z",
+      "collection_method": "live read-only probe",
+      "collector_identity": "TCA demo mode",
+      "content_hash": "c6742b879a2ae69ada32d8cef4b981f968285bd4dd6ee03f04dec674f61ae54c",
+      "evidence_id": "ev-powershell-sharepoint_online",
+      "evidence_type": "normalized_observation",
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "synthetic_fixture"
+      ],
+      "mapping_versions_used": [],
+      "normalized_facts": {
+        "probe_status": "OK",
+        "status_reason": "SYNTHETIC DEMO: module availability is represented for UI review only; local PowerShell was not probed.",
+        "summary": {
+          "available": true,
+          "module": "Microsoft.Online.SharePoint.PowerShell"
+        }
+      },
+      "permission_context": "assessment identity / local tool context",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260530T000000Z/raw/powershell_sharepoint_online.json",
+      "relevance_rating": "medium",
+      "reliability_rating": "medium",
+      "source_endpoint_or_ui_path": "TCA local synthetic demo fixture",
+      "source_object_identifiers": {
+        "control_ids": [
+          "SAM-001"
+        ],
+        "probe_id": "powershell.sharepoint_online"
+      },
+      "source_system": "Local PowerShell module check",
+      "tenant_id": "TCA-DEMO-SYNTHETIC"
+    },
+    {
+      "assessment_run_id": "run-20260530T000000Z",
+      "collected_at_utc": "2026-05-30T00:00:00Z",
+      "collection_method": "manual customer/assessor evidence",
+      "collector_identity": "TCA demo mode",
+      "content_hash": "63bc815ad365c30c627cd04196e9085f4951bc393851416fc38378ad7dbba677",
+      "evidence_id": "ev-demo-copilot-chat-transcripts",
+      "evidence_type": "manual_artifact",
+      "limitations": [
+        "customer_asserted",
+        "demo_only",
+        "manual_only",
+        "not_independently_verified_by_tool",
+        "synthetic_fixture"
+      ],
+      "mapping_versions_used": [],
+      "normalized_facts": {
+        "demo_mode": true,
+        "independently_verified_by_tool": false,
+        "is_synthetic": true,
+        "not_a_copilotinteraction_record": true,
+        "not_a_purview_audit_record": true,
+        "purpose": "UI/report depth demonstration only",
+        "record_count": 6,
+        "tenant_artifact_created": false,
+        "trust_level": "customer_asserted"
+      },
+      "permission_context": "manual/customer-provided",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/demo_dataset/20260530T000000Z/synthetic_copilot_chat_transcripts.json",
+      "relevance_rating": "medium",
+      "reliability_rating": "low",
+      "source_endpoint_or_ui_path": "local synthetic fixture; not Microsoft Purview audit",
+      "source_object_identifiers": {
+        "control_ids": [
+          "AUD-002"
+        ]
+      },
+      "source_system": "TCA synthetic demo fixture",
+      "tenant_id": "TCA-DEMO-SYNTHETIC"
+    },
+    {
+      "assessment_run_id": "run-20260530T000000Z",
+      "collected_at_utc": "2026-05-30T00:00:00Z",
+      "collection_method": "manual customer/assessor evidence",
+      "collector_identity": "TCA demo mode",
+      "content_hash": "cf96f0ece504c1c72ab9cc5ff02934a79867126440b568a80b4ae33f47f3589a",
+      "evidence_id": "ev-demo-dlp-policy-export",
+      "evidence_type": "policy_snapshot",
+      "limitations": [
+        "customer_asserted",
+        "demo_only",
+        "manual_only",
+        "not_customer_export",
+        "synthetic_fixture"
+      ],
+      "mapping_versions_used": [],
+      "normalized_facts": {
+        "copilot_related_policy_examples": 2,
+        "demo_mode": true,
+        "independently_verified_by_tool": false,
+        "is_synthetic": true,
+        "policy_count": 2,
+        "tenant_policy_changed": false,
+        "trust_level": "customer_asserted"
+      },
+      "permission_context": "manual/customer-provided",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/demo_dataset/20260530T000000Z/synthetic_dlp_policy_export.json",
+      "relevance_rating": "high",
+      "reliability_rating": "low",
+      "source_endpoint_or_ui_path": "local synthetic fixture; representative Purview DLP export shape",
+      "source_object_identifiers": {
+        "control_ids": [
+          "DLP-001",
+          "DLP-002"
+        ]
+      },
+      "source_system": "TCA synthetic demo fixture",
+      "tenant_id": "TCA-DEMO-SYNTHETIC"
+    },
+    {
+      "assessment_run_id": "run-20260530T000000Z",
+      "collected_at_utc": "2026-05-30T00:00:00Z",
+      "collection_method": "manual customer/assessor evidence",
+      "collector_identity": "TCA demo mode",
+      "content_hash": "0e52cebeb175a90263ec82f3875b7aa822b2aa68fae093ebff5c995aa5d194a8",
+      "evidence_id": "ev-demo-sam-oversharing-report",
+      "evidence_type": "report_export",
+      "limitations": [
+        "customer_asserted",
+        "demo_only",
+        "manual_only",
+        "not_customer_export",
+        "synthetic_fixture"
+      ],
+      "mapping_versions_used": [],
+      "normalized_facts": {
+        "demo_mode": true,
+        "high_risk_site_examples": 4,
+        "independently_verified_by_tool": false,
+        "is_synthetic": true,
+        "tenant_sharing_changed": false,
+        "trust_level": "customer_asserted"
+      },
+      "permission_context": "manual/customer-provided",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/demo_dataset/20260530T000000Z/synthetic_sam_oversharing_report.json",
+      "relevance_rating": "high",
+      "reliability_rating": "low",
+      "source_endpoint_or_ui_path": "local synthetic fixture; representative SAM/DAG output",
+      "source_object_identifiers": {
+        "control_ids": [
+          "SAM-001"
+        ]
+      },
+      "source_system": "TCA synthetic demo fixture",
+      "tenant_id": "TCA-DEMO-SYNTHETIC"
+    },
+    {
+      "assessment_run_id": "run-20260530T000000Z",
+      "collected_at_utc": "2026-05-30T00:00:00Z",
+      "collection_method": "manual customer/assessor evidence",
+      "collector_identity": "TCA demo mode",
+      "content_hash": "a1f4919081a764d0bab6acb66321f362104732d142d70b703abdf12807e2042f",
+      "evidence_id": "ev-demo-retention-policy-evidence",
+      "evidence_type": "policy_snapshot",
+      "limitations": [
+        "customer_asserted",
+        "demo_only",
+        "manual_only",
+        "not_customer_export",
+        "synthetic_fixture"
+      ],
+      "mapping_versions_used": [],
+      "normalized_facts": {
+        "demo_mode": true,
+        "independently_verified_by_tool": false,
+        "is_synthetic": true,
+        "retention_policy_examples": 2,
+        "tenant_policy_changed": false,
+        "trust_level": "customer_asserted"
+      },
+      "permission_context": "manual/customer-provided",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/demo_dataset/20260530T000000Z/synthetic_retention_policy_evidence.json",
+      "relevance_rating": "high",
+      "reliability_rating": "low",
+      "source_endpoint_or_ui_path": "local synthetic fixture; representative Purview retention evidence",
+      "source_object_identifiers": {
+        "control_ids": [
+          "AUD-003",
+          "EDISC-001"
+        ]
+      },
+      "source_system": "TCA synthetic demo fixture",
+      "tenant_id": "TCA-DEMO-SYNTHETIC"
+    },
+    {
+      "assessment_run_id": "run-20260530T000000Z",
+      "collected_at_utc": "2026-05-30T00:00:00Z",
+      "collection_method": "manual customer/assessor evidence",
+      "collector_identity": "TCA demo mode",
+      "content_hash": "2b69623e924c6b563f85a3c77ca54f9509277803876e201186d1191cf7a91cee",
+      "evidence_id": "ev-demo-ediscovery-readiness-fixture",
+      "evidence_type": "report_export",
+      "limitations": [
+        "customer_asserted",
+        "demo_only",
+        "manual_only",
+        "no_export_validation",
+        "synthetic_fixture"
+      ],
+      "mapping_versions_used": [],
+      "normalized_facts": {
+        "demo_mode": true,
+        "does_not_prove_export_readiness": true,
+        "independently_verified_by_tool": false,
+        "is_synthetic": true,
+        "tenant_artifact_created": false,
+        "trust_level": "customer_asserted"
+      },
+      "permission_context": "manual/customer-provided",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/demo_dataset/20260530T000000Z/synthetic_ediscovery_readiness.json",
+      "relevance_rating": "medium",
+      "reliability_rating": "low",
+      "source_endpoint_or_ui_path": "local synthetic fixture; no tenant mutation",
+      "source_object_identifiers": {
+        "control_ids": [
+          "EDISC-002"
+        ]
+      },
+      "source_system": "TCA synthetic demo fixture",
+      "tenant_id": "TCA-DEMO-SYNTHETIC"
+    }
+  ],
+  "evidence_pack_id": "pack-run-20260530T000000Z",
+  "findings": [
+    {
+      "affected_objects": [
+        "LIC-002.copilot_family"
+      ],
+      "affected_scope": "TCA-DEMO-SYNTHETIC",
+      "assessment_run_id": "run-20260530T000000Z",
+      "cause": "unknown_root_cause",
+      "condition": "The report collected partial evidence, but this control is not fully proven.",
+      "confidence": "medium",
+      "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.",
+      "criterion": "Required entitlement evidence is present or absence is explicitly proven.",
+      "due_date": null,
+      "evidence_references": [
+        "ev-graph-subscribed_skus"
+      ],
+      "finding_id": "finding-lic-002-copilot_family",
+      "finding_type": "evidence_gap",
+      "impact_or_risk": "Reviewers should not treat this as verified assurance until the missing evidence is supplied.",
+      "owner": null,
+      "recommendation": "Refresh capability map or provide manual/license-admin evidence.",
+      "related_control_checks": [
+        "LIC-002.copilot_family"
+      ],
+      "severity": "low",
+      "status": "open",
+      "title": "LIC-002.copilot_family: UNKNOWN"
+    },
+    {
+      "affected_objects": [
+        "LIC-002.work_graph_chat"
+      ],
+      "affected_scope": "TCA-DEMO-SYNTHETIC",
+      "assessment_run_id": "run-20260530T000000Z",
+      "cause": "unknown_root_cause",
+      "condition": "The report collected partial evidence, but this control is not fully proven.",
+      "confidence": "medium",
+      "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.",
+      "criterion": "Required entitlement evidence is present or absence is explicitly proven.",
+      "due_date": null,
+      "evidence_references": [
+        "ev-graph-subscribed_skus"
+      ],
+      "finding_id": "finding-lic-002-work_graph_chat",
+      "finding_type": "evidence_gap",
+      "impact_or_risk": "Reviewers should not treat this as verified assurance until the missing evidence is supplied.",
+      "owner": null,
+      "recommendation": "Refresh capability map or provide manual/license-admin evidence.",
+      "related_control_checks": [
+        "LIC-002.work_graph_chat"
+      ],
+      "severity": "low",
+      "status": "open",
+      "title": "LIC-002.work_graph_chat: UNKNOWN"
+    },
+    {
+      "affected_objects": [
+        "AUD-001"
+      ],
+      "affected_scope": "TCA-DEMO-SYNTHETIC",
+      "assessment_run_id": "run-20260530T000000Z",
+      "cause": "unknown_root_cause",
+      "condition": "Audit capability signals are present, but audit evidence for this control is not complete.",
+      "confidence": "medium",
+      "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.",
+      "criterion": "Control evidence is present and sufficient for the assessed scope.",
+      "due_date": null,
+      "evidence_references": [
+        "ev-graph-token_scopes"
+      ],
+      "finding_id": "finding-aud-001",
+      "finding_type": "improvement_opportunity",
+      "impact_or_risk": "Without audit evidence, reviewers cannot confirm that Copilot activity can be monitored or investigated.",
+      "owner": null,
+      "recommendation": "Provide Purview audit evidence, or approve a bounded read-only audit query for the relevant Copilot activity.",
+      "related_control_checks": [
+        "AUD-001"
+      ],
+      "severity": "low",
+      "status": "open",
+      "title": "AUD-001: WARN"
+    },
+    {
+      "affected_objects": [
+        "AUD-002"
+      ],
+      "affected_scope": "TCA-DEMO-SYNTHETIC",
+      "assessment_run_id": "run-20260530T000000Z",
+      "cause": "unknown_root_cause",
+      "condition": "Audit capability signals are present, but audit evidence for this control is not complete.",
+      "confidence": "medium",
+      "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.",
+      "criterion": "Control evidence is present and sufficient for the assessed scope.",
+      "due_date": null,
+      "evidence_references": [
+        "ev-demo-copilot-chat-transcripts"
+      ],
+      "finding_id": "finding-aud-002",
+      "finding_type": "evidence_gap",
+      "impact_or_risk": "Without audit evidence, reviewers cannot confirm that Copilot activity can be monitored or investigated.",
+      "owner": null,
+      "recommendation": "Provide Purview audit evidence, or approve a bounded read-only audit query for the relevant Copilot activity.",
+      "related_control_checks": [
+        "AUD-002"
+      ],
+      "severity": "low",
+      "status": "open",
+      "title": "AUD-002: UNKNOWN"
+    },
+    {
+      "affected_objects": [
+        "AUD-003"
+      ],
+      "affected_scope": "TCA-DEMO-SYNTHETIC",
+      "assessment_run_id": "run-20260530T000000Z",
+      "cause": "unknown_root_cause",
+      "condition": "Audit capability signals are present, but audit evidence for this control is not complete.",
+      "confidence": "medium",
+      "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.",
+      "criterion": "Control evidence is present and sufficient for the assessed scope.",
+      "due_date": null,
+      "evidence_references": [
+        "ev-demo-retention-policy-evidence"
+      ],
+      "finding_id": "finding-aud-003",
+      "finding_type": "evidence_gap",
+      "impact_or_risk": "Without audit evidence, reviewers cannot confirm that Copilot activity can be monitored or investigated.",
+      "owner": null,
+      "recommendation": "Provide Purview audit evidence, or approve a bounded read-only audit query for the relevant Copilot activity.",
+      "related_control_checks": [
+        "AUD-003"
+      ],
+      "severity": "low",
+      "status": "open",
+      "title": "AUD-003: UNKNOWN"
+    },
+    {
+      "affected_objects": [
+        "LABEL-001"
+      ],
+      "affected_scope": "TCA-DEMO-SYNTHETIC",
+      "assessment_run_id": "run-20260530T000000Z",
+      "cause": "unknown_root_cause",
+      "condition": "Sensitivity-label evidence is partial, so label taxonomy or coverage is not fully proven.",
+      "confidence": "medium",
+      "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.",
+      "criterion": "Control evidence is present and sufficient for the assessed scope.",
+      "due_date": null,
+      "evidence_references": [
+        "ev-graph-sensitivity_labels"
+      ],
+      "finding_id": "finding-label-001",
+      "finding_type": "improvement_opportunity",
+      "impact_or_risk": "Without label evidence, reviewers cannot confirm that sensitive content has the classification baseline expected for Copilot governance.",
+      "owner": null,
+      "recommendation": "Provide sensitivity-label taxonomy/coverage export, or approve the relevant read-only label collector.",
+      "related_control_checks": [
+        "LABEL-001"
+      ],
+      "severity": "low",
+      "status": "open",
+      "title": "LABEL-001: WARN"
+    },
+    {
+      "affected_objects": [
+        "DLP-001"
+      ],
+      "affected_scope": "TCA-DEMO-SYNTHETIC",
+      "assessment_run_id": "run-20260530T000000Z",
+      "cause": "unknown_root_cause",
+      "condition": "DLP policy/rule inventory was not collected, so Copilot DLP coverage is not proven.",
+      "confidence": "medium",
+      "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.",
+      "criterion": "Control evidence is present and sufficient for the assessed scope.",
+      "due_date": null,
+      "evidence_references": [
+        "ev-powershell-exchange_online_management",
+        "ev-demo-dlp-policy-export"
+      ],
+      "finding_id": "finding-dlp-001",
+      "finding_type": "evidence_gap",
+      "impact_or_risk": "Without policy and rule evidence, reviewers cannot confirm whether Copilot-related activity is covered by expected data-loss controls.",
+      "owner": null,
+      "recommendation": "Provide Purview DLP policy/rule export, or approve the read-only DLP inventory collector.",
+      "related_control_checks": [
+        "DLP-001"
+      ],
+      "severity": "low",
+      "status": "open",
+      "title": "DLP-001: UNKNOWN"
+    },
+    {
+      "affected_objects": [
+        "DLP-002"
+      ],
+      "affected_scope": "TCA-DEMO-SYNTHETIC",
+      "assessment_run_id": "run-20260530T000000Z",
+      "cause": "unknown_root_cause",
+      "condition": "DLP policy/rule inventory was not collected, so Copilot DLP coverage is not proven.",
+      "confidence": "medium",
+      "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.",
+      "criterion": "Control evidence is present and sufficient for the assessed scope.",
+      "due_date": null,
+      "evidence_references": [
+        "ev-powershell-exchange_online_management",
+        "ev-demo-dlp-policy-export"
+      ],
+      "finding_id": "finding-dlp-002",
+      "finding_type": "evidence_gap",
+      "impact_or_risk": "Without policy and rule evidence, reviewers cannot confirm whether Copilot-related activity is covered by expected data-loss controls.",
+      "owner": null,
+      "recommendation": "Provide Purview DLP policy/rule export, or approve the read-only DLP inventory collector.",
+      "related_control_checks": [
+        "DLP-002"
+      ],
+      "severity": "low",
+      "status": "open",
+      "title": "DLP-002: UNKNOWN"
+    },
+    {
+      "affected_objects": [
+        "SAM-001"
+      ],
+      "affected_scope": "TCA-DEMO-SYNTHETIC",
+      "assessment_run_id": "run-20260530T000000Z",
+      "cause": "unknown_root_cause",
+      "condition": "SharePoint sharing governance tooling is available locally, but tenant oversharing evidence was not collected.",
+      "confidence": "medium",
+      "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.",
+      "criterion": "Control evidence is present and sufficient for the assessed scope.",
+      "due_date": null,
+      "evidence_references": [
+        "ev-powershell-sharepoint_online",
+        "ev-demo-sam-oversharing-report"
+      ],
+      "finding_id": "finding-sam-001",
+      "finding_type": "improvement_opportunity",
+      "impact_or_risk": "Without sharing and oversharing evidence, reviewers cannot judge whether Copilot could expose broadly shared content.",
+      "owner": null,
+      "recommendation": "Provide a current SharePoint Advanced Management/DAG export, or approve the read-only sharing evidence collector.",
+      "related_control_checks": [
+        "SAM-001"
+      ],
+      "severity": "low",
+      "status": "open",
+      "title": "SAM-001: WARN"
+    },
+    {
+      "affected_objects": [
+        "EDISC-001"
+      ],
+      "affected_scope": "TCA-DEMO-SYNTHETIC",
+      "assessment_run_id": "run-20260530T000000Z",
+      "cause": "unknown_root_cause",
+      "condition": "The report does not yet have enough retention-policy evidence for Copilot or AI-related data.",
+      "confidence": "medium",
+      "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.",
+      "criterion": "Control evidence is present and sufficient for the assessed scope.",
+      "due_date": null,
+      "evidence_references": [
+        "ev-demo-retention-policy-evidence"
+      ],
+      "finding_id": "finding-edisc-001",
+      "finding_type": "evidence_gap",
+      "impact_or_risk": "Without retention evidence, reviewers cannot confirm how Copilot or AI-related records would be preserved.",
+      "owner": null,
+      "recommendation": "Provide retention-policy evidence from Purview, or approve the relevant read-only retention evidence collector.",
+      "related_control_checks": [
+        "EDISC-001"
+      ],
+      "severity": "low",
+      "status": "open",
+      "title": "EDISC-001: UNKNOWN"
+    },
+    {
+      "affected_objects": [
+        "EDISC-002"
+      ],
+      "affected_scope": "TCA-DEMO-SYNTHETIC",
+      "assessment_run_id": "run-20260530T000000Z",
+      "cause": "unknown_root_cause",
+      "condition": "eDiscovery is reachable, but Copilot data discovery/export readiness is not proven.",
+      "confidence": "medium",
+      "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.",
+      "criterion": "Control evidence is present and sufficient for the assessed scope.",
+      "due_date": null,
+      "evidence_references": [
+        "ev-graph-ediscovery_cases",
+        "ev-demo-ediscovery-readiness-fixture"
+      ],
+      "finding_id": "finding-edisc-002",
+      "finding_type": "improvement_opportunity",
+      "impact_or_risk": "This limits confidence that Copilot interaction data can be discovered and produced for investigation or audit.",
+      "owner": null,
+      "recommendation": "Provide existing Purview eDiscovery evidence, or approve a bounded validation procedure for a scoped mailbox/site.",
+      "related_control_checks": [
+        "EDISC-002"
+      ],
+      "severity": "low",
+      "status": "open",
+      "title": "EDISC-002: WARN"
+    }
+  ],
+  "format": "JSON+Markdown",
+  "generated_at_utc": "2026-05-30T00:00:00Z",
+  "pack_generated_at_utc": "2026-05-30T00:00:00Z",
+  "sample_notice": {
+    "no_live_microsoft_api_calls": true,
+    "not_customer_evidence": true,
+    "product_name": "Tesrex Copilot Assurance",
+    "sample_only": true,
+    "synthetic_only": true
+  },
+  "unread_controls_register": [
+    {
+      "control_check_id": "LIC-002.copilot_family",
+      "evidence_completeness": "partial",
+      "follow_up_required": [
+        "Refresh capability map or provide manual/license-admin evidence."
+      ],
+      "limitations": [
+        "license_limited"
+      ],
+      "status": "UNKNOWN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "No exact entitlement match found, but the mapping does not claim complete coverage or is stale; license absence is not proven."
+    },
+    {
+      "control_check_id": "LIC-002.work_graph_chat",
+      "evidence_completeness": "partial",
+      "follow_up_required": [
+        "Refresh capability map or provide manual/license-admin evidence."
+      ],
+      "limitations": [
+        "license_limited"
+      ],
+      "status": "UNKNOWN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "No exact entitlement match found, but the mapping does not claim complete coverage or is stale; license absence is not proven."
+    },
+    {
+      "control_check_id": "AUD-001",
+      "evidence_completeness": "partial",
+      "follow_up_required": [
+        "Review limitations for AUD-001 and rerun after evidence gap is resolved."
+      ],
+      "limitations": [
+        "not_configured_for_assessment"
+      ],
+      "status": "WARN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "Audit query scope is present in the token, but no audit query was created in the default read-only probe; full audit search access is not proven."
+    },
+    {
+      "control_check_id": "AUD-002",
+      "evidence_completeness": "partial",
+      "follow_up_required": [
+        "Provide manual/customer evidence for AUD-002 or approve the relevant read-only collector."
+      ],
+      "limitations": [
+        "manual_only",
+        "not_configured_for_assessment",
+        "manual_evidence_linked",
+        "demo_evidence"
+      ],
+      "status": "UNKNOWN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "CopilotInteraction audit record observability requires an explicitly approved audit query and independent usage context; neither is part of the default read-only probe."
+    },
+    {
+      "control_check_id": "AUD-003",
+      "evidence_completeness": "partial",
+      "follow_up_required": [
+        "Provide manual/customer evidence for AUD-003 or approve the relevant read-only collector."
+      ],
+      "limitations": [
+        "manual_only",
+        "manual_evidence_linked",
+        "demo_evidence"
+      ],
+      "status": "UNKNOWN",
+      "status_cause": "manual_evidence_required",
+      "status_reason": "Audit retention capability is not proven by token-scope inspection alone; provide Purview audit configuration evidence or approved historical query evidence."
+    },
+    {
+      "control_check_id": "LABEL-001",
+      "evidence_completeness": "partial",
+      "follow_up_required": [
+        "Review limitations for LABEL-001 and rerun after evidence gap is resolved."
+      ],
+      "limitations": [
+        "partial_scope"
+      ],
+      "status": "WARN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "Sensitivity-label endpoint is reachable but the $top=1 probe returned zero labels; taxonomy coverage is not proven."
+    },
+    {
+      "control_check_id": "DLP-001",
+      "evidence_completeness": "partial",
+      "follow_up_required": [
+        "Provide manual/customer evidence for DLP-001 or approve the relevant read-only collector."
+      ],
+      "limitations": [
+        "manual_only",
+        "not_configured_for_assessment",
+        "manual_evidence_linked",
+        "demo_evidence"
+      ],
+      "status": "UNKNOWN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "ExchangeOnlineManagement module is locally available, but tenant DLP policy/rule inventory was not read in this default run. Provide Purview export or run an approved read-only DLP inventory collector."
+    },
+    {
+      "control_check_id": "DLP-002",
+      "evidence_completeness": "partial",
+      "follow_up_required": [
+        "Provide manual/customer evidence for DLP-002 or approve the relevant read-only collector."
+      ],
+      "limitations": [
+        "manual_only",
+        "not_configured_for_assessment",
+        "manual_evidence_linked",
+        "demo_evidence"
+      ],
+      "status": "UNKNOWN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "ExchangeOnlineManagement module is locally available, but tenant DLP policy/rule inventory was not read in this default run. Provide Purview export or run an approved read-only DLP inventory collector."
+    },
+    {
+      "control_check_id": "SAM-001",
+      "evidence_completeness": "partial",
+      "follow_up_required": [
+        "Provide manual/customer evidence for SAM-001 or approve the relevant read-only collector."
+      ],
+      "limitations": [
+        "manual_only",
+        "partial_scope",
+        "manual_evidence_linked",
+        "demo_evidence"
+      ],
+      "status": "WARN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "SharePoint Online PowerShell module is locally available, but SAM/DAG tenant read capability and report freshness were not validated."
+    },
+    {
+      "control_check_id": "EDISC-001",
+      "evidence_completeness": "partial",
+      "follow_up_required": [
+        "Provide manual/customer evidence for EDISC-001 or approve the relevant read-only collector."
+      ],
+      "limitations": [
+        "manual_only",
+        "manual_evidence_linked",
+        "demo_evidence"
+      ],
+      "status": "UNKNOWN",
+      "status_cause": "manual_evidence_required",
+      "status_reason": "Explicit Copilot/AI retention stance requires retention policy evidence or customer-provided manual artifact; no retention policy read was run in the default probe."
+    },
+    {
+      "control_check_id": "EDISC-002",
+      "evidence_completeness": "partial",
+      "follow_up_required": [
+        "Review limitations for EDISC-002 and rerun after evidence gap is resolved."
+      ],
+      "limitations": [
+        "partial_scope",
+        "no_export_validation",
+        "manual_evidence_linked",
+        "manual_only",
+        "demo_evidence"
+      ],
+      "status": "WARN",
+      "status_cause": "assessment_limitation",
+      "status_reason": "eDiscovery case endpoint is visible, but no positive/export-validating readiness evidence is present in the default run."
+    }
+  ]
+}

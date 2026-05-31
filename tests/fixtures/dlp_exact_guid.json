@@ -1,0 +1,22 @@
+{
+  "policies": [
+    {
+      "name": "Copilot DLP baseline",
+      "workload": "Applications",
+      "locations": [
+        {
+          "id": "470f2276-e011-4e9d-a6ec-20768be3a4b0",
+          "name": "Microsoft 365 Copilot"
+        }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "name": "Block sensitive prompts",
+      "policy": "Copilot DLP baseline",
+      "conditions": ["SensitiveInformationTypes"],
+      "actions": ["Block"]
+    }
+  ]
+}
