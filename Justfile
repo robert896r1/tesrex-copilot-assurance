@@ -15,5 +15,9 @@ check:
 demo:
     PYTHONPATH=src scripts/create_demo_report.py
 
+sample:
+    PYTHONPATH=src python3 scripts/regenerate_public_sample.py
+    python3 scripts/verify_sample_assets.py
+
 serve port="8766" dir="artifacts":
     PYTHONPATH=src scripts/serve_artifacts.py --port {{port}} --directory {{dir}}

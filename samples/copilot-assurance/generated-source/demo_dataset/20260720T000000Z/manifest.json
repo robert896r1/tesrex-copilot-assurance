@@ -1,0 +1,24 @@
+{
+  "artifact_files": [
+    "manual_evidence_bundle.json",
+    "synthetic_copilot_chat_transcripts.json",
+    "synthetic_dlp_policy_export.json",
+    "synthetic_ediscovery_readiness.json",
+    "synthetic_retention_policy_evidence.json",
+    "synthetic_sam_oversharing_report.json"
+  ],
+  "created_at_utc": "2026-07-20T00:00:00Z",
+  "demo_dataset_id": "TCA-DEMO-20260720T000000Z",
+  "expiry_date": "2026-08-19",
+  "is_demo_dataset": true,
+  "provided_by": "TCA demo mode",
+  "tenant_id": "TCA-DEMO-SYNTHETIC",
+  "tenant_mutations": {
+    "ediscovery_case_cleanup": "not applicable",
+    "ediscovery_case_create_attempted": false,
+    "ediscovery_case_created": false,
+    "reason_teams_messages_not_created": "Current app-only token cannot send Teams messages; Microsoft Graph send-message APIs require delegated ChannelMessage.Send/ChatMessage.Send except migration-only application permission.",
+    "synthetic_audit_records_created": false,
+    "teams_messages_created": false
+  }
+}

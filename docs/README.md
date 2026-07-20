@@ -10,7 +10,9 @@ Start here after the root README.
 - `docs/least_privilege_matrix.md` — default permission posture and bounded-validation cautions.
 - `docs/manual_evidence_protocol.md` — how customer-provided/manual evidence should be represented.
 - `docs/microsoft_control_map.md` — Microsoft-native control surface references used by the starter kit.
+- `docs/microsoft_source_review.md` — dated review of the official Microsoft sources behind the current mappings.
 - `docs/product_thesis.md` — product positioning and boundaries.
+- `docs/release_readiness_plan.md` — release gates, validation evidence, and final release decision.
 - `SECURITY.md` — data handling and reporting security issues.
 - `CONTRIBUTING.md` — safe contribution areas and source requirements.
 - `samples/copilot-assurance/` — committed synthetic sample output.

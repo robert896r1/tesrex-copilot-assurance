@@ -37,6 +37,7 @@ def create_demo_report(
     timestamp: str | None = None,
     tenant_id: str = DEMO_TENANT_ID,
     provided_by: str = DEMO_OPERATOR,
+    generated_at_utc: str | None = None,
 ) -> DemoReportPaths:
     """Create a tenant-free synthetic TCA demo report.
 
@@ -67,6 +68,7 @@ def create_demo_report(
         summary_path,
         output_dir=root / "evidence_packs",
         manual_evidence_paths=[manual_evidence],
+        generated_at_utc=generated_at_utc,
     )
     ui_path = Path(render_evidence_pack_html(json_path))
     return DemoReportPaths(
@@ -225,7 +227,7 @@ def _demo_probe_results(raw_dir: Path) -> list[dict[str, Any]]:
 
 def _write_raw(raw_dir: Path, name: str, payload: dict[str, Any]) -> tuple[Path, str]:
     payload = {**payload, "demo_mode": True, "is_synthetic": True, "not_customer_evidence": True}
-    text = json.dumps(payload, indent=2, sort_keys=True)
+    text = json.dumps(payload, indent=2, sort_keys=True) + "\n"
     path = raw_dir / f"{name}.json"
-    path.write_text(text + "\n", encoding="utf-8")
+    path.write_text(text, encoding="utf-8")
     return path, hashlib.sha256(text.encode("utf-8")).hexdigest()

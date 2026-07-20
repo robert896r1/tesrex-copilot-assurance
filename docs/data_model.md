@@ -1,169 +1,59 @@
-# Data Model Draft
+# Data Model
 
-Design principle: model assessment evidence, not chat turns.
+The authoritative implemented model is `src/tesrex_assurance/models.py`. The summary below describes the public `0.1.0` evidence-pack shape; it is not a future product schema.
 
-## Entity overview
+## Implemented entity overview
 
 ```text
-Tenant
-  AssessmentRun
-    ControlCheck
-    Finding
-      EvidenceItem
-      RemediationAction
-    EvidencePack
+AssessmentRun
+  EvidenceItem[]
+  ControlCheck[]
+  Finding[]
+EvidencePack
 ```
 
-## Tenant
+## `AssessmentRun`
 
-Represents the customer tenant being assessed.
+One local assessment execution.
 
-Fields:
+Fields: `assessment_run_id`, `tenant_id`, `started_at_utc`, `initiated_by`, `tool_version`, `status`, `completed_at_utc`, `scope_summary`, and `limitations`.
 
-- tenant_id
-- display_name
-- primary_domain
-- assessment_enabled_at
-- notes
+## `EvidenceItem`
 
-## AssessmentRun
+Retained or explicitly unavailable support for a control check or finding.
 
-One execution of the read-only assessment.
+Fields: `evidence_id`, `assessment_run_id`, `evidence_type`, `source_system`, `source_endpoint_or_ui_path`, `collection_method`, `collected_at_utc`, `tenant_id`, `collector_identity`, `permission_context`, `source_object_identifiers`, `raw_artifact_path`, `content_hash`, `normalized_facts`, `relevance_rating`, `reliability_rating`, `limitations`, and `mapping_versions_used`.
 
-Fields:
+Allowed evidence types are defined by `EvidenceType` in the implementation. A retained artifact must have a content hash; an unretained artifact must disclose `raw_retention_unavailable`.
 
-- assessment_run_id
-- tenant_id
-- started_at
-- completed_at
-- initiated_by
-- tool_version
-- status: `RUNNING | COMPLETED | PARTIAL | FAILED`
-- scope_summary
-- limitations
+## `ControlCheck`
 
-## ControlCheck
+A classification for a bounded Microsoft-native governance control scope.
 
-A check against a Microsoft-native governance control.
+Fields: `control_check_id`, `assessment_run_id`, `control_family`, `control_objective`, `expected_state`, `assessed_scope`, `procedure`, `required_evidence_types`, `evidence_items_used`, `observed_state`, `status`, `status_reason`, `evidence_completeness`, `status_cause`, `limitations`, `follow_up_required`, and `mapping_versions_used`.
 
-Fields:
+Status is one of `PASS`, `WARN`, `FAIL`, `UNKNOWN`, `NOT_LICENSED`, or `NOT_ACCESSIBLE`. Status cause and evidence completeness are separate fields; a clean-looking status does not expand the assessed scope.
 
-- control_check_id
-- assessment_run_id
-- control_family
-- control_objective
-- expected_state
-- assessed_scope
-- procedure
-- required_evidence_types
-- evidence_items_used
-- observed_state
-- status: `PASS | WARN | FAIL | UNKNOWN | NOT_LICENSED | NOT_ACCESSIBLE`
-- status_cause: `verified | tenant_gap | assessment_limitation | permission_gap | not_licensed | unsupported_api | usage_absence | manual_evidence_required | demo_evidence`
-- status_reason
-- evidence_refs
-- source_system
-- collection_method: `API | POWERSHELL | EXPORT | MANUAL | UNKNOWN`
-- evidence_completeness: `FULL | PARTIAL | NONE`
-- limitations
-- follow_up_required
-- notes
+## `Finding`
 
-## Finding
+An evidence-linked gap, risk, or follow-up observation.
 
-A risk, gap, or notable observation.
+Fields: `finding_id`, `assessment_run_id`, `finding_type`, `title`, `criterion`, `condition`, `cause`, `impact_or_risk`, `affected_scope`, `affected_objects`, `severity`, `confidence`, `confidence_reason`, `evidence_references`, `related_control_checks`, `recommendation`, `owner`, `status`, and `due_date`.
 
-Fields:
+The current implementation records recommendations and optional ownership metadata. It does not implement a remediation workflow engine.
 
-- finding_id
-- assessment_run_id
-- finding_type: `CONTROL_GAP | EXPOSURE_RISK | EVIDENCE_GAP | LICENSE_GAP | PERMISSION_GAP | UNSUPPORTED_API_GAP | IMPROVEMENT_OPPORTUNITY`
-- title
-- criterion
-- condition
-- cause: `CONFIGURATION_ERROR | MISSING_CONTROL | LICENSE_GAP | PERMISSION_GAP | API_UNSUPPORTED | UNKNOWN_ROOT_CAUSE`
-- impact_or_risk
-- affected_scope
-- affected_objects
-- severity: `INFORMATIONAL | LOW | MEDIUM | HIGH | CRITICAL`
-- confidence: `LOW | MEDIUM | HIGH`
-- confidence_reason
-- evidence_refs
-- related_control_check_refs
-- recommended_action_refs
-- status: `OPEN | ACCEPTED | IN_PROGRESS | REMEDIATED | FALSE_POSITIVE`
+## `EvidencePack`
 
-## EvidenceItem
+The report container.
 
-Concrete support for a check or finding.
+Fields: `evidence_pack_id`, `assessment_run`, `evidence_items`, `control_checks`, `findings`, `generated_at_utc`, `format`, `artifact_path`, and `content_hash`.
 
-Fields:
-
-- evidence_id
-- assessment_run_id
-- evidence_type: `RAW_API_RESPONSE | NORMALIZED_OBSERVATION | AUDIT_RECORD | POLICY_SNAPSHOT | LICENSE_SNAPSHOT | PERMISSION_DENIAL | MANUAL_ARTIFACT | SCREENSHOT | REPORT_EXPORT`
-- source_system
-- source_endpoint_or_ui_path
-- source_object_type
-- source_object_id
-- source_url
-- collected_at_utc
-- collector_identity
-- permission_context
-- collection_method
-- content_hash
-- normalized_facts
-- raw_artifact_path
-- relevance_rating
-- reliability_rating
-- sensitivity
-- limitations
+The renderers currently produce JSON, Markdown, and static HTML artifacts. The dataclass does not model a separate tenant registry, remediation-action entity, or historical comparison store.
 
 ## Evidence semantics
 
-Authoritative definitions for evidence items, control checks, findings, status values, distinction rules, and auditor-ready pack requirements are locked in:
+`docs/evidence_contract.md` defines the intended evidence and classification semantics. Code and tests are the executable source for the implemented field shape. Changes to either must keep the other aligned.
 
-`docs/evidence_contract.md`
+## Explicit future ideas
 
-Do not introduce new control statuses or evidence semantics without updating that contract and recording a decision.
-
-## RemediationAction
-
-A recommended human action.
-
-Fields:
-
-- remediation_id
-- finding_id
-- action_type
-- title
-- steps
-- owner_role
-- microsoft_tool
-- requires_approval
-- reversible
-- estimated_effort
-- status
-
-## EvidencePack
-
-Exportable report bundle.
-
-Fields:
-
-- evidence_pack_id
-- assessment_run_id
-- generated_at
-- format: `HTML | PDF | JSON | ZIP`
-- artifact_path
-- hash
-- audience: `EXECUTIVE | TECHNICAL | AUDIT | REMEDIATION`
-
-## Non-goals
-
-Do not model:
-
-- LLM chat messages as the primary unit;
-- prompt/response traces as the core schema;
-- external model/web-search provider state;
-- Teams conversation state.
+A tenant registry, normalized remediation-action entity, historical trend store, PDF/ZIP bundle metadata, or workflow state may be considered later. None is part of the current public data model, and this document does not authorize adding it.

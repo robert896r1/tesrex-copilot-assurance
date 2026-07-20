@@ -4,6 +4,7 @@ Combines live probe summaries, static mappings, and optional manual evidence int
 
 from __future__ import annotations
 
+import hashlib
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -74,6 +75,7 @@ def build_evidence_pack_from_live_probe(
     *,
     output_dir: str | Path = "artifacts/evidence_packs",
     manual_evidence_paths: list[str | Path] | None = None,
+    generated_at_utc: str | None = None,
 ) -> tuple[Path, Path, EvidencePack]:
     summary_file = Path(summary_path)
     summary = json.loads(summary_file.read_text(encoding="utf-8"))
@@ -81,6 +83,7 @@ def build_evidence_pack_from_live_probe(
     tenant_id = str(summary.get("tenant_id") or "unknown-tenant")
     initiated_by = str(summary.get("user") or "unknown-assessor")
 
+    pack_timestamp = generated_at_utc or datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     run = AssessmentRun(
         assessment_run_id=assessment_run_id,
         tenant_id=tenant_id,
@@ -88,7 +91,7 @@ def build_evidence_pack_from_live_probe(
         initiated_by=initiated_by,
         tool_version=TOOL_VERSION,
         status="COMPLETED",
-        completed_at_utc=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        completed_at_utc=pack_timestamp,
         scope_summary="Starter-kit capability/configuration evidence pack from read-only probes and optional manual evidence.",
         limitations=["first_slice", "configuration_capability_focus"],
     )
@@ -102,7 +105,7 @@ def build_evidence_pack_from_live_probe(
 
     evidence_by_probe = {item.source_object_identifiers.get("probe_id"): item for item in evidence}
     probe_results = {result["probe_id"]: result for result in summary.get("probe_results", []) if isinstance(result, dict)}
-    checks = _control_checks_from_probes(assessment_run_id, probe_results, evidence_by_probe, summary_file)
+    checks = _control_checks_from_probes(assessment_run_id, probe_results, evidence_by_probe, evidence, summary_file)
     _link_manual_evidence_to_checks(checks, evidence)
     findings = _findings_from_checks(assessment_run_id, tenant_id, checks)
     findings.extend(
@@ -120,7 +123,7 @@ def build_evidence_pack_from_live_probe(
         evidence_items=evidence,
         control_checks=checks,
         findings=findings,
-        generated_at_utc=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        generated_at_utc=pack_timestamp,
         format="JSON+Markdown",
     )
 
@@ -180,6 +183,7 @@ def _control_checks_from_probes(
     assessment_run_id: str,
     probe_results: dict[str, dict[str, Any]],
     evidence_by_probe: dict[object, EvidenceItem],
+    evidence_items: list[EvidenceItem],
     summary_file: Path,
 ) -> list[ControlCheck]:
     cap_map = load_microsoft_capability_map()
@@ -221,7 +225,7 @@ def _control_checks_from_probes(
     checks.append(_basic_check(assessment_run_id, "EDISC-001", "EDISC", ControlStatus.UNKNOWN, "Explicit Copilot/AI retention stance requires retention policy evidence or customer-provided manual artifact; no retention policy read was run in the default probe.", EvidenceCompleteness.NONE, ["manual_only"], []))
     checks.append(_ediscovery_check(assessment_run_id, probe_results.get("graph.ediscovery_cases"), evidence_by_probe.get("graph.ediscovery_cases")))
     checks.append(_pack001_check(assessment_run_id, checks))
-    checks.append(_pack002_check(assessment_run_id, evidence_by_probe, summary_file))
+    checks.append(_pack002_check(assessment_run_id, evidence_items, summary_file))
     return checks
 
 
@@ -305,18 +309,49 @@ def _pack001_check(assessment_run_id: str, checks_so_far: list[ControlCheck]) ->
     return _basic_check(assessment_run_id, "PACK-001", "PACK", status, reason, EvidenceCompleteness.FULL if not missing else EvidenceCompleteness.PARTIAL, [], [])
 
 
-def _pack002_check(assessment_run_id: str, evidence_by_probe: dict[object, EvidenceItem], summary_file: Path) -> ControlCheck:
-    missing = [item.evidence_id for item in evidence_by_probe.values() if not item.content_hash and "raw_retention_unavailable" not in item.limitations]
-    limitations = [] if not missing else ["raw_retention_unavailable"]
+def _pack002_check(assessment_run_id: str, evidence_items: list[EvidenceItem], summary_file: Path) -> ControlCheck:
+    issues: dict[str, list[str]] = {
+        "raw_retention_unavailable": [],
+        "artifact_missing": [],
+        "artifact_hash_missing": [],
+        "artifact_hash_mismatch": [],
+    }
+    verified = 0
+    for item in evidence_items:
+        if not item.raw_artifact_path:
+            issues["raw_retention_unavailable"].append(item.evidence_id)
+            continue
+        artifact = Path(item.raw_artifact_path)
+        if not artifact.is_file():
+            issues["artifact_missing"].append(item.evidence_id)
+            continue
+        if not item.content_hash:
+            issues["artifact_hash_missing"].append(item.evidence_id)
+            continue
+        actual_hash = hashlib.sha256(artifact.read_bytes()).hexdigest()
+        if actual_hash != item.content_hash:
+            issues["artifact_hash_mismatch"].append(item.evidence_id)
+            continue
+        verified += 1
+
+    limitations = [name for name, evidence_ids in issues.items() if evidence_ids]
+    issue_count = sum(len(evidence_ids) for evidence_ids in issues.values())
+    if issue_count:
+        reason = (
+            f"Verified {verified} evidence artifacts, but {issue_count} item(s) were missing, not retained, "
+            "or did not match the recorded SHA-256 hash."
+        )
+    else:
+        reason = f"Verified the existence and SHA-256 hash of all {verified} retained evidence artifacts."
     return _basic_check(
         assessment_run_id,
         "PACK-002",
         "PACK",
-        ControlStatus.PASS if not missing else ControlStatus.WARN,
-        "Evidence inventory has raw artifact paths/hashes or explicit raw-retention limitations.",
-        EvidenceCompleteness.FULL if not missing else EvidenceCompleteness.PARTIAL,
+        ControlStatus.PASS if not limitations else ControlStatus.WARN,
+        reason,
+        EvidenceCompleteness.FULL if not limitations else EvidenceCompleteness.PARTIAL,
         limitations,
-        [],
+        [item.evidence_id for item in evidence_items],
         observed_state=f"source_summary={summary_file}",
     )
 

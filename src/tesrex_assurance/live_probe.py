@@ -28,17 +28,51 @@ AUDIT_QUERY_SCOPE_NAMES = {
 }
 
 
-def run_live_readonly_probe(base_dir: str | Path = "artifacts/live_probe") -> Path:
+class LiveProbeSafetyError(RuntimeError):
+    """Raised before Graph collection when the Azure context is unsafe or ambiguous."""
+
+
+def run_live_readonly_probe(
+    base_dir: str | Path = "artifacts/live_probe",
+    *,
+    expected_tenant_id: str,
+) -> Path:
+    expected_tenant = expected_tenant_id.strip()
+    if not expected_tenant:
+        raise LiveProbeSafetyError("an expected tenant ID is required before tenant access")
+
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     outdir = Path(base_dir) / timestamp
     raw_dir = outdir / "raw"
     raw_dir.mkdir(parents=True, exist_ok=True)
 
     account_payload, account_result = _run_json_command(["az", "account", "show", "--output", "json"], raw_dir / "az_account.json")
+    if account_result.status != ProbeStatus.OK or not isinstance(account_payload, dict):
+        raise LiveProbeSafetyError("Azure CLI account context is unavailable; run az login for the intended tenant")
+    actual_tenant = str(account_payload.get("tenantId") or "").strip()
+    if not actual_tenant:
+        raise LiveProbeSafetyError("Azure CLI account context did not return a tenant ID")
+    if actual_tenant.casefold() != expected_tenant.casefold():
+        raise LiveProbeSafetyError(
+            f"authenticated tenant {actual_tenant!r} does not match expected tenant {expected_tenant!r}"
+        )
+
     cloud_payload, cloud_result = _run_json_command(["az", "cloud", "show", "--output", "json"], raw_dir / "az_cloud.json")
+    if cloud_result.status != ProbeStatus.OK or not isinstance(cloud_payload, dict):
+        raise LiveProbeSafetyError("Azure CLI cloud context is unavailable; tenant probes were not started")
     environment_name = account_payload.get("environmentName") if isinstance(account_payload, dict) else None
     if not environment_name and isinstance(cloud_payload, dict):
         environment_name = cloud_payload.get("name")
+    if not environment_name:
+        raise LiveProbeSafetyError("Azure CLI context did not identify a supported cloud environment")
+
+    account_name = str((account_payload.get("user") or {}).get("name") or "unknown")
+    print("TCA_TENANT_PREFLIGHT=VERIFIED")
+    print(f"TCA_EXPECTED_TENANT_ID={expected_tenant}")
+    print(f"TCA_AUTHENTICATED_TENANT_ID={actual_tenant}")
+    print(f"TCA_AUTHENTICATED_ACCOUNT={account_name}")
+    print(f"TCA_AZURE_CLOUD={environment_name}")
+    print("TCA_COLLECTION_BOUNDARY=allowlisted GET probes, token-claim inspection, and local module checks; no tenant mutation")
 
     results: list[ProbeResult] = [account_result, cloud_result, _introspect_graph_token(raw_dir)]
     collector = ReadOnlyGraphCollector(environment_name=environment_name, artifact_dir=raw_dir)
@@ -49,7 +83,7 @@ def run_live_readonly_probe(base_dir: str | Path = "artifacts/live_probe") -> Pa
     summary = {
         "generated_at_utc": timestamp,
         "environment_name": environment_name,
-        "tenant_id": account_payload.get("tenantId") if isinstance(account_payload, dict) else None,
+        "tenant_id": actual_tenant,
         "subscription_id": account_payload.get("id") if isinstance(account_payload, dict) else None,
         "user": (account_payload.get("user") or {}).get("name") if isinstance(account_payload, dict) else None,
         "boundary": {
@@ -61,14 +95,29 @@ def run_live_readonly_probe(base_dir: str | Path = "artifacts/live_probe") -> Pa
         },
         "probe_results": [to_plain(result) for result in results],
     }
-    rendered = json.dumps(summary, indent=2, sort_keys=True)
-    (outdir / "summary.json").write_text(rendered + "\n", encoding="utf-8")
+    rendered = json.dumps(summary, indent=2, sort_keys=True) + "\n"
+    (outdir / "summary.json").write_text(rendered, encoding="utf-8")
     (outdir / "summary.sha256").write_text(hashlib.sha256(rendered.encode("utf-8")).hexdigest() + "\n", encoding="utf-8")
     return outdir
 
 
 def _run_json_command(command: list[str], raw_path: Path) -> tuple[dict[str, Any] | None, ProbeResult]:
-    completed = subprocess.run(command, text=True, capture_output=True, check=False)
+    try:
+        completed = subprocess.run(command, text=True, capture_output=True, check=False)
+    except FileNotFoundError:
+        raw = f"Executable not found: {command[0]}"
+        raw_path.write_text(raw, encoding="utf-8")
+        digest = hashlib.sha256(raw.encode("utf-8")).hexdigest()
+        return None, ProbeResult(
+            raw_path.stem,
+            ProbeStatus.UNKNOWN,
+            ("PACK-002",),
+            "Azure CLI",
+            str(raw_path),
+            digest,
+            limitations=["local_auth_or_cli_failure", "local_tool_missing"],
+            status_reason=raw,
+        )
     raw = completed.stdout if completed.returncode == 0 else completed.stderr
     raw_path.write_text(raw, encoding="utf-8")
     digest = hashlib.sha256(raw.encode("utf-8")).hexdigest()
@@ -110,9 +159,9 @@ def _introspect_graph_token(raw_dir: Path) -> ProbeResult:
         "audit_query_scopes_present": audit_scopes,
         "raw_access_token_retained": False,
     }
-    raw = json.dumps(redacted_claims, indent=2, sort_keys=True)
+    raw = json.dumps(redacted_claims, indent=2, sort_keys=True) + "\n"
     path = raw_dir / "graph_token_claims_redacted.json"
-    path.write_text(raw + "\n", encoding="utf-8")
+    path.write_text(raw, encoding="utf-8")
     status = ProbeStatus.OK if audit_scopes else ProbeStatus.NOT_ACCESSIBLE
     limitations = [] if audit_scopes else ["permission_gap", "audit_query_scope_not_present"]
     return ProbeResult("graph.token_scopes", status, ("AUD-001",), "https://learn.microsoft.com/en-us/graph/api/security-auditcoreroot-post-auditlogqueries?view=graph-rest-1.0", str(path), hashlib.sha256(raw.encode("utf-8")).hexdigest(), {"audit_query_scopes_present": audit_scopes, "raw_access_token_retained": False}, limitations + ["raw_secret_not_retained"], "Decoded redacted Graph token claims locally; no audit query was created.")

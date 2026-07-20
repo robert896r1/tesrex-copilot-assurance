@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1.0",
-  "last_reviewed": "2026-04-30",
+  "last_reviewed": "2026-07-20",
   "evidence_contract": "docs/evidence_contract.md",
   "policy": "Least-privilege target for MVP collectors. Prefer read-only scopes. Write scopes are not default and require separately approved bounded validation.",
   "collectors": {

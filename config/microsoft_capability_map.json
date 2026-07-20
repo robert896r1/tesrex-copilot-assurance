@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1.0",
-  "last_reviewed": "2026-04-30",
+  "last_reviewed": "2026-07-20",
   "review_policy": "Conservative mapping for read-only evidence collection. Do not infer NOT_LICENSED unless tenant subscription/service-plan evidence proves absence for the specific capability and no source ambiguity remains.",
   "evidence_contract": "docs/evidence_contract.md",
   "source_refs": {
@@ -10,7 +10,7 @@
     "m365_copilot_licensing": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-licensing",
     "m365_copilot_service_plans": "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-service-plans",
     "sharepoint_advanced_management": "https://learn.microsoft.com/en-us/SharePoint/advanced-management",
-    "sharepoint_advanced_management_licensing": "https://learn.microsoft.com/en-us/sharepoint/sharepoint-advanced-management-licensing",
+    "sharepoint_advanced_management_licensing": "https://learn.microsoft.com/en-us/sharepoint/sharepoint-advanced-management-features-copilot-license",
     "purview_audit_overview": "https://learn.microsoft.com/en-us/purview/audit-solutions-overview",
     "purview_ai_m365_copilot": "https://learn.microsoft.com/en-us/purview/ai-m365-copilot",
     "sensitivity_labels_graph": "https://learn.microsoft.com/en-us/graph/api/tenantdatasecurityandgovernance-list-sensitivitylabels?view=graph-rest-1.0",

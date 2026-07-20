@@ -1,7 +1,7 @@
 # Least-Privilege Collector Matrix
 
 Status: starter kit baseline
-Last reviewed: 2026-04-30
+Last reviewed: 2026-07-20
 
 Machine-readable source: `config/collector_permission_matrix.json`
 
@@ -23,7 +23,7 @@ The starter kit uses read-only collectors by default. Permissions that can creat
 | SharePoint SAM capability | SAM-001 | SharePoint admin read/capability evidence; no DAG report creation by default | Planned/read-only |
 | eDiscovery bounded validation | EDISC-002 | `eDiscovery.ReadWrite.All` plus Purview role; explicit approval only | No |
 
-If `eDiscovery.ReadWrite.All` is present in a default run without a bounded-validation flag, the evidence pack should flag the assessment identity as broader than starter kit default requirements. If a run is explicitly marked as bounded validation, that permission is expected for the bounded validation scope but still must not be used by default collectors.
+If `eDiscovery.ReadWrite.All` is present in a default run, the evidence pack flags the assessment identity as broader than starter-kit default requirements. The public CLI does not offer a bounded-validation or mutation mode. The data model can interpret a separately produced summary that records an explicitly approved bounded-validation boundary, but no such operation is executed by this repository's default collectors.
 
 ## Over-privilege handling
 

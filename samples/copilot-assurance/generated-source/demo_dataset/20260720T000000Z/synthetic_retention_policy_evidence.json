@@ -1,0 +1,20 @@
+{
+  "artifact_type": "synthetic_retention_policy_evidence",
+  "created_at_utc": "2026-07-20T00:00:00Z",
+  "demo_mode": true,
+  "expiry_date": "2026-08-19",
+  "is_synthetic": true,
+  "policies": [
+    {
+      "name": "TCA-DEMO-Copilot-Audit-Retention",
+      "retention": "180 days demo assumption",
+      "scope": "CopilotInteraction audit records"
+    },
+    {
+      "name": "TCA-DEMO-eDiscovery-Case-Retention",
+      "retention": "30 days demo artifact review",
+      "scope": "eDiscovery case artifacts"
+    }
+  ],
+  "tenant_id": "TCA-DEMO-SYNTHETIC"
+}

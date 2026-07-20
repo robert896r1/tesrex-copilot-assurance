@@ -1,0 +1,130 @@
+{
+  "assessment_run_id": "run-20260720T000000Z",
+  "items": [
+    {
+      "artifact_path": "synthetic_copilot_chat_transcripts.json",
+      "asserted_facts": {
+        "demo_mode": true,
+        "is_synthetic": true,
+        "not_a_copilotinteraction_record": true,
+        "not_a_purview_audit_record": true,
+        "purpose": "UI/report depth demonstration only",
+        "record_count": 6,
+        "tenant_artifact_created": false
+      },
+      "control_ids": [
+        "AUD-002"
+      ],
+      "evidence_id": "ev-demo-copilot-chat-transcripts",
+      "evidence_type": "manual_artifact",
+      "limitations": [
+        "demo_only",
+        "synthetic_fixture",
+        "not_independently_verified_by_tool"
+      ],
+      "relevance_rating": "medium",
+      "reliability_rating": "low",
+      "source_endpoint_or_ui_path": "local synthetic fixture; not Microsoft Purview audit",
+      "source_system": "TCA synthetic demo fixture"
+    },
+    {
+      "artifact_path": "synthetic_dlp_policy_export.json",
+      "asserted_facts": {
+        "copilot_related_policy_examples": 2,
+        "demo_mode": true,
+        "is_synthetic": true,
+        "policy_count": 2,
+        "tenant_policy_changed": false
+      },
+      "control_ids": [
+        "DLP-001",
+        "DLP-002"
+      ],
+      "evidence_id": "ev-demo-dlp-policy-export",
+      "evidence_type": "policy_snapshot",
+      "limitations": [
+        "demo_only",
+        "synthetic_fixture",
+        "not_customer_export"
+      ],
+      "relevance_rating": "high",
+      "reliability_rating": "low",
+      "source_endpoint_or_ui_path": "local synthetic fixture; representative Purview DLP export shape",
+      "source_system": "TCA synthetic demo fixture"
+    },
+    {
+      "artifact_path": "synthetic_sam_oversharing_report.json",
+      "asserted_facts": {
+        "demo_mode": true,
+        "high_risk_site_examples": 4,
+        "is_synthetic": true,
+        "tenant_sharing_changed": false
+      },
+      "control_ids": [
+        "SAM-001"
+      ],
+      "evidence_id": "ev-demo-sam-oversharing-report",
+      "evidence_type": "report_export",
+      "limitations": [
+        "demo_only",
+        "synthetic_fixture",
+        "not_customer_export"
+      ],
+      "relevance_rating": "high",
+      "reliability_rating": "low",
+      "source_endpoint_or_ui_path": "local synthetic fixture; representative SAM/DAG output",
+      "source_system": "TCA synthetic demo fixture"
+    },
+    {
+      "artifact_path": "synthetic_retention_policy_evidence.json",
+      "asserted_facts": {
+        "demo_mode": true,
+        "is_synthetic": true,
+        "retention_policy_examples": 2,
+        "tenant_policy_changed": false
+      },
+      "control_ids": [
+        "AUD-003",
+        "EDISC-001"
+      ],
+      "evidence_id": "ev-demo-retention-policy-evidence",
+      "evidence_type": "policy_snapshot",
+      "limitations": [
+        "demo_only",
+        "synthetic_fixture",
+        "not_customer_export"
+      ],
+      "relevance_rating": "high",
+      "reliability_rating": "low",
+      "source_endpoint_or_ui_path": "local synthetic fixture; representative Purview retention evidence",
+      "source_system": "TCA synthetic demo fixture"
+    },
+    {
+      "artifact_path": "synthetic_ediscovery_readiness.json",
+      "asserted_facts": {
+        "demo_mode": true,
+        "does_not_prove_export_readiness": true,
+        "is_synthetic": true,
+        "tenant_artifact_created": false
+      },
+      "control_ids": [
+        "EDISC-002"
+      ],
+      "evidence_id": "ev-demo-ediscovery-readiness-fixture",
+      "evidence_type": "report_export",
+      "limitations": [
+        "demo_only",
+        "synthetic_fixture",
+        "no_export_validation"
+      ],
+      "relevance_rating": "medium",
+      "reliability_rating": "low",
+      "source_endpoint_or_ui_path": "local synthetic fixture; no tenant mutation",
+      "source_system": "TCA synthetic demo fixture"
+    }
+  ],
+  "provided_at_utc": "2026-07-20T00:00:00Z",
+  "provided_by": "TCA demo mode",
+  "schema_version": "0.1.0",
+  "tenant_id": "TCA-DEMO-SYNTHETIC"
+}
