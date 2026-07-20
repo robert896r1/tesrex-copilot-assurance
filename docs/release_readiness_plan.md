@@ -16,12 +16,12 @@ A public release is a **GO** only when every required gate below passes or has a
 |---|---|---|---|
 | Tenant safety | Help and missing/mismatched tenant paths make no Graph call; live collection requires an exact expected tenant ID and shows the verified boundary before collection. | CLI safety tests and `just check` | Pass |
 | Sample provenance | Every sample evidence reference resolves inside the committed synthetic source tree and its SHA-256 matches; demo markers are retained. | `just sample`, sample verifier, tamper test | Pass |
-| Product truthfulness | README, product thesis, data model, limitations, and website distinguish implemented behavior from future scope. | Documentation review and link check | Blocked on website review/deploy |
+| Product truthfulness | README, product thesis, data model, limitations, and website distinguish implemented behavior from future scope. | Documentation review and link check | Pass |
 | Microsoft currency | Advisory mappings record a current source review and remain conservative where coverage is incomplete. | Mapping tests and source-review record | Pass |
 | Security reporting | A private vulnerability-reporting path is documented and enabled; public issues are explicitly prohibited for sensitive reports. | GitHub settings and `SECURITY.md` | Pass |
 | Repository controls | CI passes on the release commit; required labels and protected-main controls are configured. | GitHub API/Actions evidence | Pass |
 | Reproducibility | A fresh clone can run validation and produce the tenant-free demo without local history or private files. | Clean-clone run | Pass |
-| User experience | Generated report and public website instructions are readable at desktop/mobile widths and contain no placeholder clone URL. | Playwright/browser evidence | Blocked on production website deploy |
+| User experience | Generated report and public website instructions are readable at desktop/mobile widths and contain no placeholder clone URL. | Playwright/browser evidence | Pass |
 | Secret exposure | No committed secret or real tenant evidence is detected by available repository checks and secret scanning. | Repository guards and secret-scan result | Pass |
 
 ## Execution sequence
@@ -46,15 +46,19 @@ A public release is a **GO** only when every required gate below passes or has a
 
 ## Final decision
 
-**NO-GO for public promotion as of 2026-07-20.**
+**GO for the `v0.1.0` public starter-kit release as of 2026-07-20.**
 
-The starter-kit repository itself passed its release checks, but the live Tesrex Copilot Assurance page still contains the placeholder clone command and older tenant-mode wording. A bounded local website patch passed build, offline-link, and desktop/mobile browser checks. The website project's mandatory Qwen sidecar review could not run because the configured gateway reported `upstream_ok: false` and returned HTTP 500 for the structured review request. The local patch was not deployed.
+The starter-kit repository passed its release checks. The website project's mandatory Qwen sidecar review was rerun with committed-patch and referenced-document evidence; its final verdict was `pass`, with no directive violations, unsupported claims, evidence gaps, or operator decisions remaining.
 
-Release tag `v0.1.0` is intentionally withheld until:
+The approved copy-only website artifact was deployed through the existing Azure Static Web Apps production path. It differed from the last proven production artifact only at `copilot-governance-accuracy/index.html`. Live validation confirmed:
 
-1. the website Qwen review returns a structured result and its findings are dispositioned;
-2. the approved copy-only website patch is deployed through the existing production path; and
-3. the live page is rechecked for the real clone URL, optional/fail-closed tenant wording, links, layout, and console errors.
+- the real GitHub clone URL is present and the placeholder is absent;
+- the optional, exact expected-tenant boundary is present;
+- the same-origin form action remains `/api/aiWorkflowIntake`;
+- representative routes return `200`, redirects return `301`, and the form preflight returns `204`; and
+- desktop and mobile browser checks render correctly with zero console errors.
+
+The release remains bounded by `README.md`, `docs/limitations.md`, and the incomplete/advisory mapping rules. GO does not mean tenant certification, continuous monitoring, policy effectiveness, or complete Microsoft control coverage.
 
 ## Validation record
 
@@ -70,5 +74,5 @@ Release tag `v0.1.0` is intentionally withheld until:
 | Website local build/check | Pass: 44 pages built; only the intended route output changed; 72 offline link instances checked with 0 errors; desktop/mobile render and console checks passed |
 | GitHub Actions | Pass on pull request #1 |
 | GitHub repository settings | Private vulnerability reporting, vulnerability alerts, Dependabot security updates, required labels, and protected `main` with required `check` configured |
-| Website Qwen review | Blocked: gateway healthy but configured upstream unavailable; request returned HTTP 500 |
-| Production website verification | Fail: the live page still contains `<GitHub starter-kit URL>` and the older tenant-mode wording |
+| Website Qwen review | Pass after an evidence-complete rerun; no unresolved findings or decisions |
+| Production website verification | Pass on Azure Static Web Apps and `https://tesrex.com/copilot-governance-accuracy/`; corrected copy, form boundary, key routes, representative redirects, desktop/mobile rendering, and console checks verified |
