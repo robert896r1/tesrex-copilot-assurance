@@ -1,0 +1,35 @@
+{
+  "artifact_type": "synthetic_dlp_policy_export",
+  "created_at_utc": "2026-07-20T00:00:00Z",
+  "demo_mode": true,
+  "expiry_date": "2026-08-19",
+  "is_synthetic": true,
+  "policies": [
+    {
+      "locations": [
+        "Microsoft 365 Copilot",
+        "Teams",
+        "SharePoint"
+      ],
+      "mode": "audit_only_demo",
+      "name": "TCA-DEMO-DLP-Copilot-Sensitive-Data-Review",
+      "rules": [
+        "Detect demo confidential marker",
+        "Record user notification state"
+      ]
+    },
+    {
+      "locations": [
+        "SharePoint",
+        "OneDrive"
+      ],
+      "mode": "audit_only_demo",
+      "name": "TCA-DEMO-DLP-External-Sharing-Review",
+      "rules": [
+        "Detect anyone links",
+        "Flag unlabeled demo material"
+      ]
+    }
+  ],
+  "tenant_id": "TCA-DEMO-SYNTHETIC"
+}

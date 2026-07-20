@@ -1,0 +1,1110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>pack-run-20260720T000000Z</title>
+<style>
+
+:root {
+  color-scheme: light;
+  --bg: #f9fafb;
+  --surface: #ffffff;
+  --surface-soft: #f3f4f6;
+  --ink: #111827;
+  --ink-soft: #1f2937;
+  --ink-muted: #d1d5db;
+  --line: #d1d5db;
+  --line-strong: #9ca3af;
+  --text: #111827;
+  --muted: #4b5563;
+  --verified: #15803d;
+  --verified-bg: #dcfce7;
+  --gap: #b45309;
+  --gap-bg: #fef3c7;
+  --unverified: #4b5563;
+  --unverified-bg: #e5e7eb;
+  --access: #1d4ed8;
+  --access-bg: #dbeafe;
+  --license: #7e22ce;
+  --license-bg: #f3e8ff;
+  --failed: #b91c1c;
+  --failed-bg: #fee2e2;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+button { font: inherit; color: inherit; }
+.report-shell { max-width: 1480px; margin: 0 auto; padding: 24px; }
+.report-header {
+  display: grid;
+  grid-template-columns: minmax(360px, 1fr) minmax(360px, 560px);
+  gap: 24px;
+  align-items: start;
+  margin-bottom: 16px;
+  padding: 24px;
+  background: var(--ink);
+  color: #f9fafb;
+  border: 1px solid var(--ink);
+  border-radius: 12px;
+}
+h1, h2, h3, p, dl, dd { margin: 0; }
+h1 { font-size: 34px; line-height: 1.08; letter-spacing: -.03em; max-width: 780px; }
+h2 { font-size: 18px; line-height: 1.25; }
+h3 { font-size: 16px; line-height: 1.3; }
+p, .muted { color: var(--muted); }
+.report-header p { margin-top: 8px; max-width: 760px; color: var(--ink-muted); }
+.value-prop { color: #ffffff !important; font-size: 18px; font-weight: 700; letter-spacing: -.01em; }
+.assurance-disclaimer {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 14px !important;
+  padding: 8px 10px;
+  border: 1px solid #374151;
+  border-radius: 8px;
+  color: #f9fafb !important;
+  background: var(--ink-soft);
+  font-weight: 700;
+}
+.proof-path {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+  max-width: 820px;
+}
+.proof-path div {
+  border: 1px solid #374151;
+  border-radius: 8px;
+  padding: 10px;
+  background: var(--ink-soft);
+}
+.proof-path strong { display: block; color: #ffffff; margin-bottom: 2px; }
+.proof-path span { color: var(--ink-muted); }
+.header-actions { display: flex; gap: 8px; margin-top: 14px; }
+.header-actions button {
+  border: 1px solid #4b5563;
+  background: #f9fafb;
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 8px 11px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.header-actions button:hover { border-color: #f9fafb; background: #ffffff; }
+.run-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.run-meta div, .scope-note, .section, .evidence-panel, .posture-card, .posture-note {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.run-meta div { padding: 10px 12px; }
+.report-header .run-meta div {
+  background: var(--ink-soft);
+  border-color: #374151;
+}
+dt { color: var(--muted); font-size: 12px; }
+.report-header dt { color: var(--ink-muted); }
+dd { margin-top: 3px; word-break: break-word; font-weight: 600; }
+.report-header dd { color: #ffffff; }
+.posture-strip {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(126px, 1fr)) minmax(220px, 1.2fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.posture-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  gap: 3px 8px;
+  padding: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+.posture-card:hover, .posture-card.active { border-color: var(--line-strong); background: var(--surface-soft); }
+.posture-card.status-verified { border-top: 4px solid var(--verified); }
+.posture-card.status-gap { border-top: 4px solid var(--gap); }
+.posture-card.status-unverified { border-top: 4px solid var(--unverified); }
+.posture-card.status-access { border-top: 4px solid var(--access); }
+.posture-card.status-license { border-top: 4px solid var(--license); }
+.posture-card.status-failed { border-top: 4px solid var(--failed); }
+.status-icon { grid-row: 1 / span 2; font-weight: 800; }
+.posture-card.status-verified .status-icon { color: var(--verified); }
+.posture-card.status-gap .status-icon { color: var(--gap); }
+.posture-card.status-unverified .status-icon { color: var(--unverified); }
+.posture-card.status-access .status-icon { color: var(--access); }
+.posture-card.status-license .status-icon { color: var(--license); }
+.posture-card.status-failed .status-icon { color: var(--failed); }
+.posture-label { color: var(--muted); }
+.posture-card strong { font-size: 24px; line-height: 1; }
+.posture-card small { color: var(--muted); }
+.posture-note { padding: 12px; display: grid; align-content: center; gap: 8px; }
+.posture-note span { color: var(--muted); }
+.posture-note b { color: var(--text); }
+.reset-focus { width: fit-content; border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 6px 9px; cursor: pointer; }
+.reset-focus:hover { border-color: var(--line-strong); background: var(--surface-soft); }
+.demo-banner {
+  background: #fff7ed;
+  color: var(--text);
+  border: 1px solid #fed7aa;
+  border-left: 4px solid var(--gap);
+  border-radius: 10px;
+  padding: 13px 16px;
+  margin-bottom: 16px;
+}
+.demo-banner strong { display: block; margin-bottom: 4px; }
+.demo-banner p { color: var(--text); }
+.scope-note {
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) minmax(360px, 520px);
+  gap: 20px;
+  padding: 16px;
+  margin-bottom: 18px;
+  border-left: 4px solid var(--gap);
+}
+.scope-note p { margin-top: 6px; }
+.scope-facts { display: grid; gap: 8px; }
+.field { display: grid; grid-template-columns: 120px 1fr; gap: 8px; }
+.field > span:first-child { color: var(--muted); }
+.content-grid { display: grid; grid-template-columns: minmax(620px, 1fr) 400px; gap: 18px; align-items: start; }
+.main-content { display: grid; gap: 18px; }
+.section, .evidence-panel { padding: 16px; }
+.section-heading { display: flex; justify-content: space-between; align-items: start; gap: 20px; margin-bottom: 14px; }
+.section-heading p { max-width: 620px; }
+.finding-list, .domain-list, .evidence-list { display: grid; gap: 10px; }
+.focus-summary { color: var(--muted); border: 1px solid var(--line); border-radius: 8px; padding: 6px 9px; background: var(--surface-soft); font-weight: 650; }
+.finding-card {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 82px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  text-align: left;
+  cursor: pointer;
+}
+.finding-card:hover, .finding-card.active { border-color: var(--gap); background: #fffbeb; }
+.finding-content { display: grid; gap: 5px; }
+.finding-content span, .finding-content small { color: var(--muted); }
+.finding-content b { color: var(--text); }
+.severity, .status-badge, .mini-status, .badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 22px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.severity-medium { color: var(--gap); background: var(--gap-bg); }
+.severity-low, .severity-informational { color: var(--unverified); background: var(--unverified-bg); }
+.severity-high, .severity-critical { color: var(--failed); background: var(--failed-bg); }
+.status-verified { color: var(--verified); background: var(--verified-bg); }
+.status-gap { color: var(--gap); background: var(--gap-bg); }
+.status-unverified { color: var(--unverified); background: var(--unverified-bg); }
+.status-access { color: var(--access); background: var(--access-bg); }
+.status-license { color: var(--license); background: var(--license-bg); }
+.status-failed { color: var(--failed); background: var(--failed-bg); }
+.filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.filter {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 7px 10px;
+  cursor: pointer;
+}
+.filter:hover, .filter.active { border-color: var(--line-strong); background: var(--surface-soft); }
+.domain-card { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; }
+.domain-card.dimmed { opacity: .55; }
+.domain-card.has-focus { border-color: var(--line-strong); }
+.domain-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: start;
+  padding: 14px;
+  background: var(--surface-soft);
+  border-bottom: 1px solid var(--line);
+}
+.domain-card-header p { margin-top: 3px; color: var(--muted); font-size: 12px; }
+.domain-summary { padding: 12px 14px 0; }
+.domain-counts { display: flex; gap: 6px; flex-wrap: wrap; padding: 10px 14px 12px; }
+details { border-top: 1px solid var(--line); }
+summary { cursor: pointer; padding: 12px 14px; color: var(--muted); }
+.control-list { display: grid; border-top: 1px solid var(--line); }
+.control-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 134px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 12px 14px;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.control-row:first-child { border-top: 0; }
+.control-row:hover, .control-row.active { background: #f8fafc; }
+.control-row.highlighted { border-left: 4px solid var(--gap); background: #fffbeb; }
+.control-row.dimmed { opacity: .52; }
+.control-main { display: grid; gap: 5px; }
+.control-title { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.action-chip { display: inline-flex; width: fit-content; min-height: 20px; padding: 2px 7px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+.linked-action { color: var(--muted); }
+.control-main span, .control-main small { color: var(--muted); }
+.control-main b { color: var(--text); }
+.quality-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 2px; }
+.quality-tag {
+  display: inline-flex;
+  width: fit-content;
+  padding: 2px 7px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-soft);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 650;
+}
+.evidence-panel { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto; }
+.panel-heading { margin-bottom: 12px; }
+.panel-heading p { margin-top: 4px; }
+.evidence-detail { border: 1px solid var(--line); border-radius: 10px; padding: 14px; min-height: 220px; background: var(--surface); }
+.control-context { display: grid; gap: 8px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.empty-state { color: var(--muted); padding: 14px; background: var(--surface-soft); border: 1px solid var(--line); border-radius: 8px; }
+.evidence-actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
+.evidence-pill, .copy-button { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 6px 9px; cursor: pointer; font-size: 12px; }
+.evidence-pill:hover, .copy-button:hover { border-color: var(--line-strong); background: var(--surface-soft); }
+.evidence-detail h3 { margin-bottom: 10px; }
+.evidence-detail dl { margin: 0; display: grid; gap: 8px; }
+.evidence-detail dt { color: var(--muted); }
+.evidence-detail dd { margin: 0 0 8px; word-break: break-word; }
+.evidence-detail pre {
+  margin: 8px 0 0;
+  padding: 10px;
+  background: #111827;
+  color: #f9fafb;
+  border-radius: 8px;
+  overflow: auto;
+  max-height: 300px;
+}
+.evidence-index { margin-top: 14px; }
+.evidence-index h3 { margin-bottom: 8px; }
+.evidence-link {
+  width: 100%;
+  display: grid;
+  gap: 2px;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  text-align: left;
+  cursor: pointer;
+}
+.evidence-link span { color: var(--muted); font-size: 12px; }
+.evidence-link:hover, .evidence-link.active { border-color: var(--line-strong); background: var(--surface-soft); }
+[hidden] { display: none !important; }
+@media (max-width: 1180px) {
+  .report-header, .scope-note, .content-grid { grid-template-columns: 1fr; }
+  .proof-path { grid-template-columns: 1fr; }
+  .posture-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .evidence-panel { position: static; max-height: none; }
+}
+@media print {
+  body { background: white; }
+  .report-header { background: white; color: var(--text); border-color: var(--line); }
+  .report-header p, .report-header dt, .report-header dd, .value-prop, .assurance-disclaimer, .proof-path span, .proof-path strong { color: var(--text) !important; }
+  .assurance-disclaimer, .proof-path div, .report-header .run-meta div { background: white; border-color: var(--line); }
+  .posture-card, .posture-note, .scope-note, .section, .evidence-panel { box-shadow: none; }
+  .filter-row, .evidence-panel { display: none; }
+  .content-grid { display: block; }
+  details { break-inside: avoid; }
+}
+
+</style>
+</head>
+<body>
+<div class="report-shell">
+  <header class="report-header">
+    <div class="header-copy">
+      <h1>Tesrex Copilot Assurance Report</h1>
+      <p class="value-prop">Evidence-backed posture for Microsoft Copilot governance.</p>
+      <p>See which Microsoft-native controls are verified, incomplete, inaccessible, not licensed, or waiting on manual evidence — with proof links preserved for review.</p>
+      <p class="assurance-disclaimer">Status labels reflect automated check results, not independent audit verification.</p>
+      <div class="proof-path" aria-label="Report review path">
+        <div><strong>Assess</strong><span>Microsoft-native control state</span></div>
+        <div><strong>Explain</strong><span>Why each result appears</span></div>
+        <div><strong>Prove</strong><span>Link action to evidence</span></div>
+      </div>
+      <div class="header-actions">
+        <button type="button" id="download-json">Download JSON</button>
+        <button type="button" id="print-view">Print</button>
+      </div>
+    </div>
+    <dl class="run-meta">
+      <div><dt>Pack ID</dt><dd>pack-run-20260720T000000Z</dd></div>
+      <div><dt>Tenant</dt><dd>TCA-DEMO-SYNTHETIC</dd></div>
+      <div><dt>Generated</dt><dd>2026-07-20 00:00:00 UTC</dd></div>
+      <div><dt>Scope</dt><dd>Starter-kit capability/configuration evidence pack from read-only probes and optional manual evidence.</dd></div>
+    </dl>
+  </header>
+
+  
+  <section class="demo-banner" aria-label="Demo evidence warning">
+    <strong>DEMO MODE — Sample report disclosure</strong>
+    <p>This report includes synthetic or isolated demo evidence. Use it for review and presentation only; it is not representative of production governance posture.</p>
+  </section>
+
+
+  <section class="posture-strip" aria-label="Assessment posture summary">
+    
+            <button type="button" class="posture-card status-verified" data-focus-status="PASS" data-status="PASS">
+              <span class="status-icon" aria-hidden="true">✓</span>
+              <span class="posture-label">Verified</span>
+              <strong>3</strong>
+              <small>PASS</small>
+            </button>
+            
+            <button type="button" class="posture-card status-gap" data-focus-status="WARN" data-status="WARN">
+              <span class="status-icon" aria-hidden="true">!</span>
+              <span class="posture-label">Needs Review</span>
+              <strong>4</strong>
+              <small>WARN</small>
+            </button>
+            
+            <button type="button" class="posture-card status-unverified" data-focus-status="UNKNOWN" data-status="UNKNOWN">
+              <span class="status-icon" aria-hidden="true">?</span>
+              <span class="posture-label">Unverified</span>
+              <strong>7</strong>
+              <small>UNKNOWN</small>
+            </button>
+            
+            <button type="button" class="posture-card status-access" data-focus-status="NOT_ACCESSIBLE" data-status="NOT_ACCESSIBLE">
+              <span class="status-icon" aria-hidden="true">⊘</span>
+              <span class="posture-label">Access Required</span>
+              <strong>0</strong>
+              <small>NOT_ACCESSIBLE</small>
+            </button>
+            
+            <button type="button" class="posture-card status-license" data-focus-status="NOT_LICENSED" data-status="NOT_LICENSED">
+              <span class="status-icon" aria-hidden="true">⌁</span>
+              <span class="posture-label">Not Licensed</span>
+              <strong>0</strong>
+              <small>NOT_LICENSED</small>
+            </button>
+            
+            <button type="button" class="posture-card status-failed" data-focus-status="FAIL" data-status="FAIL">
+              <span class="status-icon" aria-hidden="true">×</span>
+              <span class="posture-label">Failed</span>
+              <strong>0</strong>
+              <small>FAIL</small>
+            </button>
+            
+        <div class="posture-note">
+          <strong>14 total checks</strong>
+          <span>Click a status to focus matching controls without losing context. <b>No weighted score is applied.</b></span>
+          <button type="button" class="reset-focus" data-focus-status="ALL">Reset focus</button>
+        </div>
+        
+  </section>
+
+  <section class="scope-note" aria-labelledby="scope-title">
+    <div>
+      <h2 id="scope-title">Scope & Limitations</h2>
+      <p>This assessment reflects the evidence visible to the assessment identity at execution time. Unverified controls identify missing proof, access, licensing, or approved validation evidence; they are not silently treated as failures.</p>
+    </div>
+    <div class="scope-facts">
+      <div class="field"><span>Run status</span><span class="badge status-verified">COMPLETED</span></div>
+      <div class="field"><span>Limitations</span><span>first_slice, configuration_capability_focus, demo_evidence_present</span></div>
+      <div class="field"><span>Evidence coverage</span><span>3 full, 11 partial across 14 checks.</span></div>
+    </div>
+  </section>
+
+  <main class="content-grid">
+    <section class="main-content">
+      <section class="section" aria-labelledby="domain-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="domain-title">Control Review</h2>
+            <p>Controls are the primary review path. Each row connects the status, action, next step, and evidence in the inspector.</p>
+          </div>
+          <span class="focus-summary" id="focus-summary">Showing all controls</span>
+        </div>
+        <div class="domain-list" id="domain-list">
+          
+            <article class="domain-card" data-domain-code="AUD" data-statuses="WARN UNKNOWN UNKNOWN">
+              <div class="domain-card-header">
+                <div>
+                  <h3>Audit &amp; Activity Logging</h3>
+                  <p>Control family: AUD</p>
+                </div>
+                <span class="status-badge status-unverified">Evidence incomplete</span>
+              </div>
+              <p class="domain-summary">Checks whether Copilot activity and audit evidence can be observed for governance review.</p>
+              <div class="domain-counts"><span class="mini-status status-gap">Needs Review: 1</span><span class="mini-status status-unverified">Unverified: 2</span></div>
+              <details open>
+                <summary>View controls, actions, and evidence links</summary>
+                <div class="control-list">
+    <button type="button" class="control-row" data-status="WARN" data-cause="assessment_limitation" data-control-id="AUD-001" data-evidence-id="ev-graph-token_scopes" data-evidence-ids="ev-graph-token_scopes" data-finding-ids="finding-aud-001">
+      <span class="status-badge status-unverified">Evidence incomplete</span>
+      <span class="control-main">
+        <span class="control-title"><strong>AUD-001</strong><span class="action-chip severity-low">Action linked</span></span>
+        <span><b>What the report found:</b> Audit capability signals are present, but audit evidence for this control is not complete.</span>
+        <span><b>Why this appears:</b> Audit query scope is present in the token, but no audit query was created in the default read-only probe; full audit search access is not proven.</span>
+        <span><b>Why this matters:</b> Without audit evidence, reviewers cannot confirm that Copilot activity can be monitored or investigated.</span>
+        <span><b>Next evidence step:</b> Provide Purview audit evidence, or approve a bounded read-only audit query for the relevant Copilot activity.</span>
+        <span class="quality-tags"><span class="quality-tag">Partial evidence</span><span class="quality-tag">Not collected in this run</span></span>
+        <small>Canonical status: WARN · Cause: <b>Assessment limitation</b> · Evidence: partial · Domain: Audit / Purview</small>
+      </span>
+    </button>
+    
+    <button type="button" class="control-row" data-status="UNKNOWN" data-cause="assessment_limitation" data-control-id="AUD-002" data-evidence-id="ev-demo-copilot-chat-transcripts" data-evidence-ids="ev-demo-copilot-chat-transcripts" data-finding-ids="finding-aud-002">
+      <span class="status-badge status-unverified">Not assessed</span>
+      <span class="control-main">
+        <span class="control-title"><strong>AUD-002</strong><span class="action-chip severity-low">Action linked</span></span>
+        <span><b>What the report found:</b> Audit capability signals are present, but audit evidence for this control is not complete.</span>
+        <span><b>Why this appears:</b> CopilotInteraction audit record observability requires an explicitly approved audit query and independent usage context; neither is part of the default read-only probe.</span>
+        <span><b>Why this matters:</b> Without audit evidence, reviewers cannot confirm that Copilot activity can be monitored or investigated.</span>
+        <span><b>Next evidence step:</b> Provide Purview audit evidence, or approve a bounded read-only audit query for the relevant Copilot activity.</span>
+        <span class="quality-tags"><span class="quality-tag">Partial evidence</span><span class="quality-tag">Not collected in this run</span><span class="quality-tag">Demo evidence attached</span></span>
+        <small>Canonical status: UNKNOWN · Cause: <b>Assessment limitation</b> · Evidence: partial · Domain: Audit / Purview</small>
+      </span>
+    </button>
+    
+    <button type="button" class="control-row" data-status="UNKNOWN" data-cause="manual_evidence_required" data-control-id="AUD-003" data-evidence-id="ev-demo-retention-policy-evidence" data-evidence-ids="ev-demo-retention-policy-evidence" data-finding-ids="finding-aud-003">
+      <span class="status-badge status-unverified">Manual evidence required</span>
+      <span class="control-main">
+        <span class="control-title"><strong>AUD-003</strong><span class="action-chip severity-low">Action linked</span></span>
+        <span><b>What the report found:</b> Audit capability signals are present, but audit evidence for this control is not complete.</span>
+        <span><b>Why this appears:</b> Audit retention capability is not proven by token-scope inspection alone; provide Purview audit configuration evidence or approved historical query evidence.</span>
+        <span><b>Why this matters:</b> Without audit evidence, reviewers cannot confirm that Copilot activity can be monitored or investigated.</span>
+        <span><b>Next evidence step:</b> Provide Purview audit evidence, or approve a bounded read-only audit query for the relevant Copilot activity.</span>
+        <span class="quality-tags"><span class="quality-tag">Partial evidence</span><span class="quality-tag">Manual evidence required</span><span class="quality-tag">Demo evidence attached</span></span>
+        <small>Canonical status: UNKNOWN · Cause: <b>Manual evidence required</b> · Evidence: partial · Domain: Audit / Purview</small>
+      </span>
+    </button>
+    </div>
+              </details>
+            </article>
+            
+            <article class="domain-card" data-domain-code="LABEL" data-statuses="WARN">
+              <div class="domain-card-header">
+                <div>
+                  <h3>Data Classification &amp; Sensitivity</h3>
+                  <p>Control family: LABEL</p>
+                </div>
+                <span class="status-badge status-unverified">Evidence incomplete</span>
+              </div>
+              <p class="domain-summary">Reviews whether sensitivity-label taxonomy evidence is available for Copilot data protection assurance.</p>
+              <div class="domain-counts"><span class="mini-status status-gap">Needs Review: 1</span></div>
+              <details open>
+                <summary>View controls, actions, and evidence links</summary>
+                <div class="control-list">
+    <button type="button" class="control-row" data-status="WARN" data-cause="assessment_limitation" data-control-id="LABEL-001" data-evidence-id="ev-graph-sensitivity_labels" data-evidence-ids="ev-graph-sensitivity_labels" data-finding-ids="finding-label-001">
+      <span class="status-badge status-unverified">Evidence incomplete</span>
+      <span class="control-main">
+        <span class="control-title"><strong>LABEL-001</strong><span class="action-chip severity-low">Action linked</span></span>
+        <span><b>What the report found:</b> Sensitivity-label evidence is partial, so label taxonomy or coverage is not fully proven.</span>
+        <span><b>Why this appears:</b> Sensitivity-label endpoint is reachable but the $top=1 probe returned zero labels; taxonomy coverage is not proven.</span>
+        <span><b>Why this matters:</b> Without label evidence, reviewers cannot confirm that sensitive content has the classification baseline expected for Copilot governance.</span>
+        <span><b>Next evidence step:</b> Provide sensitivity-label taxonomy/coverage export, or approve the relevant read-only label collector.</span>
+        <span class="quality-tags"><span class="quality-tag">Partial evidence</span><span class="quality-tag">Partial scope</span></span>
+        <small>Canonical status: WARN · Cause: <b>Assessment limitation</b> · Evidence: partial · Domain: Data protection</small>
+      </span>
+    </button>
+    </div>
+              </details>
+            </article>
+            
+            <article class="domain-card" data-domain-code="SAM" data-statuses="WARN">
+              <div class="domain-card-header">
+                <div>
+                  <h3>Advanced Sharing &amp; Oversharing Controls</h3>
+                  <p>Control family: SAM</p>
+                </div>
+                <span class="status-badge status-unverified">Evidence incomplete</span>
+              </div>
+              <p class="domain-summary">Checks readiness evidence for SharePoint sharing and oversharing governance controls.</p>
+              <div class="domain-counts"><span class="mini-status status-gap">Needs Review: 1</span></div>
+              <details open>
+                <summary>View controls, actions, and evidence links</summary>
+                <div class="control-list">
+    <button type="button" class="control-row" data-status="WARN" data-cause="assessment_limitation" data-control-id="SAM-001" data-evidence-id="ev-powershell-sharepoint_online" data-evidence-ids="ev-powershell-sharepoint_online ev-demo-sam-oversharing-report" data-finding-ids="finding-sam-001">
+      <span class="status-badge status-unverified">Evidence incomplete</span>
+      <span class="control-main">
+        <span class="control-title"><strong>SAM-001</strong><span class="action-chip severity-low">Action linked</span></span>
+        <span><b>What the report found:</b> SharePoint sharing governance tooling is available locally, but tenant oversharing evidence was not collected.</span>
+        <span><b>Why this appears:</b> SharePoint Online PowerShell module is locally available, but SAM/DAG tenant read capability and report freshness were not validated.</span>
+        <span><b>Why this matters:</b> Without sharing and oversharing evidence, reviewers cannot judge whether Copilot could expose broadly shared content.</span>
+        <span><b>Next evidence step:</b> Provide a current SharePoint Advanced Management/DAG export, or approve the read-only sharing evidence collector.</span>
+        <span class="quality-tags"><span class="quality-tag">Partial evidence</span><span class="quality-tag">Manual evidence required</span><span class="quality-tag">Demo evidence attached</span></span>
+        <small>Canonical status: WARN · Cause: <b>Assessment limitation</b> · Evidence: partial · Domain: SharePoint governance</small>
+      </span>
+    </button>
+    </div>
+              </details>
+            </article>
+            
+            <article class="domain-card" data-domain-code="EDISC" data-statuses="UNKNOWN WARN">
+              <div class="domain-card-header">
+                <div>
+                  <h3>eDiscovery &amp; Retention Readiness</h3>
+                  <p>Control family: EDISC</p>
+                </div>
+                <span class="status-badge status-unverified">Evidence incomplete</span>
+              </div>
+              <p class="domain-summary">Assesses whether eDiscovery and retention evidence is sufficient to support investigation and audit needs.</p>
+              <div class="domain-counts"><span class="mini-status status-gap">Needs Review: 1</span><span class="mini-status status-unverified">Unverified: 1</span></div>
+              <details open>
+                <summary>View controls, actions, and evidence links</summary>
+                <div class="control-list">
+    <button type="button" class="control-row" data-status="WARN" data-cause="assessment_limitation" data-control-id="EDISC-002" data-evidence-id="ev-graph-ediscovery_cases" data-evidence-ids="ev-graph-ediscovery_cases ev-demo-ediscovery-readiness-fixture" data-finding-ids="finding-edisc-002">
+      <span class="status-badge status-unverified">Evidence incomplete</span>
+      <span class="control-main">
+        <span class="control-title"><strong>EDISC-002</strong><span class="action-chip severity-low">Action linked</span></span>
+        <span><b>What the report found:</b> eDiscovery is reachable, but Copilot data discovery/export readiness is not proven.</span>
+        <span><b>Why this appears:</b> eDiscovery case endpoint is visible, but no positive/export-validating readiness evidence is present in the default run.</span>
+        <span><b>Why this matters:</b> This limits confidence that Copilot interaction data can be discovered and produced for investigation or audit.</span>
+        <span><b>Next evidence step:</b> Provide existing Purview eDiscovery evidence, or approve a bounded validation procedure for a scoped mailbox/site.</span>
+        <span class="quality-tags"><span class="quality-tag">Partial evidence</span><span class="quality-tag">Manual evidence required</span><span class="quality-tag">Demo evidence attached</span></span>
+        <small>Canonical status: WARN · Cause: <b>Assessment limitation</b> · Evidence: partial · Domain: Compliance / eDiscovery</small>
+      </span>
+    </button>
+    
+    <button type="button" class="control-row" data-status="UNKNOWN" data-cause="manual_evidence_required" data-control-id="EDISC-001" data-evidence-id="ev-demo-retention-policy-evidence" data-evidence-ids="ev-demo-retention-policy-evidence" data-finding-ids="finding-edisc-001">
+      <span class="status-badge status-unverified">Manual evidence required</span>
+      <span class="control-main">
+        <span class="control-title"><strong>EDISC-001</strong><span class="action-chip severity-low">Action linked</span></span>
+        <span><b>What the report found:</b> The report does not yet have enough retention-policy evidence for Copilot or AI-related data.</span>
+        <span><b>Why this appears:</b> Explicit Copilot/AI retention stance requires retention policy evidence or customer-provided manual artifact; no retention policy read was run in the default probe.</span>
+        <span><b>Why this matters:</b> Without retention evidence, reviewers cannot confirm how Copilot or AI-related records would be preserved.</span>
+        <span><b>Next evidence step:</b> Provide retention-policy evidence from Purview, or approve the relevant read-only retention evidence collector.</span>
+        <span class="quality-tags"><span class="quality-tag">Partial evidence</span><span class="quality-tag">Manual evidence required</span><span class="quality-tag">Demo evidence attached</span></span>
+        <small>Canonical status: UNKNOWN · Cause: <b>Manual evidence required</b> · Evidence: partial · Domain: Compliance / eDiscovery</small>
+      </span>
+    </button>
+    </div>
+              </details>
+            </article>
+            
+            <article class="domain-card" data-domain-code="LIC" data-statuses="PASS UNKNOWN UNKNOWN">
+              <div class="domain-card-header">
+                <div>
+                  <h3>Entitlement &amp; Licensing</h3>
+                  <p>Control family: LIC</p>
+                </div>
+                <span class="status-badge status-unverified">Not assessed</span>
+              </div>
+              <p class="domain-summary">Confirms whether the tenant has the Microsoft service plans needed for Copilot governance assessment.</p>
+              <div class="domain-counts"><span class="mini-status status-verified">Verified: 1</span><span class="mini-status status-unverified">Unverified: 2</span></div>
+              <details open>
+                <summary>View controls, actions, and evidence links</summary>
+                <div class="control-list">
+    <button type="button" class="control-row" data-status="UNKNOWN" data-cause="assessment_limitation" data-control-id="LIC-002.copilot_family" data-evidence-id="ev-graph-subscribed_skus" data-evidence-ids="ev-graph-subscribed_skus" data-finding-ids="finding-lic-002-copilot_family">
+      <span class="status-badge status-unverified">Not assessed</span>
+      <span class="control-main">
+        <span class="control-title"><strong>LIC-002.copilot_family</strong><span class="action-chip severity-low">Action linked</span></span>
+        <span><b>What the report found:</b> The report collected partial evidence, but this control is not fully proven.</span>
+        <span><b>Why this appears:</b> No exact entitlement match found, but the mapping does not claim complete coverage or is stale; license absence is not proven.</span>
+        <span><b>Why this matters:</b> Reviewers should not treat this as verified assurance until the missing evidence is supplied.</span>
+        <span><b>Next evidence step:</b> Refresh capability map or provide manual/license-admin evidence.</span>
+        <span class="quality-tags"><span class="quality-tag">Partial evidence</span><span class="quality-tag">License mapping limited</span></span>
+        <small>Canonical status: UNKNOWN · Cause: <b>Assessment limitation</b> · Evidence: partial · Domain: Licensing</small>
+      </span>
+    </button>
+    
+    <button type="button" class="control-row" data-status="UNKNOWN" data-cause="assessment_limitation" data-control-id="LIC-002.work_graph_chat" data-evidence-id="ev-graph-subscribed_skus" data-evidence-ids="ev-graph-subscribed_skus" data-finding-ids="finding-lic-002-work_graph_chat">
+      <span class="status-badge status-unverified">Not assessed</span>
+      <span class="control-main">
+        <span class="control-title"><strong>LIC-002.work_graph_chat</strong><span class="action-chip severity-low">Action linked</span></span>
+        <span><b>What the report found:</b> The report collected partial evidence, but this control is not fully proven.</span>
+        <span><b>Why this appears:</b> No exact entitlement match found, but the mapping does not claim complete coverage or is stale; license absence is not proven.</span>
+        <span><b>Why this matters:</b> Reviewers should not treat this as verified assurance until the missing evidence is supplied.</span>
+        <span><b>Next evidence step:</b> Refresh capability map or provide manual/license-admin evidence.</span>
+        <span class="quality-tags"><span class="quality-tag">Partial evidence</span><span class="quality-tag">License mapping limited</span></span>
+        <small>Canonical status: UNKNOWN · Cause: <b>Assessment limitation</b> · Evidence: partial · Domain: Licensing</small>
+      </span>
+    </button>
+    
+    <button type="button" class="control-row" data-status="PASS" data-cause="verified" data-control-id="LIC-001" data-evidence-id="ev-graph-subscribed_skus" data-evidence-ids="ev-graph-subscribed_skus" data-finding-ids="">
+      <span class="status-badge status-verified">Verified</span>
+      <span class="control-main">
+        <span class="control-title"><strong>LIC-001</strong></span>
+        <span><b>What the report found:</b> The report found enough evidence to support this control for the assessed scope.</span>
+        <span><b>Why this appears:</b> Microsoft Graph subscribedSkUs inventory was read successfully.</span>
+        <span><b>Why this matters:</b> This gives reviewers a defensible evidence point to retain for the audit trail.</span>
+        <span><b>Next evidence step:</b> No action required; retain linked evidence for the audit trail.</span>
+        
+        <small>Canonical status: PASS · Cause: <b>Verified evidence</b> · Evidence: full · Domain: Licensing</small>
+      </span>
+    </button>
+    </div>
+              </details>
+            </article>
+            
+            <article class="domain-card" data-domain-code="DLP" data-statuses="UNKNOWN UNKNOWN">
+              <div class="domain-card-header">
+                <div>
+                  <h3>Data Loss Prevention</h3>
+                  <p>Control family: DLP</p>
+                </div>
+                <span class="status-badge status-unverified">Not assessed</span>
+              </div>
+              <p class="domain-summary">Assesses whether DLP policy inventory evidence is available for Copilot-related protection coverage.</p>
+              <div class="domain-counts"><span class="mini-status status-unverified">Unverified: 2</span></div>
+              <details open>
+                <summary>View controls, actions, and evidence links</summary>
+                <div class="control-list">
+    <button type="button" class="control-row" data-status="UNKNOWN" data-cause="assessment_limitation" data-control-id="DLP-001" data-evidence-id="ev-powershell-exchange_online_management" data-evidence-ids="ev-powershell-exchange_online_management ev-demo-dlp-policy-export" data-finding-ids="finding-dlp-001">
+      <span class="status-badge status-unverified">Not assessed</span>
+      <span class="control-main">
+        <span class="control-title"><strong>DLP-001</strong><span class="action-chip severity-low">Action linked</span></span>
+        <span><b>What the report found:</b> DLP policy/rule inventory was not collected, so Copilot DLP coverage is not proven.</span>
+        <span><b>Why this appears:</b> ExchangeOnlineManagement module is locally available, but tenant DLP policy/rule inventory was not read in this default run. Provide Purview export or run an approved read-only DLP inventory collector.</span>
+        <span><b>Why this matters:</b> Without policy and rule evidence, reviewers cannot confirm whether Copilot-related activity is covered by expected data-loss controls.</span>
+        <span><b>Next evidence step:</b> Provide Purview DLP policy/rule export, or approve the read-only DLP inventory collector.</span>
+        <span class="quality-tags"><span class="quality-tag">Partial evidence</span><span class="quality-tag">Not collected in this run</span><span class="quality-tag">Demo evidence attached</span></span>
+        <small>Canonical status: UNKNOWN · Cause: <b>Assessment limitation</b> · Evidence: partial · Domain: Data protection</small>
+      </span>
+    </button>
+    
+    <button type="button" class="control-row" data-status="UNKNOWN" data-cause="assessment_limitation" data-control-id="DLP-002" data-evidence-id="ev-powershell-exchange_online_management" data-evidence-ids="ev-powershell-exchange_online_management ev-demo-dlp-policy-export" data-finding-ids="finding-dlp-002">
+      <span class="status-badge status-unverified">Not assessed</span>
+      <span class="control-main">
+        <span class="control-title"><strong>DLP-002</strong><span class="action-chip severity-low">Action linked</span></span>
+        <span><b>What the report found:</b> DLP policy/rule inventory was not collected, so Copilot DLP coverage is not proven.</span>
+        <span><b>Why this appears:</b> ExchangeOnlineManagement module is locally available, but tenant DLP policy/rule inventory was not read in this default run. Provide Purview export or run an approved read-only DLP inventory collector.</span>
+        <span><b>Why this matters:</b> Without policy and rule evidence, reviewers cannot confirm whether Copilot-related activity is covered by expected data-loss controls.</span>
+        <span><b>Next evidence step:</b> Provide Purview DLP policy/rule export, or approve the read-only DLP inventory collector.</span>
+        <span class="quality-tags"><span class="quality-tag">Partial evidence</span><span class="quality-tag">Not collected in this run</span><span class="quality-tag">Demo evidence attached</span></span>
+        <small>Canonical status: UNKNOWN · Cause: <b>Assessment limitation</b> · Evidence: partial · Domain: Data protection</small>
+      </span>
+    </button>
+    </div>
+              </details>
+            </article>
+            
+            <article class="domain-card" data-domain-code="PACK" data-statuses="PASS PASS">
+              <div class="domain-card-header">
+                <div>
+                  <h3>Evidence Integrity &amp; Provenance</h3>
+                  <p>Control family: PACK</p>
+                </div>
+                <span class="status-badge status-verified">Verified</span>
+              </div>
+              <p class="domain-summary">Verifies whether the evidence pack itself contains traceable controls, artifacts, hashes, and limitations.</p>
+              <div class="domain-counts"><span class="mini-status status-verified">Verified: 2</span></div>
+              <details open>
+                <summary>View controls, actions, and evidence links</summary>
+                <div class="control-list">
+    <button type="button" class="control-row" data-status="PASS" data-cause="verified" data-control-id="PACK-001" data-evidence-id="" data-evidence-ids="" data-finding-ids="">
+      <span class="status-badge status-verified">Verified</span>
+      <span class="control-main">
+        <span class="control-title"><strong>PACK-001</strong></span>
+        <span><b>What the report found:</b> The report found enough evidence to support this control for the assessed scope.</span>
+        <span><b>Why this appears:</b> All starter-kit controls are represented before pack generation.</span>
+        <span><b>Why this matters:</b> This gives reviewers a defensible evidence point to retain for the audit trail.</span>
+        <span><b>Next evidence step:</b> No action required; retain linked evidence for the audit trail.</span>
+        
+        <small>Canonical status: PASS · Cause: <b>Verified evidence</b> · Evidence: full · Domain: Assessment evidence</small>
+      </span>
+    </button>
+    
+    <button type="button" class="control-row" data-status="PASS" data-cause="verified" data-control-id="PACK-002" data-evidence-id="ev-az_account" data-evidence-ids="ev-az_account ev-az_cloud ev-graph-organization ev-graph-subscribed_skus ev-graph-sensitivity_labels ev-graph-token_scopes ev-graph-ediscovery_cases ev-powershell-exchange_online_management ev-powershell-sharepoint_online ev-demo-copilot-chat-transcripts ev-demo-dlp-policy-export ev-demo-sam-oversharing-report ev-demo-retention-policy-evidence ev-demo-ediscovery-readiness-fixture" data-finding-ids="">
+      <span class="status-badge status-verified">Verified</span>
+      <span class="control-main">
+        <span class="control-title"><strong>PACK-002</strong></span>
+        <span><b>What the report found:</b> The report found enough evidence to support this control for the assessed scope.</span>
+        <span><b>Why this appears:</b> Verified the existence and SHA-256 hash of all 14 retained evidence artifacts.</span>
+        <span><b>Why this matters:</b> This gives reviewers a defensible evidence point to retain for the audit trail.</span>
+        <span><b>Next evidence step:</b> No action required; retain linked evidence for the audit trail.</span>
+        
+        <small>Canonical status: PASS · Cause: <b>Verified evidence</b> · Evidence: full · Domain: Assessment evidence</small>
+      </span>
+    </button>
+    </div>
+              </details>
+            </article>
+            
+        </div>
+      </section>
+    </section>
+
+    <aside class="evidence-panel" aria-label="Evidence inspector">
+      <div class="panel-heading">
+        <h2>Evidence Inspector</h2>
+        <p>Drill-down proof for auditors and technical assessors.</p>
+      </div>
+      <section class="evidence-detail" id="evidence-detail" data-default-evidence="ev-az_account">
+        <h3>Select evidence</h3>
+        <p class="muted">Choose a finding, control check, or evidence item.</p>
+      </section>
+      <section class="evidence-index">
+        <h3>Evidence Inventory</h3>
+        <div class="evidence-list">
+          <button type="button" class="evidence-link" data-evidence-id="ev-az_account"><strong>ev-az_account</strong><span>Azure CLI</span></button><button type="button" class="evidence-link" data-evidence-id="ev-az_cloud"><strong>ev-az_cloud</strong><span>Azure CLI</span></button><button type="button" class="evidence-link" data-evidence-id="ev-graph-organization"><strong>ev-graph-organization</strong><span>Microsoft Graph</span></button><button type="button" class="evidence-link" data-evidence-id="ev-graph-subscribed_skus"><strong>ev-graph-subscribed_skus</strong><span>Microsoft Graph</span></button><button type="button" class="evidence-link" data-evidence-id="ev-graph-sensitivity_labels"><strong>ev-graph-sensitivity_labels</strong><span>Microsoft Graph</span></button><button type="button" class="evidence-link" data-evidence-id="ev-graph-token_scopes"><strong>ev-graph-token_scopes</strong><span>Microsoft Graph</span></button><button type="button" class="evidence-link" data-evidence-id="ev-graph-ediscovery_cases"><strong>ev-graph-ediscovery_cases</strong><span>Microsoft Graph</span></button><button type="button" class="evidence-link" data-evidence-id="ev-powershell-exchange_online_management"><strong>ev-powershell-exchange_online_management</strong><span>Local PowerShell module check</span></button><button type="button" class="evidence-link" data-evidence-id="ev-powershell-sharepoint_online"><strong>ev-powershell-sharepoint_online</strong><span>Local PowerShell module check</span></button><button type="button" class="evidence-link" data-evidence-id="ev-demo-copilot-chat-transcripts"><strong>ev-demo-copilot-chat-transcripts</strong><span>TCA synthetic demo fixture</span></button><button type="button" class="evidence-link" data-evidence-id="ev-demo-dlp-policy-export"><strong>ev-demo-dlp-policy-export</strong><span>TCA synthetic demo fixture</span></button><button type="button" class="evidence-link" data-evidence-id="ev-demo-sam-oversharing-report"><strong>ev-demo-sam-oversharing-report</strong><span>TCA synthetic demo fixture</span></button><button type="button" class="evidence-link" data-evidence-id="ev-demo-retention-policy-evidence"><strong>ev-demo-retention-policy-evidence</strong><span>TCA synthetic demo fixture</span></button><button type="button" class="evidence-link" data-evidence-id="ev-demo-ediscovery-readiness-fixture"><strong>ev-demo-ediscovery-readiness-fixture</strong><span>TCA synthetic demo fixture</span></button>
+        </div>
+      </section>
+    </aside>
+  </main>
+</div>
+<script id="pack-data" type="application/json">{"artifact_path": null, "assessment_run": {"assessment_run_id": "run-20260720T000000Z", "completed_at_utc": "2026-07-20T00:00:00Z", "initiated_by": "TCA demo mode", "limitations": ["first_slice", "configuration_capability_focus", "demo_evidence_present"], "scope_summary": "Starter-kit capability/configuration evidence pack from read-only probes and optional manual evidence.", "started_at_utc": "20260720T000000Z", "status": "COMPLETED", "tenant_id": "TCA-DEMO-SYNTHETIC", "tool_version": "0.1.0"}, "content_hash": null, "control_checks": [{"assessed_scope": "tenant / starter-kit first-slice scope", "assessment_run_id": "run-20260720T000000Z", "control_check_id": "LIC-001", "control_family": "LIC", "control_objective": "Assess LIC-001 for starter-kit Copilot governance evidence pack.", "evidence_completeness": "full", "evidence_items_used": ["ev-graph-subscribed_skus"], "expected_state": "Control evidence is present and sufficient for the assessed scope.", "follow_up_required": [], "limitations": [], "mapping_versions_used": [], "observed_state": "See cited evidence and status reason.", "procedure": "Generated from live read-only probe summary and optional manual evidence.", "required_evidence_types": ["raw_api_response", "normalized_observation", "manual_artifact"], "status": "PASS", "status_cause": "verified", "status_reason": "Microsoft Graph subscribedSkUs inventory was read successfully."}, {"assessed_scope": "tenant", "assessment_run_id": "run-20260720T000000Z", "control_check_id": "LIC-002.copilot_family", "control_family": "LIC", "control_objective": "Classify Microsoft capability entitlement from tenant SKU inventory.", "evidence_completeness": "partial", "evidence_items_used": ["ev-graph-subscribed_skus"], "expected_state": "Required entitlement evidence is present or absence is explicitly proven.", "follow_up_required": ["Refresh capability map or provide manual/license-admin evidence."], "limitations": ["license_limited"], "mapping_versions_used": [{"artifact_path": "config/microsoft_capability_map.json", "last_reviewed": "2026-04-30", "schema_version": "0.1.0", "stale": false}], "observed_state": "{'sku_count': 0}", "procedure": "Evaluate Microsoft Graph subscribedSkus evidence against the versioned capability map.", "required_evidence_types": ["license_snapshot", "raw_api_response"], "status": "UNKNOWN", "status_cause": "assessment_limitation", "status_reason": "No exact entitlement match found, but the mapping does not claim complete coverage or is stale; license absence is not proven."}, {"assessed_scope": "tenant", "assessment_run_id": "run-20260720T000000Z", "control_check_id": "LIC-002.work_graph_chat", "control_family": "LIC", "control_objective": "Classify Microsoft capability entitlement from tenant SKU inventory.", "evidence_completeness": "partial", "evidence_items_used": ["ev-graph-subscribed_skus"], "expected_state": "Required entitlement evidence is present or absence is explicitly proven.", "follow_up_required": ["Refresh capability map or provide manual/license-admin evidence."], "limitations": ["license_limited"], "mapping_versions_used": [{"artifact_path": "config/microsoft_capability_map.json", "last_reviewed": "2026-04-30", "schema_version": "0.1.0", "stale": false}], "observed_state": "{'sku_count': 0}", "procedure": "Evaluate Microsoft Graph subscribedSkus evidence against the versioned capability map.", "required_evidence_types": ["license_snapshot", "raw_api_response"], "status": "UNKNOWN", "status_cause": "assessment_limitation", "status_reason": "No exact entitlement match found, but the mapping does not claim complete coverage or is stale; license absence is not proven."}, {"assessed_scope": "tenant / starter-kit first-slice scope", "assessment_run_id": "run-20260720T000000Z", "control_check_id": "AUD-001", "control_family": "AUD", "control_objective": "Assess AUD-001 for starter-kit Copilot governance evidence pack.", "evidence_completeness": "partial", "evidence_items_used": ["ev-graph-token_scopes"], "expected_state": "Control evidence is present and sufficient for the assessed scope.", "follow_up_required": ["Review limitations for AUD-001 and rerun after evidence gap is resolved."], "limitations": ["not_configured_for_assessment"], "mapping_versions_used": [], "observed_state": "See cited evidence and status reason.", "procedure": "Generated from live read-only probe summary and optional manual evidence.", "required_evidence_types": ["raw_api_response", "normalized_observation", "manual_artifact"], "status": "WARN", "status_cause": "assessment_limitation", "status_reason": "Audit query scope is present in the token, but no audit query was created in the default read-only probe; full audit search access is not proven."}, {"assessed_scope": "tenant / starter-kit first-slice scope", "assessment_run_id": "run-20260720T000000Z", "control_check_id": "AUD-002", "control_family": "AUD", "control_objective": "Assess AUD-002 for starter-kit Copilot governance evidence pack.", "evidence_completeness": "partial", "evidence_items_used": ["ev-demo-copilot-chat-transcripts"], "expected_state": "Control evidence is present and sufficient for the assessed scope.", "follow_up_required": ["Provide manual/customer evidence for AUD-002 or approve the relevant read-only collector."], "limitations": ["manual_only", "not_configured_for_assessment", "manual_evidence_linked", "demo_evidence"], "mapping_versions_used": [], "observed_state": "See cited evidence and status reason.", "procedure": "Generated from live read-only probe summary and optional manual evidence.", "required_evidence_types": ["raw_api_response", "normalized_observation", "manual_artifact"], "status": "UNKNOWN", "status_cause": "assessment_limitation", "status_reason": "CopilotInteraction audit record observability requires an explicitly approved audit query and independent usage context; neither is part of the default read-only probe."}, {"assessed_scope": "tenant / starter-kit first-slice scope", "assessment_run_id": "run-20260720T000000Z", "control_check_id": "AUD-003", "control_family": "AUD", "control_objective": "Assess AUD-003 for starter-kit Copilot governance evidence pack.", "evidence_completeness": "partial", "evidence_items_used": ["ev-demo-retention-policy-evidence"], "expected_state": "Control evidence is present and sufficient for the assessed scope.", "follow_up_required": ["Provide manual/customer evidence for AUD-003 or approve the relevant read-only collector."], "limitations": ["manual_only", "manual_evidence_linked", "demo_evidence"], "mapping_versions_used": [], "observed_state": "See cited evidence and status reason.", "procedure": "Generated from live read-only probe summary and optional manual evidence.", "required_evidence_types": ["raw_api_response", "normalized_observation", "manual_artifact"], "status": "UNKNOWN", "status_cause": "manual_evidence_required", "status_reason": "Audit retention capability is not proven by token-scope inspection alone; provide Purview audit configuration evidence or approved historical query evidence."}, {"assessed_scope": "tenant / starter-kit first-slice scope", "assessment_run_id": "run-20260720T000000Z", "control_check_id": "LABEL-001", "control_family": "LABEL", "control_objective": "Assess LABEL-001 for starter-kit Copilot governance evidence pack.", "evidence_completeness": "partial", "evidence_items_used": ["ev-graph-sensitivity_labels"], "expected_state": "Control evidence is present and sufficient for the assessed scope.", "follow_up_required": ["Review limitations for LABEL-001 and rerun after evidence gap is resolved."], "limitations": ["partial_scope"], "mapping_versions_used": [], "observed_state": "See cited evidence and status reason.", "procedure": "Generated from live read-only probe summary and optional manual evidence.", "required_evidence_types": ["raw_api_response", "normalized_observation", "manual_artifact"], "status": "WARN", "status_cause": "assessment_limitation", "status_reason": "Sensitivity-label endpoint is reachable but the $top=1 probe returned zero labels; taxonomy coverage is not proven."}, {"assessed_scope": "tenant / starter-kit first-slice scope", "assessment_run_id": "run-20260720T000000Z", "control_check_id": "DLP-001", "control_family": "DLP", "control_objective": "Assess DLP-001 for starter-kit Copilot governance evidence pack.", "evidence_completeness": "partial", "evidence_items_used": ["ev-powershell-exchange_online_management", "ev-demo-dlp-policy-export"], "expected_state": "Control evidence is present and sufficient for the assessed scope.", "follow_up_required": ["Provide manual/customer evidence for DLP-001 or approve the relevant read-only collector."], "limitations": ["manual_only", "not_configured_for_assessment", "manual_evidence_linked", "demo_evidence"], "mapping_versions_used": [{"artifact_path": "config/dlp_copilot_location_map.json", "last_reviewed": "2026-04-29", "schema_version": "0.1.0", "stale": false}], "observed_state": "See cited evidence and status reason.", "procedure": "Generated from live read-only probe summary and optional manual evidence.", "required_evidence_types": ["raw_api_response", "normalized_observation", "manual_artifact"], "status": "UNKNOWN", "status_cause": "assessment_limitation", "status_reason": "ExchangeOnlineManagement module is locally available, but tenant DLP policy/rule inventory was not read in this default run. Provide Purview export or run an approved read-only DLP inventory collector."}, {"assessed_scope": "tenant / starter-kit first-slice scope", "assessment_run_id": "run-20260720T000000Z", "control_check_id": "DLP-002", "control_family": "DLP", "control_objective": "Assess DLP-002 for starter-kit Copilot governance evidence pack.", "evidence_completeness": "partial", "evidence_items_used": ["ev-powershell-exchange_online_management", "ev-demo-dlp-policy-export"], "expected_state": "Control evidence is present and sufficient for the assessed scope.", "follow_up_required": ["Provide manual/customer evidence for DLP-002 or approve the relevant read-only collector."], "limitations": ["manual_only", "not_configured_for_assessment", "manual_evidence_linked", "demo_evidence"], "mapping_versions_used": [{"artifact_path": "config/dlp_copilot_location_map.json", "last_reviewed": "2026-04-29", "schema_version": "0.1.0", "stale": false}], "observed_state": "See cited evidence and status reason.", "procedure": "Generated from live read-only probe summary and optional manual evidence.", "required_evidence_types": ["raw_api_response", "normalized_observation", "manual_artifact"], "status": "UNKNOWN", "status_cause": "assessment_limitation", "status_reason": "ExchangeOnlineManagement module is locally available, but tenant DLP policy/rule inventory was not read in this default run. Provide Purview export or run an approved read-only DLP inventory collector."}, {"assessed_scope": "tenant / starter-kit first-slice scope", "assessment_run_id": "run-20260720T000000Z", "control_check_id": "SAM-001", "control_family": "SAM", "control_objective": "Assess SAM-001 for starter-kit Copilot governance evidence pack.", "evidence_completeness": "partial", "evidence_items_used": ["ev-powershell-sharepoint_online", "ev-demo-sam-oversharing-report"], "expected_state": "Control evidence is present and sufficient for the assessed scope.", "follow_up_required": ["Provide manual/customer evidence for SAM-001 or approve the relevant read-only collector."], "limitations": ["manual_only", "partial_scope", "manual_evidence_linked", "demo_evidence"], "mapping_versions_used": [{"artifact_path": "config/microsoft_capability_map.json", "last_reviewed": "2026-04-30", "schema_version": "0.1.0", "stale": false}], "observed_state": "See cited evidence and status reason.", "procedure": "Generated from live read-only probe summary and optional manual evidence.", "required_evidence_types": ["raw_api_response", "normalized_observation", "manual_artifact"], "status": "WARN", "status_cause": "assessment_limitation", "status_reason": "SharePoint Online PowerShell module is locally available, but SAM/DAG tenant read capability and report freshness were not validated."}, {"assessed_scope": "tenant / starter-kit first-slice scope", "assessment_run_id": "run-20260720T000000Z", "control_check_id": "EDISC-001", "control_family": "EDISC", "control_objective": "Assess EDISC-001 for starter-kit Copilot governance evidence pack.", "evidence_completeness": "partial", "evidence_items_used": ["ev-demo-retention-policy-evidence"], "expected_state": "Control evidence is present and sufficient for the assessed scope.", "follow_up_required": ["Provide manual/customer evidence for EDISC-001 or approve the relevant read-only collector."], "limitations": ["manual_only", "manual_evidence_linked", "demo_evidence"], "mapping_versions_used": [], "observed_state": "See cited evidence and status reason.", "procedure": "Generated from live read-only probe summary and optional manual evidence.", "required_evidence_types": ["raw_api_response", "normalized_observation", "manual_artifact"], "status": "UNKNOWN", "status_cause": "manual_evidence_required", "status_reason": "Explicit Copilot/AI retention stance requires retention policy evidence or customer-provided manual artifact; no retention policy read was run in the default probe."}, {"assessed_scope": "tenant / starter-kit first-slice scope", "assessment_run_id": "run-20260720T000000Z", "control_check_id": "EDISC-002", "control_family": "EDISC", "control_objective": "Assess EDISC-002 for starter-kit Copilot governance evidence pack.", "evidence_completeness": "partial", "evidence_items_used": ["ev-graph-ediscovery_cases", "ev-demo-ediscovery-readiness-fixture"], "expected_state": "Control evidence is present and sufficient for the assessed scope.", "follow_up_required": ["Review limitations for EDISC-002 and rerun after evidence gap is resolved."], "limitations": ["partial_scope", "no_export_validation", "manual_evidence_linked", "manual_only", "demo_evidence"], "mapping_versions_used": [], "observed_state": "See cited evidence and status reason.", "procedure": "Generated from live read-only probe summary and optional manual evidence.", "required_evidence_types": ["raw_api_response", "normalized_observation", "manual_artifact"], "status": "WARN", "status_cause": "assessment_limitation", "status_reason": "eDiscovery case endpoint is visible, but no positive/export-validating readiness evidence is present in the default run."}, {"assessed_scope": "tenant / starter-kit first-slice scope", "assessment_run_id": "run-20260720T000000Z", "control_check_id": "PACK-001", "control_family": "PACK", "control_objective": "Assess PACK-001 for starter-kit Copilot governance evidence pack.", "evidence_completeness": "full", "evidence_items_used": [], "expected_state": "Control evidence is present and sufficient for the assessed scope.", "follow_up_required": [], "limitations": [], "mapping_versions_used": [], "observed_state": "See cited evidence and status reason.", "procedure": "Generated from live read-only probe summary and optional manual evidence.", "required_evidence_types": ["raw_api_response", "normalized_observation", "manual_artifact"], "status": "PASS", "status_cause": "verified", "status_reason": "All starter-kit controls are represented before pack generation."}, {"assessed_scope": "tenant / starter-kit first-slice scope", "assessment_run_id": "run-20260720T000000Z", "control_check_id": "PACK-002", "control_family": "PACK", "control_objective": "Assess PACK-002 for starter-kit Copilot governance evidence pack.", "evidence_completeness": "full", "evidence_items_used": ["ev-az_account", "ev-az_cloud", "ev-graph-organization", "ev-graph-subscribed_skus", "ev-graph-sensitivity_labels", "ev-graph-token_scopes", "ev-graph-ediscovery_cases", "ev-powershell-exchange_online_management", "ev-powershell-sharepoint_online", "ev-demo-copilot-chat-transcripts", "ev-demo-dlp-policy-export", "ev-demo-sam-oversharing-report", "ev-demo-retention-policy-evidence", "ev-demo-ediscovery-readiness-fixture"], "expected_state": "Control evidence is present and sufficient for the assessed scope.", "follow_up_required": [], "limitations": [], "mapping_versions_used": [], "observed_state": "source_summary=samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/summary.json", "procedure": "Generated from live read-only probe summary and optional manual evidence.", "required_evidence_types": ["raw_api_response", "normalized_observation", "manual_artifact"], "status": "PASS", "status_cause": "verified", "status_reason": "Verified the existence and SHA-256 hash of all 14 retained evidence artifacts."}], "evidence_items": [{"assessment_run_id": "run-20260720T000000Z", "collected_at_utc": "20260720T000000Z", "collection_method": "live read-only probe", "collector_identity": "TCA demo mode", "content_hash": "8823614292b26a98847390cca6af809ee52dd0ac87fc272814c1fcb272f30ec4", "evidence_id": "ev-az_account", "evidence_type": "raw_api_response", "limitations": ["demo_only", "not_customer_evidence", "synthetic_fixture"], "mapping_versions_used": [], "normalized_facts": {"probe_status": "OK", "status_reason": "SYNTHETIC DEMO: no Azure account or tenant context was read.", "summary": {"context": "synthetic local demo"}}, "permission_context": "assessment identity / local tool context", "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/az_account.json", "relevance_rating": "medium", "reliability_rating": "medium", "source_endpoint_or_ui_path": "TCA local synthetic demo context", "source_object_identifiers": {"control_ids": ["PACK-002"], "probe_id": "az_account"}, "source_system": "Azure CLI", "tenant_id": "TCA-DEMO-SYNTHETIC"}, {"assessment_run_id": "run-20260720T000000Z", "collected_at_utc": "20260720T000000Z", "collection_method": "live read-only probe", "collector_identity": "TCA demo mode", "content_hash": "17db73c705b5262147c29aa1f454c2cf66ab6b47b6f7c9223752d079abe32efe", "evidence_id": "ev-az_cloud", "evidence_type": "raw_api_response", "limitations": ["demo_only", "not_customer_evidence", "synthetic_fixture"], "mapping_versions_used": [], "normalized_facts": {"probe_status": "OK", "status_reason": "SYNTHETIC DEMO: no Azure cloud context was read.", "summary": {"context": "synthetic local demo"}}, "permission_context": "assessment identity / local tool context", "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/az_cloud.json", "relevance_rating": "medium", "reliability_rating": "medium", "source_endpoint_or_ui_path": "TCA local synthetic demo context", "source_object_identifiers": {"control_ids": ["PACK-002"], "probe_id": "az_cloud"}, "source_system": "Azure CLI", "tenant_id": "TCA-DEMO-SYNTHETIC"}, {"assessment_run_id": "run-20260720T000000Z", "collected_at_utc": "20260720T000000Z", "collection_method": "live read-only probe", "collector_identity": "TCA demo mode", "content_hash": "507c7c8aa2514878dd065571c39fbedff489ac7f199eb7e39e5fc09e75191a3d", "evidence_id": "ev-graph-organization", "evidence_type": "raw_api_response", "limitations": ["demo_only", "not_customer_evidence", "synthetic_fixture"], "mapping_versions_used": [], "normalized_facts": {"probe_status": "OK", "status_reason": "SYNTHETIC DEMO: representative organization payload only; no Graph tenant call was made.", "summary": {"count_returned": 1, "payload_shape": "collection"}}, "permission_context": "assessment identity / local tool context", "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/graph_organization.json", "relevance_rating": "medium", "reliability_rating": "medium", "source_endpoint_or_ui_path": "TCA local synthetic demo fixture", "source_object_identifiers": {"control_ids": ["PACK-002"], "probe_id": "graph.organization"}, "source_system": "Microsoft Graph", "tenant_id": "TCA-DEMO-SYNTHETIC"}, {"assessment_run_id": "run-20260720T000000Z", "collected_at_utc": "20260720T000000Z", "collection_method": "live read-only probe", "collector_identity": "TCA demo mode", "content_hash": "d5be965331812580127ba5ac22be7be6e74dbf2e07070470e3614a6432f69edd", "evidence_id": "ev-graph-subscribed_skus", "evidence_type": "license_snapshot", "limitations": ["demo_only", "not_customer_evidence", "synthetic_fixture"], "mapping_versions_used": [], "normalized_facts": {"probe_status": "OK", "status_reason": "SYNTHETIC DEMO: representative subscribedSkus payload only; no Graph tenant call was made.", "summary": {"count_returned": 0, "payload_shape": "collection"}}, "permission_context": "assessment identity / local tool context", "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/graph_subscribed_skus.json", "relevance_rating": "medium", "reliability_rating": "medium", "source_endpoint_or_ui_path": "TCA local synthetic demo fixture", "source_object_identifiers": {"control_ids": ["LIC-001", "LIC-002"], "probe_id": "graph.subscribed_skus"}, "source_system": "Microsoft Graph", "tenant_id": "TCA-DEMO-SYNTHETIC"}, {"assessment_run_id": "run-20260720T000000Z", "collected_at_utc": "20260720T000000Z", "collection_method": "live read-only probe", "collector_identity": "TCA demo mode", "content_hash": "d5be965331812580127ba5ac22be7be6e74dbf2e07070470e3614a6432f69edd", "evidence_id": "ev-graph-sensitivity_labels", "evidence_type": "raw_api_response", "limitations": ["demo_only", "not_customer_evidence", "synthetic_fixture"], "mapping_versions_used": [], "normalized_facts": {"probe_status": "OK", "status_reason": "SYNTHETIC DEMO: label endpoint shape is represented, but no real label taxonomy was read.", "summary": {"count_returned": 0, "payload_shape": "collection"}}, "permission_context": "assessment identity / local tool context", "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/graph_sensitivity_labels.json", "relevance_rating": "medium", "reliability_rating": "medium", "source_endpoint_or_ui_path": "TCA local synthetic demo fixture", "source_object_identifiers": {"control_ids": ["LABEL-001"], "probe_id": "graph.sensitivity_labels"}, "source_system": "Microsoft Graph", "tenant_id": "TCA-DEMO-SYNTHETIC"}, {"assessment_run_id": "run-20260720T000000Z", "collected_at_utc": "20260720T000000Z", "collection_method": "live read-only probe", "collector_identity": "TCA demo mode", "content_hash": "7f8ad131ff948d9685ac77c9c04281f97e959392b3f75a74fd35f3575f26228b", "evidence_id": "ev-graph-token_scopes", "evidence_type": "normalized_observation", "limitations": ["demo_only", "not_customer_evidence", "raw_secret_not_retained", "synthetic_fixture"], "mapping_versions_used": [], "normalized_facts": {"probe_status": "OK", "status_reason": "SYNTHETIC DEMO: representative token-scope evidence only; no token was requested or retained.", "summary": {"audit_query_scopes_present": ["AuditLogsQuery.Read.All"], "raw_access_token_retained": false}}, "permission_context": "assessment identity / local tool context", "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/graph_token_scopes.json", "relevance_rating": "medium", "reliability_rating": "medium", "source_endpoint_or_ui_path": "TCA local synthetic demo fixture", "source_object_identifiers": {"control_ids": ["AUD-001"], "probe_id": "graph.token_scopes"}, "source_system": "Microsoft Graph", "tenant_id": "TCA-DEMO-SYNTHETIC"}, {"assessment_run_id": "run-20260720T000000Z", "collected_at_utc": "20260720T000000Z", "collection_method": "live read-only probe", "collector_identity": "TCA demo mode", "content_hash": "d5be965331812580127ba5ac22be7be6e74dbf2e07070470e3614a6432f69edd", "evidence_id": "ev-graph-ediscovery_cases", "evidence_type": "raw_api_response", "limitations": ["demo_only", "not_customer_evidence", "synthetic_fixture"], "mapping_versions_used": [], "normalized_facts": {"probe_status": "OK", "status_reason": "SYNTHETIC DEMO: eDiscovery case-list shape is represented, but no Purview or Graph tenant call was made.", "summary": {"count_returned": 0, "payload_shape": "collection"}}, "permission_context": "assessment identity / local tool context", "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/graph_ediscovery_cases.json", "relevance_rating": "medium", "reliability_rating": "medium", "source_endpoint_or_ui_path": "TCA local synthetic demo fixture", "source_object_identifiers": {"control_ids": ["EDISC-002"], "probe_id": "graph.ediscovery_cases"}, "source_system": "Microsoft Graph", "tenant_id": "TCA-DEMO-SYNTHETIC"}, {"assessment_run_id": "run-20260720T000000Z", "collected_at_utc": "20260720T000000Z", "collection_method": "live read-only probe", "collector_identity": "TCA demo mode", "content_hash": "bcb00e4490f59a16d540e1ce645cd90758d082f8944d4356d3e5a86ab8c3b6bf", "evidence_id": "ev-powershell-exchange_online_management", "evidence_type": "normalized_observation", "limitations": ["demo_only", "not_customer_evidence", "synthetic_fixture"], "mapping_versions_used": [], "normalized_facts": {"probe_status": "OK", "status_reason": "SYNTHETIC DEMO: module availability is represented for UI review only; local PowerShell was not probed.", "summary": {"available": true, "module": "ExchangeOnlineManagement"}}, "permission_context": "assessment identity / local tool context", "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/powershell_exchange_online_management.json", "relevance_rating": "medium", "reliability_rating": "medium", "source_endpoint_or_ui_path": "TCA local synthetic demo fixture", "source_object_identifiers": {"control_ids": ["DLP-001", "DLP-002"], "probe_id": "powershell.exchange_online_management"}, "source_system": "Local PowerShell module check", "tenant_id": "TCA-DEMO-SYNTHETIC"}, {"assessment_run_id": "run-20260720T000000Z", "collected_at_utc": "20260720T000000Z", "collection_method": "live read-only probe", "collector_identity": "TCA demo mode", "content_hash": "ed3c897c510d34b16085a7e71e0439b82b0f0567fa4b326be5930531ad74d68e", "evidence_id": "ev-powershell-sharepoint_online", "evidence_type": "normalized_observation", "limitations": ["demo_only", "not_customer_evidence", "synthetic_fixture"], "mapping_versions_used": [], "normalized_facts": {"probe_status": "OK", "status_reason": "SYNTHETIC DEMO: module availability is represented for UI review only; local PowerShell was not probed.", "summary": {"available": true, "module": "Microsoft.Online.SharePoint.PowerShell"}}, "permission_context": "assessment identity / local tool context", "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/powershell_sharepoint_online.json", "relevance_rating": "medium", "reliability_rating": "medium", "source_endpoint_or_ui_path": "TCA local synthetic demo fixture", "source_object_identifiers": {"control_ids": ["SAM-001"], "probe_id": "powershell.sharepoint_online"}, "source_system": "Local PowerShell module check", "tenant_id": "TCA-DEMO-SYNTHETIC"}, {"assessment_run_id": "run-20260720T000000Z", "collected_at_utc": "2026-07-20T00:00:00Z", "collection_method": "manual customer/assessor evidence", "collector_identity": "TCA demo mode", "content_hash": "8e89b23518cfb4f32561b3bb0b0acff0352d6694bcde030758c18146a5921aa3", "evidence_id": "ev-demo-copilot-chat-transcripts", "evidence_type": "manual_artifact", "limitations": ["customer_asserted", "demo_only", "manual_only", "not_independently_verified_by_tool", "synthetic_fixture"], "mapping_versions_used": [], "normalized_facts": {"demo_mode": true, "independently_verified_by_tool": false, "is_synthetic": true, "not_a_copilotinteraction_record": true, "not_a_purview_audit_record": true, "purpose": "UI/report depth demonstration only", "record_count": 6, "tenant_artifact_created": false, "trust_level": "customer_asserted"}, "permission_context": "manual/customer-provided", "raw_artifact_path": "samples/copilot-assurance/generated-source/demo_dataset/20260720T000000Z/synthetic_copilot_chat_transcripts.json", "relevance_rating": "medium", "reliability_rating": "low", "source_endpoint_or_ui_path": "local synthetic fixture; not Microsoft Purview audit", "source_object_identifiers": {"control_ids": ["AUD-002"]}, "source_system": "TCA synthetic demo fixture", "tenant_id": "TCA-DEMO-SYNTHETIC"}, {"assessment_run_id": "run-20260720T000000Z", "collected_at_utc": "2026-07-20T00:00:00Z", "collection_method": "manual customer/assessor evidence", "collector_identity": "TCA demo mode", "content_hash": "197c7b016d1b9eb0ecba4c0f584a485f4a47fac0096de9f84c2cfd9dc02dc2e1", "evidence_id": "ev-demo-dlp-policy-export", "evidence_type": "policy_snapshot", "limitations": ["customer_asserted", "demo_only", "manual_only", "not_customer_export", "synthetic_fixture"], "mapping_versions_used": [], "normalized_facts": {"copilot_related_policy_examples": 2, "demo_mode": true, "independently_verified_by_tool": false, "is_synthetic": true, "policy_count": 2, "tenant_policy_changed": false, "trust_level": "customer_asserted"}, "permission_context": "manual/customer-provided", "raw_artifact_path": "samples/copilot-assurance/generated-source/demo_dataset/20260720T000000Z/synthetic_dlp_policy_export.json", "relevance_rating": "high", "reliability_rating": "low", "source_endpoint_or_ui_path": "local synthetic fixture; representative Purview DLP export shape", "source_object_identifiers": {"control_ids": ["DLP-001", "DLP-002"]}, "source_system": "TCA synthetic demo fixture", "tenant_id": "TCA-DEMO-SYNTHETIC"}, {"assessment_run_id": "run-20260720T000000Z", "collected_at_utc": "2026-07-20T00:00:00Z", "collection_method": "manual customer/assessor evidence", "collector_identity": "TCA demo mode", "content_hash": "53631d7a8263203f8bf70f68d16ac0c2a7f123fda077cbf51ccf2b57d5bd875b", "evidence_id": "ev-demo-sam-oversharing-report", "evidence_type": "report_export", "limitations": ["customer_asserted", "demo_only", "manual_only", "not_customer_export", "synthetic_fixture"], "mapping_versions_used": [], "normalized_facts": {"demo_mode": true, "high_risk_site_examples": 4, "independently_verified_by_tool": false, "is_synthetic": true, "tenant_sharing_changed": false, "trust_level": "customer_asserted"}, "permission_context": "manual/customer-provided", "raw_artifact_path": "samples/copilot-assurance/generated-source/demo_dataset/20260720T000000Z/synthetic_sam_oversharing_report.json", "relevance_rating": "high", "reliability_rating": "low", "source_endpoint_or_ui_path": "local synthetic fixture; representative SAM/DAG output", "source_object_identifiers": {"control_ids": ["SAM-001"]}, "source_system": "TCA synthetic demo fixture", "tenant_id": "TCA-DEMO-SYNTHETIC"}, {"assessment_run_id": "run-20260720T000000Z", "collected_at_utc": "2026-07-20T00:00:00Z", "collection_method": "manual customer/assessor evidence", "collector_identity": "TCA demo mode", "content_hash": "59bca5cd4bc247dfed83d01e0147d576f49b284bf9d42e1ad81480dc89b6b6a5", "evidence_id": "ev-demo-retention-policy-evidence", "evidence_type": "policy_snapshot", "limitations": ["customer_asserted", "demo_only", "manual_only", "not_customer_export", "synthetic_fixture"], "mapping_versions_used": [], "normalized_facts": {"demo_mode": true, "independently_verified_by_tool": false, "is_synthetic": true, "retention_policy_examples": 2, "tenant_policy_changed": false, "trust_level": "customer_asserted"}, "permission_context": "manual/customer-provided", "raw_artifact_path": "samples/copilot-assurance/generated-source/demo_dataset/20260720T000000Z/synthetic_retention_policy_evidence.json", "relevance_rating": "high", "reliability_rating": "low", "source_endpoint_or_ui_path": "local synthetic fixture; representative Purview retention evidence", "source_object_identifiers": {"control_ids": ["AUD-003", "EDISC-001"]}, "source_system": "TCA synthetic demo fixture", "tenant_id": "TCA-DEMO-SYNTHETIC"}, {"assessment_run_id": "run-20260720T000000Z", "collected_at_utc": "2026-07-20T00:00:00Z", "collection_method": "manual customer/assessor evidence", "collector_identity": "TCA demo mode", "content_hash": "a7bc69a44e8b9d21c4bac867edbba38450295e002e27f1d5e9c22ce5d24b7070", "evidence_id": "ev-demo-ediscovery-readiness-fixture", "evidence_type": "report_export", "limitations": ["customer_asserted", "demo_only", "manual_only", "no_export_validation", "synthetic_fixture"], "mapping_versions_used": [], "normalized_facts": {"demo_mode": true, "does_not_prove_export_readiness": true, "independently_verified_by_tool": false, "is_synthetic": true, "tenant_artifact_created": false, "trust_level": "customer_asserted"}, "permission_context": "manual/customer-provided", "raw_artifact_path": "samples/copilot-assurance/generated-source/demo_dataset/20260720T000000Z/synthetic_ediscovery_readiness.json", "relevance_rating": "medium", "reliability_rating": "low", "source_endpoint_or_ui_path": "local synthetic fixture; no tenant mutation", "source_object_identifiers": {"control_ids": ["EDISC-002"]}, "source_system": "TCA synthetic demo fixture", "tenant_id": "TCA-DEMO-SYNTHETIC"}], "evidence_pack_id": "pack-run-20260720T000000Z", "findings": [{"affected_objects": ["LIC-002.copilot_family"], "affected_scope": "TCA-DEMO-SYNTHETIC", "assessment_run_id": "run-20260720T000000Z", "cause": "unknown_root_cause", "condition": "The report collected partial evidence, but this control is not fully proven.", "confidence": "medium", "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.", "criterion": "Required entitlement evidence is present or absence is explicitly proven.", "due_date": null, "evidence_references": ["ev-graph-subscribed_skus"], "finding_id": "finding-lic-002-copilot_family", "finding_type": "evidence_gap", "impact_or_risk": "Reviewers should not treat this as verified assurance until the missing evidence is supplied.", "owner": null, "recommendation": "Refresh capability map or provide manual/license-admin evidence.", "related_control_checks": ["LIC-002.copilot_family"], "severity": "low", "status": "open", "title": "LIC-002.copilot_family: UNKNOWN"}, {"affected_objects": ["LIC-002.work_graph_chat"], "affected_scope": "TCA-DEMO-SYNTHETIC", "assessment_run_id": "run-20260720T000000Z", "cause": "unknown_root_cause", "condition": "The report collected partial evidence, but this control is not fully proven.", "confidence": "medium", "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.", "criterion": "Required entitlement evidence is present or absence is explicitly proven.", "due_date": null, "evidence_references": ["ev-graph-subscribed_skus"], "finding_id": "finding-lic-002-work_graph_chat", "finding_type": "evidence_gap", "impact_or_risk": "Reviewers should not treat this as verified assurance until the missing evidence is supplied.", "owner": null, "recommendation": "Refresh capability map or provide manual/license-admin evidence.", "related_control_checks": ["LIC-002.work_graph_chat"], "severity": "low", "status": "open", "title": "LIC-002.work_graph_chat: UNKNOWN"}, {"affected_objects": ["AUD-001"], "affected_scope": "TCA-DEMO-SYNTHETIC", "assessment_run_id": "run-20260720T000000Z", "cause": "unknown_root_cause", "condition": "Audit capability signals are present, but audit evidence for this control is not complete.", "confidence": "medium", "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.", "criterion": "Control evidence is present and sufficient for the assessed scope.", "due_date": null, "evidence_references": ["ev-graph-token_scopes"], "finding_id": "finding-aud-001", "finding_type": "improvement_opportunity", "impact_or_risk": "Without audit evidence, reviewers cannot confirm that Copilot activity can be monitored or investigated.", "owner": null, "recommendation": "Provide Purview audit evidence, or approve a bounded read-only audit query for the relevant Copilot activity.", "related_control_checks": ["AUD-001"], "severity": "low", "status": "open", "title": "AUD-001: WARN"}, {"affected_objects": ["AUD-002"], "affected_scope": "TCA-DEMO-SYNTHETIC", "assessment_run_id": "run-20260720T000000Z", "cause": "unknown_root_cause", "condition": "Audit capability signals are present, but audit evidence for this control is not complete.", "confidence": "medium", "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.", "criterion": "Control evidence is present and sufficient for the assessed scope.", "due_date": null, "evidence_references": ["ev-demo-copilot-chat-transcripts"], "finding_id": "finding-aud-002", "finding_type": "evidence_gap", "impact_or_risk": "Without audit evidence, reviewers cannot confirm that Copilot activity can be monitored or investigated.", "owner": null, "recommendation": "Provide Purview audit evidence, or approve a bounded read-only audit query for the relevant Copilot activity.", "related_control_checks": ["AUD-002"], "severity": "low", "status": "open", "title": "AUD-002: UNKNOWN"}, {"affected_objects": ["AUD-003"], "affected_scope": "TCA-DEMO-SYNTHETIC", "assessment_run_id": "run-20260720T000000Z", "cause": "unknown_root_cause", "condition": "Audit capability signals are present, but audit evidence for this control is not complete.", "confidence": "medium", "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.", "criterion": "Control evidence is present and sufficient for the assessed scope.", "due_date": null, "evidence_references": ["ev-demo-retention-policy-evidence"], "finding_id": "finding-aud-003", "finding_type": "evidence_gap", "impact_or_risk": "Without audit evidence, reviewers cannot confirm that Copilot activity can be monitored or investigated.", "owner": null, "recommendation": "Provide Purview audit evidence, or approve a bounded read-only audit query for the relevant Copilot activity.", "related_control_checks": ["AUD-003"], "severity": "low", "status": "open", "title": "AUD-003: UNKNOWN"}, {"affected_objects": ["LABEL-001"], "affected_scope": "TCA-DEMO-SYNTHETIC", "assessment_run_id": "run-20260720T000000Z", "cause": "unknown_root_cause", "condition": "Sensitivity-label evidence is partial, so label taxonomy or coverage is not fully proven.", "confidence": "medium", "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.", "criterion": "Control evidence is present and sufficient for the assessed scope.", "due_date": null, "evidence_references": ["ev-graph-sensitivity_labels"], "finding_id": "finding-label-001", "finding_type": "improvement_opportunity", "impact_or_risk": "Without label evidence, reviewers cannot confirm that sensitive content has the classification baseline expected for Copilot governance.", "owner": null, "recommendation": "Provide sensitivity-label taxonomy/coverage export, or approve the relevant read-only label collector.", "related_control_checks": ["LABEL-001"], "severity": "low", "status": "open", "title": "LABEL-001: WARN"}, {"affected_objects": ["DLP-001"], "affected_scope": "TCA-DEMO-SYNTHETIC", "assessment_run_id": "run-20260720T000000Z", "cause": "unknown_root_cause", "condition": "DLP policy/rule inventory was not collected, so Copilot DLP coverage is not proven.", "confidence": "medium", "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.", "criterion": "Control evidence is present and sufficient for the assessed scope.", "due_date": null, "evidence_references": ["ev-powershell-exchange_online_management", "ev-demo-dlp-policy-export"], "finding_id": "finding-dlp-001", "finding_type": "evidence_gap", "impact_or_risk": "Without policy and rule evidence, reviewers cannot confirm whether Copilot-related activity is covered by expected data-loss controls.", "owner": null, "recommendation": "Provide Purview DLP policy/rule export, or approve the read-only DLP inventory collector.", "related_control_checks": ["DLP-001"], "severity": "low", "status": "open", "title": "DLP-001: UNKNOWN"}, {"affected_objects": ["DLP-002"], "affected_scope": "TCA-DEMO-SYNTHETIC", "assessment_run_id": "run-20260720T000000Z", "cause": "unknown_root_cause", "condition": "DLP policy/rule inventory was not collected, so Copilot DLP coverage is not proven.", "confidence": "medium", "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.", "criterion": "Control evidence is present and sufficient for the assessed scope.", "due_date": null, "evidence_references": ["ev-powershell-exchange_online_management", "ev-demo-dlp-policy-export"], "finding_id": "finding-dlp-002", "finding_type": "evidence_gap", "impact_or_risk": "Without policy and rule evidence, reviewers cannot confirm whether Copilot-related activity is covered by expected data-loss controls.", "owner": null, "recommendation": "Provide Purview DLP policy/rule export, or approve the read-only DLP inventory collector.", "related_control_checks": ["DLP-002"], "severity": "low", "status": "open", "title": "DLP-002: UNKNOWN"}, {"affected_objects": ["SAM-001"], "affected_scope": "TCA-DEMO-SYNTHETIC", "assessment_run_id": "run-20260720T000000Z", "cause": "unknown_root_cause", "condition": "SharePoint sharing governance tooling is available locally, but tenant oversharing evidence was not collected.", "confidence": "medium", "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.", "criterion": "Control evidence is present and sufficient for the assessed scope.", "due_date": null, "evidence_references": ["ev-powershell-sharepoint_online", "ev-demo-sam-oversharing-report"], "finding_id": "finding-sam-001", "finding_type": "improvement_opportunity", "impact_or_risk": "Without sharing and oversharing evidence, reviewers cannot judge whether Copilot could expose broadly shared content.", "owner": null, "recommendation": "Provide a current SharePoint Advanced Management/DAG export, or approve the read-only sharing evidence collector.", "related_control_checks": ["SAM-001"], "severity": "low", "status": "open", "title": "SAM-001: WARN"}, {"affected_objects": ["EDISC-001"], "affected_scope": "TCA-DEMO-SYNTHETIC", "assessment_run_id": "run-20260720T000000Z", "cause": "unknown_root_cause", "condition": "The report does not yet have enough retention-policy evidence for Copilot or AI-related data.", "confidence": "medium", "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.", "criterion": "Control evidence is present and sufficient for the assessed scope.", "due_date": null, "evidence_references": ["ev-demo-retention-policy-evidence"], "finding_id": "finding-edisc-001", "finding_type": "evidence_gap", "impact_or_risk": "Without retention evidence, reviewers cannot confirm how Copilot or AI-related records would be preserved.", "owner": null, "recommendation": "Provide retention-policy evidence from Purview, or approve the relevant read-only retention evidence collector.", "related_control_checks": ["EDISC-001"], "severity": "low", "status": "open", "title": "EDISC-001: UNKNOWN"}, {"affected_objects": ["EDISC-002"], "affected_scope": "TCA-DEMO-SYNTHETIC", "assessment_run_id": "run-20260720T000000Z", "cause": "unknown_root_cause", "condition": "eDiscovery is reachable, but Copilot data discovery/export readiness is not proven.", "confidence": "medium", "confidence_reason": "Finding generated mechanically from control-check status and limitations; review before customer delivery.", "criterion": "Control evidence is present and sufficient for the assessed scope.", "due_date": null, "evidence_references": ["ev-graph-ediscovery_cases", "ev-demo-ediscovery-readiness-fixture"], "finding_id": "finding-edisc-002", "finding_type": "improvement_opportunity", "impact_or_risk": "This limits confidence that Copilot interaction data can be discovered and produced for investigation or audit.", "owner": null, "recommendation": "Provide existing Purview eDiscovery evidence, or approve a bounded validation procedure for a scoped mailbox/site.", "related_control_checks": ["EDISC-002"], "severity": "low", "status": "open", "title": "EDISC-002: WARN"}], "format": "JSON+Markdown", "generated_at_utc": "2026-07-20T00:00:00Z", "pack_generated_at_utc": "2026-07-20T00:00:00Z", "sample_notice": {"no_live_microsoft_api_calls": true, "not_customer_evidence": true, "product_name": "Tesrex Copilot Assurance", "sample_only": true, "synthetic_only": true}, "unread_controls_register": [{"control_check_id": "LIC-002.copilot_family", "evidence_completeness": "partial", "follow_up_required": ["Refresh capability map or provide manual/license-admin evidence."], "limitations": ["license_limited"], "status": "UNKNOWN", "status_cause": "assessment_limitation", "status_reason": "No exact entitlement match found, but the mapping does not claim complete coverage or is stale; license absence is not proven."}, {"control_check_id": "LIC-002.work_graph_chat", "evidence_completeness": "partial", "follow_up_required": ["Refresh capability map or provide manual/license-admin evidence."], "limitations": ["license_limited"], "status": "UNKNOWN", "status_cause": "assessment_limitation", "status_reason": "No exact entitlement match found, but the mapping does not claim complete coverage or is stale; license absence is not proven."}, {"control_check_id": "AUD-001", "evidence_completeness": "partial", "follow_up_required": ["Review limitations for AUD-001 and rerun after evidence gap is resolved."], "limitations": ["not_configured_for_assessment"], "status": "WARN", "status_cause": "assessment_limitation", "status_reason": "Audit query scope is present in the token, but no audit query was created in the default read-only probe; full audit search access is not proven."}, {"control_check_id": "AUD-002", "evidence_completeness": "partial", "follow_up_required": ["Provide manual/customer evidence for AUD-002 or approve the relevant read-only collector."], "limitations": ["manual_only", "not_configured_for_assessment", "manual_evidence_linked", "demo_evidence"], "status": "UNKNOWN", "status_cause": "assessment_limitation", "status_reason": "CopilotInteraction audit record observability requires an explicitly approved audit query and independent usage context; neither is part of the default read-only probe."}, {"control_check_id": "AUD-003", "evidence_completeness": "partial", "follow_up_required": ["Provide manual/customer evidence for AUD-003 or approve the relevant read-only collector."], "limitations": ["manual_only", "manual_evidence_linked", "demo_evidence"], "status": "UNKNOWN", "status_cause": "manual_evidence_required", "status_reason": "Audit retention capability is not proven by token-scope inspection alone; provide Purview audit configuration evidence or approved historical query evidence."}, {"control_check_id": "LABEL-001", "evidence_completeness": "partial", "follow_up_required": ["Review limitations for LABEL-001 and rerun after evidence gap is resolved."], "limitations": ["partial_scope"], "status": "WARN", "status_cause": "assessment_limitation", "status_reason": "Sensitivity-label endpoint is reachable but the $top=1 probe returned zero labels; taxonomy coverage is not proven."}, {"control_check_id": "DLP-001", "evidence_completeness": "partial", "follow_up_required": ["Provide manual/customer evidence for DLP-001 or approve the relevant read-only collector."], "limitations": ["manual_only", "not_configured_for_assessment", "manual_evidence_linked", "demo_evidence"], "status": "UNKNOWN", "status_cause": "assessment_limitation", "status_reason": "ExchangeOnlineManagement module is locally available, but tenant DLP policy/rule inventory was not read in this default run. Provide Purview export or run an approved read-only DLP inventory collector."}, {"control_check_id": "DLP-002", "evidence_completeness": "partial", "follow_up_required": ["Provide manual/customer evidence for DLP-002 or approve the relevant read-only collector."], "limitations": ["manual_only", "not_configured_for_assessment", "manual_evidence_linked", "demo_evidence"], "status": "UNKNOWN", "status_cause": "assessment_limitation", "status_reason": "ExchangeOnlineManagement module is locally available, but tenant DLP policy/rule inventory was not read in this default run. Provide Purview export or run an approved read-only DLP inventory collector."}, {"control_check_id": "SAM-001", "evidence_completeness": "partial", "follow_up_required": ["Provide manual/customer evidence for SAM-001 or approve the relevant read-only collector."], "limitations": ["manual_only", "partial_scope", "manual_evidence_linked", "demo_evidence"], "status": "WARN", "status_cause": "assessment_limitation", "status_reason": "SharePoint Online PowerShell module is locally available, but SAM/DAG tenant read capability and report freshness were not validated."}, {"control_check_id": "EDISC-001", "evidence_completeness": "partial", "follow_up_required": ["Provide manual/customer evidence for EDISC-001 or approve the relevant read-only collector."], "limitations": ["manual_only", "manual_evidence_linked", "demo_evidence"], "status": "UNKNOWN", "status_cause": "manual_evidence_required", "status_reason": "Explicit Copilot/AI retention stance requires retention policy evidence or customer-provided manual artifact; no retention policy read was run in the default probe."}, {"control_check_id": "EDISC-002", "evidence_completeness": "partial", "follow_up_required": ["Review limitations for EDISC-002 and rerun after evidence gap is resolved."], "limitations": ["partial_scope", "no_export_validation", "manual_evidence_linked", "manual_only", "demo_evidence"], "status": "WARN", "status_cause": "assessment_limitation", "status_reason": "eDiscovery case endpoint is visible, but no positive/export-validating readiness evidence is present in the default run."}]}</script>
+<script>
+
+const PACK = JSON.parse(document.getElementById('pack-data').textContent);
+const evidenceById = new Map((PACK.evidence_items || []).map(item => [item.evidence_id, item]));
+const controlsById = new Map((PACK.control_checks || []).map(item => [item.control_check_id, item]));
+const findingsById = new Map((PACK.findings || []).map(item => [item.finding_id, item]));
+const findingsByControl = new Map();
+for (const finding of PACK.findings || []) {
+  for (const controlId of finding.related_control_checks || finding.affected_objects || []) {
+    if (!findingsByControl.has(controlId)) findingsByControl.set(controlId, []);
+    findingsByControl.get(controlId).push(finding);
+  }
+}
+const statusLabels = {
+  PASS: 'Verified', WARN: 'Needs Review', UNKNOWN: 'Unverified',
+  NOT_ACCESSIBLE: 'Access Required', NOT_LICENSED: 'Not Licensed', FAIL: 'Failed'
+};
+const causeLabels = {
+  verified: 'Verified evidence',
+  tenant_gap: 'Tenant gap',
+  assessment_limitation: 'Assessment limitation',
+  permission_gap: 'Permission gap',
+  not_licensed: 'Not licensed',
+  unsupported_api: 'Unsupported API',
+  usage_absence: 'No usage context',
+  manual_evidence_required: 'Manual evidence required',
+  demo_evidence: 'Demo evidence',
+  unknown: 'Cause not specified'
+};
+const evidenceQualityLabels = {
+  demo_evidence: 'Demo evidence attached',
+  demo_only: 'Demo evidence attached',
+  synthetic_fixture: 'Synthetic evidence',
+  demo_evidence_in_full_check: 'Demo evidence attached',
+  manual_evidence_linked: 'Manual evidence linked',
+  manual_only: 'Manual evidence required',
+  not_configured_for_assessment: 'Not collected in this run',
+  partial_scope: 'Partial scope',
+  sampled: 'Sampled evidence',
+  stale: 'Stale evidence',
+  stale_mapping: 'Stale mapping',
+  license_limited: 'License mapping limited',
+  permission_limited: 'Permission limited',
+  no_export_validation: 'No export validation',
+  no_positive_hit: 'No positive content hit',
+  zero_result: 'Zero-result validation',
+  api_unsupported: 'API limitation',
+  unsupported_api: 'API limitation',
+  raw_retention_unavailable: 'Raw artifact not retained'
+};
+const demoLimitationMarkers = ['demo_evidence', 'demo_only', 'synthetic_fixture', 'demo_evidence_in_full_check'];
+const evidenceQualityPriority = {
+  raw_retention_unavailable: 95,
+  stale: 90,
+  stale_mapping: 88,
+  permission_limited: 85,
+  license_limited: 82,
+  api_unsupported: 80,
+  unsupported_api: 80,
+  not_configured_for_assessment: 75,
+  manual_only: 70,
+  no_export_validation: 65,
+  no_positive_hit: 62,
+  zero_result: 60,
+  partial_scope: 55,
+  sampled: 50,
+  manual_evidence_linked: 30,
+  demo_evidence: 10,
+  demo_only: 10,
+  synthetic_fixture: 10,
+  demo_evidence_in_full_check: 10
+};
+
+function hasDemoMarker(control) {
+  return (control.limitations || []).some(item => demoLimitationMarkers.includes(item));
+}
+
+function reviewLabel(control) {
+  const status = control.status || 'UNKNOWN';
+  const cause = control.status_cause || 'unknown';
+  if (status === 'PASS' && hasDemoMarker(control)) return 'Demo evidence attached';
+  if (status === 'PASS') return 'Verified';
+  if (status === 'NOT_ACCESSIBLE' || cause === 'permission_gap') return 'Access required';
+  if (status === 'NOT_LICENSED' || cause === 'not_licensed') return 'Licensing required';
+  if (status === 'FAIL' || cause === 'tenant_gap') return 'Tenant action required';
+  if (cause === 'unsupported_api') return 'Microsoft API limitation';
+  if (cause === 'usage_absence') return 'No usage evidence';
+  if (cause === 'manual_evidence_required') return 'Manual evidence required';
+  if (cause === 'demo_evidence') return 'Demo evidence only';
+  if (cause === 'assessment_limitation') return status === 'UNKNOWN' ? 'Not assessed' : 'Evidence incomplete';
+  return 'Review required';
+}
+
+function meaningText(control) {
+  const status = control.status || 'UNKNOWN';
+  const cause = control.status_cause || 'unknown';
+  if (status === 'PASS' && cause === 'verified') return 'Available evidence supports this control for the assessed scope.';
+  if (status === 'FAIL' || cause === 'tenant_gap') return 'Collected evidence points to a tenant configuration or control gap that needs remediation.';
+  if (status === 'NOT_ACCESSIBLE' || cause === 'permission_gap') return 'The control may exist, but the assessment identity could not read the required source.';
+  if (status === 'NOT_LICENSED' || cause === 'not_licensed') return 'The required Microsoft capability appears unavailable or outside the current license baseline.';
+  if (cause === 'unsupported_api') return 'The required evidence is not available through the supported Microsoft API path used by this assessment.';
+  if (cause === 'usage_absence') return 'No relevant activity sample was available, so the control behavior cannot be assessed from usage evidence.';
+  if (cause === 'manual_evidence_required') return 'This control depends on customer/assessor evidence or a separately approved collector.';
+  if (cause === 'demo_evidence') return 'Only demo or synthetic evidence is attached; do not treat this as production assurance.';
+  if (cause === 'assessment_limitation') return 'This does not prove the tenant is misconfigured; the assessment lacks enough supported evidence.';
+  return 'The report cannot classify the reason confidently from the available evidence.';
+}
+
+function nextActionText(control) {
+  const actions = (control.follow_up_required || []).filter(Boolean);
+  if (actions.length) return actions[0];
+  const status = control.status || 'UNKNOWN';
+  const cause = control.status_cause || 'unknown';
+  if (status === 'PASS' && cause === 'verified') return 'No action required; retain linked evidence for the audit trail.';
+  if (cause === 'permission_gap') return 'Grant the least-privilege reader role/permission for this source, then rerun.';
+  if (cause === 'not_licensed') return 'Confirm licensing or remove this control from the assessment baseline.';
+  if (cause === 'unsupported_api') return 'Provide native Microsoft UI/export evidence for this control.';
+  if (cause === 'usage_absence') return 'Provide a bounded usage sample or rerun after relevant activity exists.';
+  if (cause === 'tenant_gap') return 'Remediate the Microsoft control configuration and rerun the assessment.';
+  return 'Review the evidence manually, then decide whether a collector, export, permission, or tenant change is required.';
+}
+
+function responsibleDomain(control) {
+  return ({
+    LIC: 'Licensing',
+    AUD: 'Audit / Purview',
+    LABEL: 'Data protection',
+    DLP: 'Data protection',
+    SAM: 'SharePoint governance',
+    EDISC: 'Compliance / eDiscovery',
+    PACK: 'Assessment evidence'
+  })[(control.control_family || '').toUpperCase()] || 'Governance review';
+}
+
+function evidenceQualityTags(control) {
+  const limitations = control.limitations || [];
+  const tags = [];
+  if (control.evidence_completeness === 'partial') tags.push('Partial evidence');
+  if (control.evidence_completeness === 'none') tags.push('No usable evidence');
+
+  const orderedLimitations = [...limitations].sort((a, b) => (evidenceQualityPriority[b] || 0) - (evidenceQualityPriority[a] || 0));
+  for (const limitation of orderedLimitations) {
+    const label = evidenceQualityLabels[limitation];
+    if (label && !tags.includes(label) && tags.length < 3) tags.push(label);
+  }
+
+  const demoMarker = limitations.find(item => demoLimitationMarkers.includes(item));
+  const demoLabel = demoMarker ? evidenceQualityLabels[demoMarker] : null;
+  if (demoLabel && !tags.includes(demoLabel)) {
+    if (tags.length >= 3) tags[tags.length - 1] = demoLabel;
+    else tags.push(demoLabel);
+  }
+  return tags.slice(0, 3);
+}
+
+function evidenceQualityHtml(control) {
+  const tags = evidenceQualityTags(control);
+  if (!tags.length) return '';
+  return `<span class="quality-tags">${tags.map(tag => `<span class="quality-tag">${escapeHtml(tag)}</span>`).join('')}</span>`;
+}
+
+function evidenceDetailHtml(item) {
+  if (!item) return '';
+  return `
+    <h3>${escapeHtml(item.evidence_id)}</h3>
+    <div class="evidence-actions"><button type="button" class="copy-button" data-copy-value="${escapeHtml(item.evidence_id)}">Copy Evidence ID</button></div>
+    <dl>
+      <dt>Type</dt><dd>${escapeHtml(item.evidence_type)}</dd>
+      <dt>Source</dt><dd>${escapeHtml(item.source_system)}</dd>
+      <dt>Collected</dt><dd>${escapeHtml(item.collected_at_utc || '')}</dd>
+      <dt>Hash</dt><dd><code>${escapeHtml(item.content_hash || '(none)')}</code></dd>
+      <dt>Artifact</dt><dd><code>${escapeHtml(item.raw_artifact_path || '(not retained)')}</code></dd>
+      <dt>Limitations</dt><dd>${escapeHtml((item.limitations || []).join(', ') || '(none)')}</dd>
+    </dl>
+    <h3>Normalized facts</h3>
+    <pre>${escapeHtml(JSON.stringify(item.normalized_facts || {}, null, 2))}</pre>
+  `;
+}
+
+function evidenceButtonsHtml(control) {
+  const ids = control.evidence_items_used || [];
+  if (!ids.length) return '';
+  return `<div class="evidence-actions">${ids.map(id => `<button type="button" class="evidence-pill" data-evidence-id="${escapeHtml(id)}">${escapeHtml(id)}</button>`).join('')}</div>`;
+}
+
+function linkedFindingsHtml(control) {
+  const findings = findingsByControl.get(control.control_check_id) || [];
+  const first = findings[0] || {};
+  const whatFound = first.condition || reviewLabel(control);
+  const whyMatters = first.impact_or_risk || meaningText(control);
+  const nextStep = first.recommendation || nextActionText(control);
+  return `
+    <p><b>What the report found:</b> ${escapeHtml(whatFound)}</p>
+    <p><b>Why this appears:</b> ${escapeHtml(control.status_reason || 'No status reason was provided.')}</p>
+    <p><b>Why this matters:</b> ${escapeHtml(whyMatters)}</p>
+    <p><b>Next evidence step:</b> ${escapeHtml(nextStep)}</p>
+  `;
+}
+
+function showEvidence(evidenceId, context) {
+  const detail = document.getElementById('evidence-detail');
+  const item = evidenceById.get(evidenceId);
+  document.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
+  if (!item) {
+    detail.innerHTML = `<h3>${context ? escapeHtml(context) : 'No automated evidence'}</h3><div class="empty-state">No automated evidence is linked to this item. Review the control's next action and provide manual evidence or approve the relevant collector.</div>`;
+    return;
+  }
+  document.querySelectorAll(`[data-evidence-id="${CSS.escape(evidenceId)}"]`).forEach(el => el.classList.add('active'));
+  detail.innerHTML = evidenceDetailHtml(item);
+}
+
+function showControl(controlId) {
+  const control = controlsById.get(controlId);
+  if (!control) return;
+  document.querySelectorAll('.control-row.active, .evidence-link.active, .evidence-pill.active').forEach(el => el.classList.remove('active'));
+  const row = document.querySelector(`[data-control-id="${CSS.escape(controlId)}"]`);
+  if (row) row.classList.add('active');
+  const evidenceIds = control.evidence_items_used || [];
+  const firstEvidence = evidenceIds.length ? evidenceById.get(evidenceIds[0]) : null;
+  const evidenceBlock = firstEvidence
+    ? evidenceDetailHtml(firstEvidence)
+    : `<div class="empty-state">No automated evidence is linked to this control. Use the next action below to provide manual evidence or approve the relevant read-only collector.</div>`;
+  document.getElementById('evidence-detail').innerHTML = `
+    <div class="control-context">
+      <h3>${escapeHtml(control.control_check_id)} — ${escapeHtml(reviewLabel(control))}</h3>
+      ${linkedFindingsHtml(control)}
+      ${evidenceQualityHtml(control)}
+      ${evidenceButtonsHtml(control)}
+      <p class="muted">Canonical status: ${escapeHtml(control.status || '')} · Cause: ${escapeHtml(causeLabels[control.status_cause || 'unknown'] || 'Cause not specified')} · Evidence: ${escapeHtml(control.evidence_completeness || '')} · Domain: ${escapeHtml(responsibleDomain(control))}</p>
+    </div>
+    ${evidenceBlock}
+  `;
+}
+
+function showFinding(findingId) {
+  const finding = findingsById.get(findingId);
+  if (!finding) return;
+  const controlId = (finding.related_control_checks || finding.affected_objects || [])[0];
+  if (controlId && controlsById.has(controlId)) {
+    showControl(controlId);
+    return;
+  }
+  const evidenceId = (finding.evidence_references || [])[0];
+  showEvidence(evidenceId, findingId);
+}
+
+document.addEventListener('click', event => {
+  const copy = event.target.closest('[data-copy-value]');
+  if (copy) {
+    navigator.clipboard?.writeText(copy.dataset.copyValue || '');
+    copy.textContent = 'Copied';
+    return;
+  }
+  const focus = event.target.closest('[data-focus-status]');
+  if (focus) {
+    applyFocusMode(focus.dataset.focusStatus, focus);
+    return;
+  }
+  const control = event.target.closest('[data-control-id]');
+  if (control) {
+    showControl(control.dataset.controlId);
+    return;
+  }
+  const finding = event.target.closest('[data-finding-id]');
+  if (finding) {
+    showFinding(finding.dataset.findingId);
+    return;
+  }
+  const evidence = event.target.closest('[data-evidence-id]');
+  if (evidence) showEvidence(evidence.dataset.evidenceId);
+});
+
+function applyFocusMode(status, button) {
+  const summary = document.getElementById('focus-summary');
+  document.querySelectorAll('[data-focus-status]').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.control-row').forEach(row => {
+    row.classList.remove('highlighted', 'dimmed');
+    row.style.order = '';
+  });
+  document.querySelectorAll('.domain-card').forEach(card => {
+    card.classList.remove('has-focus', 'dimmed');
+    card.style.order = '';
+    const details = card.querySelector('details');
+    if (details) details.open = true;
+  });
+
+  if (!status || status === 'ALL') {
+    if (summary) summary.textContent = 'Showing all controls';
+    return;
+  }
+
+  if (button) button.classList.add('active');
+  const label = statusLabels[status] || status;
+  let firstMatch = null;
+  document.querySelectorAll('.control-row').forEach(row => {
+    const match = row.dataset.status === status;
+    row.classList.toggle('highlighted', match);
+    row.classList.toggle('dimmed', !match);
+    row.style.order = match ? '0' : '1';
+    if (match && !firstMatch) firstMatch = row;
+  });
+  document.querySelectorAll('.domain-card').forEach(card => {
+    const hasMatch = Array.from(card.querySelectorAll('.control-row')).some(row => row.dataset.status === status);
+    card.classList.toggle('has-focus', hasMatch);
+    card.classList.toggle('dimmed', !hasMatch);
+    card.style.order = hasMatch ? '0' : '1';
+    const details = card.querySelector('details');
+    if (details) details.open = hasMatch;
+  });
+  if (summary) summary.textContent = `Focus: ${label} controls remain in context`;
+  if (firstMatch) {
+    firstMatch.scrollIntoView({behavior: 'smooth', block: 'center'});
+    showControl(firstMatch.dataset.controlId);
+  }
+}
+
+const downloadButton = document.getElementById('download-json');
+if (downloadButton) {
+  downloadButton.addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(PACK, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${PACK.evidence_pack_id || 'evidence_pack'}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+}
+const printButton = document.getElementById('print-view');
+if (printButton) printButton.addEventListener('click', () => window.print());
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+}
+
+const defaultEvidence = document.getElementById('evidence-detail').dataset.defaultEvidence;
+if (defaultEvidence) showEvidence(defaultEvidence);
+
+</script>
+</body>
+</html>

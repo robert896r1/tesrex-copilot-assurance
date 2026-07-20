@@ -452,7 +452,9 @@ Status:
 
 Limitation: `api_unsupported`.
 
-## Auditor-ready evidence pack requirements
+## Review-ready evidence pack target
+
+The items in this section describe the evidence-contract target for a mature pack. Version `0.1.0` does not claim that every generated pack contains every appendix below or is sufficient for an external audit. The generated control checks, inventory, findings, and limitations are the implemented first slice; missing target sections remain product gaps rather than implied assurance.
 
 An evidence pack must be complete enough for a reviewer to understand:
 

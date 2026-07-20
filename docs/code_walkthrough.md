@@ -33,7 +33,7 @@ scripts/live_readonly_probe.py or scripts/run_assessment.py
 | `scripts/` | Thin command-line wrappers around package code. |
 | `src/tesrex_assurance/` | Starter-kit implementation. |
 | `config/` | Versioned advisory Microsoft mapping files. |
-| `docs/` | Evidence contract, runbook, launch notes, limitations, and design decisions. |
+| `docs/` | Evidence contract, operating boundaries, source review, code guide, and release-readiness record. |
 | `tests/` | Fixture/unit tests for conservative status logic and report generation. |
 | `artifacts/` | Ignored local generated reports and probe evidence. Do not commit real artifacts. |
 
@@ -58,7 +58,7 @@ scripts/live_readonly_probe.py or scripts/run_assessment.py
 
 Demo mode is intentionally synthetic and tenant-free. It proves the report shape and review experience, not tenant posture. Public demo commands do not call Azure, Graph, Purview, SharePoint, Audit, or eDiscovery. `scripts/create_demo_dataset.py` creates local fixture files only; `scripts/create_demo_report.py` is the public quick-start command that creates fixtures, builds the evidence pack, and renders the HTML report.
 
-Tenant-connected mode requires Microsoft identity, Graph/Purview/SharePoint/Audit/eDiscovery access, and customer-approved evidence boundaries. Default live probes are read-only and must not mutate a tenant.
+Tenant-connected mode requires Microsoft identity, Graph/Purview/SharePoint/Audit/eDiscovery access, an explicit expected tenant ID, and customer-approved evidence boundaries. Before any token or Graph request, the CLI checks the active Azure CLI tenant against that exact expected tenant and stops on a mismatch. Default live probes are read-only and must not mutate a tenant.
 
 ## Safety invariants
 
@@ -74,7 +74,7 @@ Do not weaken these without updating tests and docs:
 
 ## Adding a collector or control
 
-1. Add/confirm the control semantics in `docs/evidence_contract.md` and `docs/evidence_contract.md`.
+1. Add or confirm the control semantics in `docs/evidence_contract.md`.
 2. Add or update the least-privilege entry in `docs/least_privilege_matrix.md` and config where appropriate.
 3. Keep the collector read-only by default.
 4. Add fixture tests for `PASS`, `WARN`, `UNKNOWN`, `NOT_ACCESSIBLE`, and any downgrade/limitation behavior affected by the change.
@@ -97,6 +97,9 @@ just check
 
 # Create a synthetic local report without Microsoft tenant access.
 just demo
+
+# Deterministically regenerate and verify the committed synthetic sample.
+just sample
 
 # Serve generated artifacts locally on 127.0.0.1.
 just serve

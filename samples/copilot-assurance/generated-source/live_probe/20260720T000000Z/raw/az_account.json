@@ -1,0 +1,9 @@
+{
+  "demo_mode": true,
+  "is_synthetic": true,
+  "not_customer_evidence": true,
+  "tenantId": "TCA-DEMO-SYNTHETIC",
+  "user": {
+    "name": "TCA demo mode"
+  }
+}

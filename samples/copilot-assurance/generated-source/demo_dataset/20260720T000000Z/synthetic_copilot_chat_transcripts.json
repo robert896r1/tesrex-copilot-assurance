@@ -1,0 +1,49 @@
+{
+  "artifact_type": "synthetic_copilot_chat_transcripts",
+  "created_at_utc": "2026-07-20T00:00:00Z",
+  "demo_mode": true,
+  "expiry_date": "2026-08-19",
+  "is_synthetic": true,
+  "not_copilotinteraction": true,
+  "not_posted_to_teams": true,
+  "not_purview_audit": true,
+  "records": [
+    {
+      "assistant_response_summary": "Synthetic response used only to exercise report rendering and evidence traceability.",
+      "classification": "demo_non_production",
+      "conversation_id": "TCA-DEMO-CHAT-01",
+      "user_prompt": "Summarise the TCA-DEMO board pack and list the governance risks."
+    },
+    {
+      "assistant_response_summary": "Synthetic response used only to exercise report rendering and evidence traceability.",
+      "classification": "demo_non_production",
+      "conversation_id": "TCA-DEMO-CHAT-02",
+      "user_prompt": "Which demo SharePoint locations appear overshared?"
+    },
+    {
+      "assistant_response_summary": "Synthetic response used only to exercise report rendering and evidence traceability.",
+      "classification": "demo_non_production",
+      "conversation_id": "TCA-DEMO-CHAT-03",
+      "user_prompt": "Does the demo policy pack contain confidential customer material?"
+    },
+    {
+      "assistant_response_summary": "Synthetic response used only to exercise report rendering and evidence traceability.",
+      "classification": "demo_non_production",
+      "conversation_id": "TCA-DEMO-CHAT-04",
+      "user_prompt": "Prepare an auditor-facing explanation of missing DLP evidence."
+    },
+    {
+      "assistant_response_summary": "Synthetic response used only to exercise report rendering and evidence traceability.",
+      "classification": "demo_non_production",
+      "conversation_id": "TCA-DEMO-CHAT-05",
+      "user_prompt": "Identify whether public web grounding was used in this demo interaction."
+    },
+    {
+      "assistant_response_summary": "Synthetic response used only to exercise report rendering and evidence traceability.",
+      "classification": "demo_non_production",
+      "conversation_id": "TCA-DEMO-CHAT-06",
+      "user_prompt": "List remediation actions for unverified Copilot governance controls."
+    }
+  ],
+  "tenant_id": "TCA-DEMO-SYNTHETIC"
+}

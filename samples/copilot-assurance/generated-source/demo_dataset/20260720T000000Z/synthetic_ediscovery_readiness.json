@@ -1,0 +1,10 @@
+{
+  "artifact_type": "synthetic_ediscovery_readiness",
+  "case_visibility": "fixture_only",
+  "content_search": false,
+  "created_at_utc": "2026-07-20T00:00:00Z",
+  "demo_mode": true,
+  "expiry_date": "2026-08-19",
+  "export_validation": false,
+  "is_synthetic": true
+}

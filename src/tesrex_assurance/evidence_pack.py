@@ -104,6 +104,14 @@ def generate_pack_dict(pack: EvidencePack) -> dict[str, Any]:
     data = to_plain(pack)
     data["unread_controls_register"] = unread_controls_register(pack.control_checks)
     data["pack_generated_at_utc"] = pack.generated_at_utc or datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    if "demo_evidence_present" in (data.get("assessment_run", {}).get("limitations") or []):
+        data["sample_notice"] = {
+            "product_name": "Tesrex Copilot Assurance",
+            "sample_only": True,
+            "synthetic_only": True,
+            "not_customer_evidence": True,
+            "no_live_microsoft_api_calls": True,
+        }
     return data
 
 
@@ -122,6 +130,15 @@ def render_markdown_pack(pack: EvidencePack) -> str:
     lines = [
         "# Tesrex Copilot Assurance Evidence Pack",
         "",
+    ]
+    if data.get("sample_notice"):
+        lines.extend(
+            [
+                "> **SYNTHETIC DEMO ONLY:** No live Microsoft tenant was accessed. This is not customer evidence or audit proof.",
+                "",
+            ]
+        )
+    lines.extend([
         f"- Pack ID: `{data['evidence_pack_id']}`",
         f"- Assessment run: `{run['assessment_run_id']}`",
         f"- Tenant: `{run['tenant_id']}`",
@@ -131,7 +148,7 @@ def render_markdown_pack(pack: EvidencePack) -> str:
         "",
         "## Control checks",
         "",
-    ]
+    ])
     for check in data["control_checks"]:
         lines.extend(
             [

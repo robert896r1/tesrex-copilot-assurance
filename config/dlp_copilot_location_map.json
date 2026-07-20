@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1.0",
-  "last_reviewed": "2026-04-29",
+  "last_reviewed": "2026-07-20",
   "review_policy": "Conservative mapping for recognizing Microsoft 365 Copilot and Copilot Chat DLP policy targeting from Security & Compliance PowerShell evidence. Unknown names or structures must not be treated as FAIL.",
   "evidence_contract": "docs/evidence_contract.md",
   "source_refs": {

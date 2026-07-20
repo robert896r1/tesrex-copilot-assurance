@@ -1,0 +1,30 @@
+{
+  "artifact_type": "synthetic_sam_oversharing_report",
+  "created_at_utc": "2026-07-20T00:00:00Z",
+  "demo_mode": true,
+  "expiry_date": "2026-08-19",
+  "is_synthetic": true,
+  "sites": [
+    {
+      "recommended_action": "Expire links and review owners",
+      "risk": "anyone_links",
+      "site": "TCA-DEMO Finance"
+    },
+    {
+      "recommended_action": "Review guest access",
+      "risk": "external_users",
+      "site": "TCA-DEMO HR"
+    },
+    {
+      "recommended_action": "Apply sensitivity labels",
+      "risk": "unlabeled_sensitive_docs",
+      "site": "TCA-DEMO Legal"
+    },
+    {
+      "recommended_action": "Assign active owner",
+      "risk": "inactive_owner",
+      "site": "TCA-DEMO Sales"
+    }
+  ],
+  "tenant_id": "TCA-DEMO-SYNTHETIC"
+}

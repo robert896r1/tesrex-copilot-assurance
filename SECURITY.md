@@ -12,17 +12,19 @@ Do not commit real assessment outputs to a public repository.
 
 Demo mode uses synthetic/example data. It is for report review only and must not be presented as customer evidence.
 
-## Supported security reports
+## Report a vulnerability privately
 
-Use GitHub issues or the contact route published by Tesrex for:
+Use [GitHub private vulnerability reporting](https://github.com/robert896r1/tesrex-copilot-assurance/security/advisories/new) for suspected vulnerabilities, including:
 
 - accidental secret retention;
 - unsafe default permissions;
 - tenant mutation in a path documented as read-only;
-- evidence leakage risk;
-- dependency or packaging vulnerabilities.
+- evidence leakage risk; or
+- dependency and packaging vulnerabilities.
 
-Do not include real tenant secrets, bearer tokens, customer evidence packs, or private Microsoft tenant data in public issues.
+**Do not open a public issue for a suspected vulnerability.** Do not include bearer tokens, credentials, real tenant data, customer evidence packs, or other sensitive material in a public issue, discussion, pull request, or repository artifact.
+
+GitHub private vulnerability reporting is the supported confidential route for this public repository. Provide a concise impact description, affected version or commit, reproduction details that do not expose customer data, and any proposed mitigation.
 
 ## Support boundary
 

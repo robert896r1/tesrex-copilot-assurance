@@ -66,6 +66,49 @@ class PackBuilderTests(unittest.TestCase):
             self.assertIn("Copilot data discovery/export readiness", edisc_finding.condition)
             self.assertIn("Purview eDiscovery evidence", edisc_finding.recommendation)
             self.assertTrue(data["unread_controls_register"])
+            pack002 = next(check for check in pack.control_checks if check.control_check_id == "PACK-002")
+            self.assertEqual(pack002.status, ControlStatus.PASS)
+            self.assertIn("Verified the existence and SHA-256 hash", pack002.status_reason)
+
+    def test_pack002_warns_when_retained_artifact_hash_does_not_match(self) -> None:
+        with TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            raw = base / "raw"
+            raw.mkdir()
+            sku_path, sku_hash = write_raw(raw, "graph_subscribed_skus", {"value": []})
+            Path(sku_path).write_text(
+                '{"value": [{"skuPartNumber": "CHANGED", "capabilityStatus": "Disabled"}]}',
+                encoding="utf-8",
+            )
+            summary = {
+                "generated_at_utc": "20260430T130000Z",
+                "tenant_id": "tenant1",
+                "user": "unit-test",
+                "probe_results": [
+                    {
+                        "probe_id": "graph.subscribed_skus",
+                        "status": "OK",
+                        "control_ids": ["LIC-001"],
+                        "source_ref": "Graph",
+                        "raw_artifact_path": sku_path,
+                        "content_hash": sku_hash,
+                        "summary": {"payload_shape": "collection", "count_returned": 0},
+                        "limitations": [],
+                        "status_reason": "ok",
+                    }
+                ],
+            }
+            summary_path = base / "summary.json"
+            summary_path.write_text(json.dumps(summary), encoding="utf-8")
+            _json_path, _md_path, pack = build_evidence_pack_from_live_probe(
+                summary_path,
+                output_dir=base / "packs",
+            )
+
+        pack002 = next(check for check in pack.control_checks if check.control_check_id == "PACK-002")
+        self.assertEqual(pack002.status, ControlStatus.WARN)
+        self.assertIn("artifact_hash_mismatch", pack002.limitations)
+        self.assertIn("did not match the recorded SHA-256 hash", pack002.status_reason)
 
 class PackBuilderManualAndPermissionTests(unittest.TestCase):
     def test_manual_evidence_is_linked_to_matching_control_check(self) -> None:

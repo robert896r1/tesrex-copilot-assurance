@@ -35,7 +35,8 @@ def create_demo_dataset(
     out = Path(output_root) / stamp
     out.mkdir(parents=True, exist_ok=True)
     provided_at = _iso_from_stamp(stamp)
-    expiry = (datetime.now(timezone.utc) + timedelta(days=expiry_days)).date().isoformat()
+    provided_datetime = datetime.fromisoformat(provided_at.replace("Z", "+00:00"))
+    expiry = (provided_datetime + timedelta(days=expiry_days)).date().isoformat()
 
     _write_json(out / "synthetic_copilot_chat_transcripts.json", _synthetic_chat_transcripts(stamp, tenant_id, expiry))
     _write_json(out / "synthetic_dlp_policy_export.json", _synthetic_dlp_policy(stamp, tenant_id, expiry))

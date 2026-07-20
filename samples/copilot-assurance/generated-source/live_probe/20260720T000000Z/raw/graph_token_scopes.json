@@ -1,0 +1,9 @@
+{
+  "demo_mode": true,
+  "is_synthetic": true,
+  "not_customer_evidence": true,
+  "raw_access_token_retained": false,
+  "roles": [
+    "AuditLogsQuery.Read.All"
+  ]
+}

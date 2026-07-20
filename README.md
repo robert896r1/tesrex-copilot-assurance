@@ -154,12 +154,20 @@ If you add new collectors, keep default behavior read-only and update tests/docs
 
 Tenant-connected mode is separate from demo mode.
 
-The current read-only assessment path is:
+The current read-only assessment path fails closed unless you assert the tenant that the Azure CLI session is expected to use. Authenticate to the intended tenant, export its tenant ID, and run one of the two paths below:
 
 ```bash
-PYTHONPATH=src scripts/live_readonly_probe.py
-scripts/run_assessment.py
+az login --tenant '<expected-tenant-id>'
+export AZURE_TENANT_ID='<expected-tenant-id>'
+
+# Collect the allowlisted read-only probe evidence only.
+PYTHONPATH=src python3 scripts/live_readonly_probe.py
+
+# Or collect and build the Markdown/JSON evidence pack.
+PYTHONPATH=src python3 scripts/run_assessment.py
 ```
+
+You may pass `--expected-tenant-id` instead of exporting `AZURE_TENANT_ID`. Before acquiring a Graph token or calling Graph, the command runs `az account show`, requires an exact tenant-ID match, and prints a `TCA_TENANT_PREFLIGHT=VERIFIED` boundary. Missing or mismatched tenant assertions stop the run. `--help` never inspects Azure state.
 
 Tenant-connected mode depends on your Microsoft tenant, app registration, Graph permissions, Purview/RBAC setup, licensing, and approved evidence boundaries.
 
@@ -169,7 +177,7 @@ Default posture:
 - no auto-remediation;
 - no broad content scan;
 - no default tenant mutation;
-- bounded validation only when explicitly approved.
+- no public CLI mode for bounded validation or mutation.
 
 See:
 
@@ -255,6 +263,12 @@ The check includes:
 - unit tests;
 - whitespace checks.
 
+To deterministically regenerate and verify the committed synthetic sample:
+
+```bash
+just sample
+```
+
 ## Key documents
 
 Public user/contributor starting points:
@@ -263,7 +277,8 @@ Public user/contributor starting points:
 - `docs/code_walkthrough.md`
 - `docs/evidence_contract.md`
 - `docs/limitations.md`
+- `docs/microsoft_source_review.md`
+- `docs/release_readiness_plan.md`
 - `SECURITY.md`
 - `CONTRIBUTING.md`
 - `samples/copilot-assurance/README.md`
-

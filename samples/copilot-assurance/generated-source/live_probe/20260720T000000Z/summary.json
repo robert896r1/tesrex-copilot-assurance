@@ -1,0 +1,209 @@
+{
+  "boundary": {
+    "audit_query_created": false,
+    "broad_content_scan": false,
+    "demo_only": true,
+    "live_microsoft_api_calls": false,
+    "mutation_methods_used": [],
+    "permission_changes": false,
+    "tenant_policy_changes": false
+  },
+  "demo_mode": true,
+  "environment_name": "TCA-DEMO-LOCAL",
+  "generated_at_utc": "20260720T000000Z",
+  "is_synthetic": true,
+  "limitations": [
+    "demo_only",
+    "synthetic_fixture",
+    "not_customer_evidence",
+    "no_live_microsoft_api_calls"
+  ],
+  "probe_results": [
+    {
+      "content_hash": "8823614292b26a98847390cca6af809ee52dd0ac87fc272814c1fcb272f30ec4",
+      "control_ids": [
+        "PACK-002"
+      ],
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "synthetic_fixture"
+      ],
+      "probe_id": "az_account",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/az_account.json",
+      "source_ref": "TCA local synthetic demo context",
+      "status": "OK",
+      "status_reason": "SYNTHETIC DEMO: no Azure account or tenant context was read.",
+      "summary": {
+        "context": "synthetic local demo"
+      }
+    },
+    {
+      "content_hash": "17db73c705b5262147c29aa1f454c2cf66ab6b47b6f7c9223752d079abe32efe",
+      "control_ids": [
+        "PACK-002"
+      ],
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "synthetic_fixture"
+      ],
+      "probe_id": "az_cloud",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/az_cloud.json",
+      "source_ref": "TCA local synthetic demo context",
+      "status": "OK",
+      "status_reason": "SYNTHETIC DEMO: no Azure cloud context was read.",
+      "summary": {
+        "context": "synthetic local demo"
+      }
+    },
+    {
+      "content_hash": "507c7c8aa2514878dd065571c39fbedff489ac7f199eb7e39e5fc09e75191a3d",
+      "control_ids": [
+        "PACK-002"
+      ],
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "synthetic_fixture"
+      ],
+      "probe_id": "graph.organization",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/graph_organization.json",
+      "source_ref": "TCA local synthetic demo fixture",
+      "status": "OK",
+      "status_reason": "SYNTHETIC DEMO: representative organization payload only; no Graph tenant call was made.",
+      "summary": {
+        "count_returned": 1,
+        "payload_shape": "collection"
+      }
+    },
+    {
+      "content_hash": "d5be965331812580127ba5ac22be7be6e74dbf2e07070470e3614a6432f69edd",
+      "control_ids": [
+        "LIC-001",
+        "LIC-002"
+      ],
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "synthetic_fixture"
+      ],
+      "probe_id": "graph.subscribed_skus",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/graph_subscribed_skus.json",
+      "source_ref": "TCA local synthetic demo fixture",
+      "status": "OK",
+      "status_reason": "SYNTHETIC DEMO: representative subscribedSkus payload only; no Graph tenant call was made.",
+      "summary": {
+        "count_returned": 0,
+        "payload_shape": "collection"
+      }
+    },
+    {
+      "content_hash": "d5be965331812580127ba5ac22be7be6e74dbf2e07070470e3614a6432f69edd",
+      "control_ids": [
+        "LABEL-001"
+      ],
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "synthetic_fixture"
+      ],
+      "probe_id": "graph.sensitivity_labels",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/graph_sensitivity_labels.json",
+      "source_ref": "TCA local synthetic demo fixture",
+      "status": "OK",
+      "status_reason": "SYNTHETIC DEMO: label endpoint shape is represented, but no real label taxonomy was read.",
+      "summary": {
+        "count_returned": 0,
+        "payload_shape": "collection"
+      }
+    },
+    {
+      "content_hash": "7f8ad131ff948d9685ac77c9c04281f97e959392b3f75a74fd35f3575f26228b",
+      "control_ids": [
+        "AUD-001"
+      ],
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "raw_secret_not_retained",
+        "synthetic_fixture"
+      ],
+      "probe_id": "graph.token_scopes",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/graph_token_scopes.json",
+      "source_ref": "TCA local synthetic demo fixture",
+      "status": "OK",
+      "status_reason": "SYNTHETIC DEMO: representative token-scope evidence only; no token was requested or retained.",
+      "summary": {
+        "audit_query_scopes_present": [
+          "AuditLogsQuery.Read.All"
+        ],
+        "raw_access_token_retained": false
+      }
+    },
+    {
+      "content_hash": "d5be965331812580127ba5ac22be7be6e74dbf2e07070470e3614a6432f69edd",
+      "control_ids": [
+        "EDISC-002"
+      ],
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "synthetic_fixture"
+      ],
+      "probe_id": "graph.ediscovery_cases",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/graph_ediscovery_cases.json",
+      "source_ref": "TCA local synthetic demo fixture",
+      "status": "OK",
+      "status_reason": "SYNTHETIC DEMO: eDiscovery case-list shape is represented, but no Purview or Graph tenant call was made.",
+      "summary": {
+        "count_returned": 0,
+        "payload_shape": "collection"
+      }
+    },
+    {
+      "content_hash": "bcb00e4490f59a16d540e1ce645cd90758d082f8944d4356d3e5a86ab8c3b6bf",
+      "control_ids": [
+        "DLP-001",
+        "DLP-002"
+      ],
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "synthetic_fixture"
+      ],
+      "probe_id": "powershell.exchange_online_management",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/powershell_exchange_online_management.json",
+      "source_ref": "TCA local synthetic demo fixture",
+      "status": "OK",
+      "status_reason": "SYNTHETIC DEMO: module availability is represented for UI review only; local PowerShell was not probed.",
+      "summary": {
+        "available": true,
+        "module": "ExchangeOnlineManagement"
+      }
+    },
+    {
+      "content_hash": "ed3c897c510d34b16085a7e71e0439b82b0f0567fa4b326be5930531ad74d68e",
+      "control_ids": [
+        "SAM-001"
+      ],
+      "limitations": [
+        "demo_only",
+        "not_customer_evidence",
+        "synthetic_fixture"
+      ],
+      "probe_id": "powershell.sharepoint_online",
+      "raw_artifact_path": "samples/copilot-assurance/generated-source/live_probe/20260720T000000Z/raw/powershell_sharepoint_online.json",
+      "source_ref": "TCA local synthetic demo fixture",
+      "status": "OK",
+      "status_reason": "SYNTHETIC DEMO: module availability is represented for UI review only; local PowerShell was not probed.",
+      "summary": {
+        "available": true,
+        "module": "Microsoft.Online.SharePoint.PowerShell"
+      }
+    }
+  ],
+  "subscription_id": "TCA-DEMO-NONE",
+  "tenant_id": "TCA-DEMO-SYNTHETIC",
+  "user": "TCA demo mode"
+}
